@@ -1,0 +1,15 @@
+.f-menu {
+  flex: auto;
+  width: 100%;
+  height: calc(100vh - 100px);
+  overflow-y: scroll;
+
+  &-content {
+    height: 100%;
+  }
+
+  &-def__icon {
+    position: relative;
+    margin-right: 10px;
+  }
+}

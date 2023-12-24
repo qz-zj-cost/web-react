@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { App as AntdApp, ConfigProvider } from "antd";
+import zhCN from "antd/locale/zh_CN";
+import { lazy, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import BasicLayout from "./layouts/basic-layout";
+import LoginPage from "./pages/login";
+import NotFound from "./pages/not-found";
+import { RequireAuth } from "./router/auth";
+import { generatorDynamicRouter } from "./router/route-tool";
+import SuspenseView from "./router/suspense-view";
+import { RootState } from "./store";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { menus } = useSelector((state: RootState) => state.user);
 
+  const routes = useMemo(() => {
+    return generatorDynamicRouter(menus);
+  }, [menus]);
+
+  const Password = lazy(() => import("./pages/password"));
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ConfigProvider
+      locale={zhCN}
+      theme={
+        {
+          // token: {
+          //   colorPrimary: "#89b91d",
+          //   colorInfo: "#89b91d",
+          //   colorInfoText: "#89b91d",
+          //   colorPrimaryText: "#89b91d",
+          // },
+        }
+      }
+    >
+      <AntdApp>
+        <div className="app" id="app">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/password"
+                element={
+                  <RequireAuth>
+                    <SuspenseView>
+                      <Password />
+                    </SuspenseView>
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/"
+                element={
+                  <RequireAuth>
+                    <BasicLayout />
+                  </RequireAuth>
+                }
+              >
+                {routes}
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </AntdApp>
+    </ConfigProvider>
+  );
 }
 
-export default App
+export default App;

@@ -1,0 +1,110 @@
+import { IMenuModel } from "@/models/menuModel";
+
+const menuConfigs: IMenuModel[] = [
+  {
+    id: 1,
+    name: "项目管理",
+    icon: "ProfileOutlined",
+    path: "/project-manage",
+    authCode: "11",
+    type: 1,
+    children: [
+      {
+        id: 12,
+        name: "项目台账",
+        path: "/project-manage/project",
+        component: "project-manage/project-page",
+        type: 2,
+        authCode: "12",
+      },
+      {
+        id: 12,
+        name: "详情",
+        path: "/project-manage/project/detail",
+        component: "project-manage/project-page/details",
+        type: 2,
+        authCode: "123",
+        menuShow: false,
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "清单定额管理",
+    icon: "CalendarOutlined",
+    path: "/quota-manage",
+    authCode: "11",
+    type: 1,
+    children: [
+      {
+        id: 21,
+        name: "企业定额",
+        path: "/quota-manage/exterprise-quota",
+        component: "quota-manage/exterprise-quota",
+        type: 2,
+        authCode: "12",
+      },
+      {
+        id: 22,
+        name: "局清单表",
+        path: "/quota-manage/bureau-list",
+        component: "quota-manage/bureau-list",
+        type: 2,
+        authCode: "123",
+      },
+      {
+        id: 23,
+        name: "国标清单",
+        path: "/quota-manage/national-list",
+        component: "quota-manage/national-list",
+        type: 2,
+        authCode: "123",
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "系统管理",
+    icon: "SettingOutlined",
+    path: "/system-manage",
+    authCode: "12",
+    type: 1,
+    children: [
+      {
+        id: 31,
+        name: "角色管理",
+        path: "/system-manage/role",
+        component: "system-manage/role-page",
+        type: 2,
+        authCode: "12",
+      },
+      {
+        id: 32,
+        name: "账号管理",
+        path: "/system-manage/account",
+        component: "system-manage/account-page",
+        type: 2,
+        authCode: "12",
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: "个人中心",
+    icon: "UserOutlined",
+    path: "/personal-manage",
+    authCode: "11",
+    type: 1,
+    children: [
+      {
+        id: 41,
+        name: "消息列表",
+        path: "/personal-manage/info",
+        component: "personal-manage/info-page",
+        type: 2,
+        authCode: "12",
+      },
+    ],
+  },
+];
+export default menuConfigs;
