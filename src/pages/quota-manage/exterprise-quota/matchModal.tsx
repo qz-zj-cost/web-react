@@ -49,7 +49,7 @@ const MatchModal = forwardRef<IMatchModalRef>((_, ref) => {
       title="匹配"
       width={1200}
       open={visible}
-      okText="匹配"
+      okText="确认"
       onCancel={() => {
         setVisible(false);
       }}
@@ -89,7 +89,7 @@ const MatchModal = forwardRef<IMatchModalRef>((_, ref) => {
           actionRef={actionRef}
           search={false}
           size="small"
-          scroll={{ x: "max-content" }}
+          scroll={{ x: "max-content", y: 300 }}
           toolBarRender={false}
           columns={[
             {
@@ -156,7 +156,7 @@ const MatchModal = forwardRef<IMatchModalRef>((_, ref) => {
           cardProps={{
             bodyStyle: { padding: 0 },
           }}
-          pagination={false}
+          pagination={{ pageSize: 10 }}
           bordered
         />
         <ProTable
@@ -186,7 +186,7 @@ const MatchModal = forwardRef<IMatchModalRef>((_, ref) => {
           }}
           bordered
           columns={[
-            ...BureauColumns,
+            ...BureauColumns.slice(0, 5),
             {
               title: "操作",
               width: "auto",
@@ -198,10 +198,14 @@ const MatchModal = forwardRef<IMatchModalRef>((_, ref) => {
                   <Space>
                     <Typography.Link
                       onClick={() => {
-                        setData((e) => {
-                          const arr = [...(e ?? []), val];
-                          return arr;
-                        });
+                        if (data?.some((e) => e.uuid === val.uuid)) {
+                          return message.warning("列表已存在此数据");
+                        } else {
+                          setData((e) => {
+                            const arr = [...(e ?? []), val];
+                            return arr;
+                          });
+                        }
                       }}
                     >
                       添加

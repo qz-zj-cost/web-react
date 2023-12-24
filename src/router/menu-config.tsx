@@ -10,7 +10,7 @@ const menuConfigs: IMenuModel[] = [
     type: 1,
     children: [
       {
-        id: 12,
+        id: 11,
         name: "项目台账",
         path: "/project-manage/project",
         component: "project-manage/project-page",

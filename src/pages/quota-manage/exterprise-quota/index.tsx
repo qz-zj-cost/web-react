@@ -61,6 +61,15 @@ const ExterpriseQuotaPage = () => {
       search: false,
     },
     {
+      title: "匹配局清单",
+      dataIndex: "status",
+      search: false,
+      valueEnum: {
+        0: { text: "未匹配", status: "Warning" },
+        1: { text: "已匹配", status: "Success" },
+      },
+    },
+    {
       title: "计量单位",
       dataIndex: "unit",
       search: false,
@@ -110,11 +119,7 @@ const ExterpriseQuotaPage = () => {
         );
       },
     },
-    {
-      title: "匹配局清单",
-      dataIndex: "status",
-      search: false,
-    },
+
     {
       title: "操作",
       width: "auto",

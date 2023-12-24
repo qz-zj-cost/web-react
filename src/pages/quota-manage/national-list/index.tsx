@@ -45,6 +45,15 @@ const NationalListPage = () => {
       search: false,
     },
     {
+      title: "匹配局清单",
+      dataIndex: "groupBillMate",
+      search: false,
+      valueEnum: {
+        0: { text: "未匹配", status: "Warning" },
+        1: { text: "已匹配", status: "Success" },
+      },
+    },
+    {
       title: "计量单位",
       dataIndex: "unit",
       search: false,
@@ -94,15 +103,7 @@ const NationalListPage = () => {
         );
       },
     },
-    {
-      title: "匹配局清单",
-      dataIndex: "groupBillMate",
-      search: false,
-      valueEnum: {
-        0: { text: "未匹配", status: "Warning" },
-        1: { text: "已匹配", status: "Success" },
-      },
-    },
+
     {
       title: "操作",
       width: "auto",
