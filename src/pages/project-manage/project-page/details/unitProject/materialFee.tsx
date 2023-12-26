@@ -17,10 +17,6 @@ const MaterialFee = ({ options }: { options?: DefaultOptionType[] }) => {
   const [types, setTypes] = useState<{ typeId1?: string; typeId2?: string }>();
   const columns: ProColumns[] = [
     {
-      title: "项目编码",
-      dataIndex: "number",
-    },
-    {
       title: "项目名称",
       dataIndex: "name",
     },

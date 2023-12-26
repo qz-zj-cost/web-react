@@ -55,7 +55,6 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
             name="contractName"
             label="合同名称"
             placeholder="请输入合同名称"
-            rules={[{ required: true }]}
           />
 
           <ProFormText
@@ -63,7 +62,6 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
             name="contractNumber"
             label="合同编码"
             placeholder="请输入合同编码"
-            rules={[{ required: true }]}
           />
 
           <ProFormDigit
@@ -71,7 +69,9 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
             name="contractAmount"
             label="合同金额(含税)"
             placeholder="请输入合同金额"
-            addonAfter="万元"
+            fieldProps={{
+              suffix: "万元",
+            }}
           />
 
           <ProFormDigit
@@ -97,7 +97,9 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
             name="vatRate"
             label="增值税税率"
             placeholder="请输入增值税税率"
-            addonAfter="%"
+            fieldProps={{
+              suffix: "%",
+            }}
           />
           <ProFormDatePicker
             width="md"

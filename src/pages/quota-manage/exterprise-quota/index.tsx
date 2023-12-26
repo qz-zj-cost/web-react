@@ -67,6 +67,7 @@ const ExterpriseQuotaPage = () => {
       valueEnum: {
         0: { text: "未匹配", status: "Warning" },
         1: { text: "已匹配", status: "Success" },
+        2: { text: "已确认", status: "Success" },
       },
     },
     {
@@ -181,7 +182,12 @@ const ExterpriseQuotaPage = () => {
           multipleLine: true,
         }}
       />
-      <MatchModal ref={modalRef} />
+      <MatchModal
+        ref={modalRef}
+        onCreate={() => {
+          actionRef.current?.reload();
+        }}
+      />
     </FPage>
   );
 };

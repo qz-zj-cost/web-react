@@ -57,7 +57,6 @@ const ProjectDrawer = ({ onCreate }: IProjectDrawerProps) => {
           name="contractName"
           label="合同名称"
           placeholder="请输入合同名称"
-          rules={[{ required: true }]}
         />
 
         <ProFormText
@@ -65,7 +64,6 @@ const ProjectDrawer = ({ onCreate }: IProjectDrawerProps) => {
           name="contractNumber"
           label="合同编码"
           placeholder="请输入合同编码"
-          rules={[{ required: true }]}
         />
 
         <ProFormDigit
@@ -73,7 +71,9 @@ const ProjectDrawer = ({ onCreate }: IProjectDrawerProps) => {
           name="contractAmount"
           label="合同金额(含税)"
           placeholder="请输入合同金额"
-          addonAfter="万元"
+          fieldProps={{
+            suffix: "万元",
+          }}
         />
 
         <ProFormDigit
@@ -99,7 +99,9 @@ const ProjectDrawer = ({ onCreate }: IProjectDrawerProps) => {
           name="vatRate"
           label="增值税税率"
           placeholder="请输入增值税税率"
-          addonAfter="%"
+          fieldProps={{
+            suffix: "%",
+          }}
         />
         <ProFormDatePicker
           width="md"

@@ -22,7 +22,7 @@ const UnitProject = () => {
         const opts = res.data.map((v) => ({
           label: v.unitProject,
           value: v.uuid,
-          children: v.unitSectionDtoList.map((e) => ({
+          children: v.unitSectionDtoList?.map((e) => ({
             label: e.name,
             value: e.uuid,
           })),
