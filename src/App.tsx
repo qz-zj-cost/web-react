@@ -1,6 +1,6 @@
 import { App as AntdApp, ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
-import { lazy, useMemo } from "react";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -9,7 +9,6 @@ import LoginPage from "./pages/login";
 import NotFound from "./pages/not-found";
 import { RequireAuth } from "./router/auth";
 import { generatorDynamicRouter } from "./router/route-tool";
-import SuspenseView from "./router/suspense-view";
 import { RootState } from "./store";
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
     return generatorDynamicRouter(menus);
   }, [menus]);
 
-  const Password = lazy(() => import("./pages/password"));
   return (
     <ConfigProvider
       locale={zhCN}
@@ -39,16 +37,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
-              <Route
-                path="/password"
-                element={
-                  <RequireAuth>
-                    <SuspenseView>
-                      <Password />
-                    </SuspenseView>
-                  </RequireAuth>
-                }
-              />
+
               <Route
                 path="/"
                 element={

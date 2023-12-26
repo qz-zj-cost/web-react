@@ -1,6 +1,5 @@
 import ProjectApi from "@/apis/projectApi";
 import { IProjectModel } from "@/models/projectModel";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   ProForm,
   ProFormDatePicker,
@@ -8,7 +7,7 @@ import {
   ProFormInstance,
   ProFormText,
 } from "@ant-design/pro-components";
-import { Button, Form, message } from "antd";
+import { message } from "antd";
 import { useEffect, useRef } from "react";
 
 type IBaseInfoProps = {
@@ -114,96 +113,6 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
         {/* <ProFormList label="算量工程师" name="d">
           <Input />
         </ProFormList> */}
-        <ProForm.Item label="算量工程师">
-          <Form.List name="engineerList">
-            {(fields, { add, remove }, { errors }) => (
-              <>
-                {fields.map((field) => (
-                  <ProForm.Item required={false} key={field.key}>
-                    {/* <ProFormSelect
-                      {...field}
-                      request={async () => {
-                        const res = await AccountApi.getExpertList(2);
-                        return res.data.map((item) => ({
-                          value: item.id,
-                          label: `${item.speciality}-${item.name}`,
-                        }));
-                      }}
-                      placeholder={"请选择算量工程师"}
-                      noStyle
-                      width={"md"}
-                    /> */}
-                    <DeleteOutlined
-                      disabled={disabled}
-                      style={{
-                        fontSize: 14,
-                        cursor: "pointer",
-                        marginLeft: 15,
-                      }}
-                      onClick={() => remove(field.name)}
-                    />
-                  </ProForm.Item>
-                ))}
-                <Form.Item noStyle>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    style={{ width: "61.5%" }}
-                    icon={<PlusOutlined />}
-                  >
-                    新增算量工程师
-                  </Button>
-                  <Form.ErrorList errors={errors} />
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
-        </ProForm.Item>
-
-        <ProForm.Item label="专家">
-          <Form.List name="expertList">
-            {(fields, { add, remove }, { errors }) => (
-              <>
-                {fields.map((field) => (
-                  <ProForm.Item required={false} key={field.key}>
-                    {/* <ProFormSelect
-                      {...field}
-                      request={async () => {
-                        const res = await AccountApi.getExpertList(1);
-                        return res.data.map((item) => ({
-                          value: item.id,
-                          label: `${item.speciality}-${item.name}`,
-                        }));
-                      }}
-                      placeholder={"请选择算量工程师"}
-                      noStyle
-                      width={"md"}
-                    /> */}
-                    <DeleteOutlined
-                      style={{
-                        fontSize: 14,
-                        cursor: "pointer",
-                        marginLeft: 15,
-                      }}
-                      onClick={() => remove(field.name)}
-                    />
-                  </ProForm.Item>
-                ))}
-                <Form.Item noStyle>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    style={{ width: "61.5%" }}
-                    icon={<PlusOutlined />}
-                  >
-                    新增专家人员
-                  </Button>
-                  <Form.ErrorList errors={errors} />
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
-        </ProForm.Item>
       </ProForm>
     </div>
   );

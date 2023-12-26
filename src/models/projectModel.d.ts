@@ -68,3 +68,20 @@ export interface IMatchItemModel {
   sectionId: number;
   unitProjectId: number;
 }
+
+export interface IProjectTypeModel {
+  id: number;
+  projectId: number;
+  status: number;
+  unitProject: string;
+  unitSectionDtoList: [
+    {
+      id: number;
+      name: string;
+      projectId: number;
+      totalAmount: number;
+      uuid: string;
+    },
+  ];
+  uuid: string;
+}

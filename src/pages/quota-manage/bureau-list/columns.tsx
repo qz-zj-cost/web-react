@@ -8,6 +8,9 @@ const BureauColumns: ProColumns<IBureauItemModel>[] = [
     dataIndex: "sectionCode",
     hideInTable: true,
     // initialValue: "0-分包",
+    formItemProps: {
+      lightProps: {},
+    },
     renderFormItem: () => (
       <ProFormTreeSelect
         width={400}

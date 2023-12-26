@@ -1,33 +1,22 @@
-import HttpApi from "@/utils/https";
+import { ContractImportApi } from "@/apis/projectApi";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload, message } from "antd";
-import { Key, useState } from "react";
+import { useContext, useState } from "react";
+import { ProjectContext } from "..";
 
-type IUploadFileProps = {
-  id?: Key;
-  unitProjectId?: number | null;
+type IImportBtnProps = {
   onSuccess: VoidFunction;
 };
-const UploadFile = ({ id, unitProjectId, onSuccess }: IUploadFileProps) => {
+const ImportBtn = ({ onSuccess }: IImportBtnProps) => {
+  const { projectId } = useContext(ProjectContext);
   const [loading, setLoading] = useState(false);
   const customRequest = (fileList: any) => {
     const data = new FormData();
-    data.append("files", fileList.file);
-    data.append("id", id as any);
-    data.append("unitProjectId", unitProjectId as any);
+    data.append("file", fileList.file);
+    data.append("id", projectId);
+
     setLoading(true);
-    HttpApi.request({
-      url: "/api/project/file/upload",
-      data,
-      timeout: 3 * 60 * 1000,
-      method: "POST",
-      onUploadProgress: (progressEvent) => {
-        const percent =
-          Math.round((progressEvent.loaded / progressEvent.total!) * 10000) /
-          100.0;
-        fileList.onProgress({ percent });
-      },
-    })
+    ContractImportApi.import(data)
       .then((res) => {
         message.success("导入成功");
         onSuccess();
@@ -43,10 +32,10 @@ const UploadFile = ({ id, unitProjectId, onSuccess }: IUploadFileProps) => {
   return (
     <Upload multiple customRequest={customRequest} showUploadList={false}>
       <Button type="primary" loading={loading} icon={<UploadOutlined />}>
-        上传文件
+        导入标底文件
       </Button>
     </Upload>
   );
 };
 
-export default UploadFile;
+export default ImportBtn;

@@ -1,5 +1,4 @@
-import UserApi from "@/apis/userApi";
-import { Form, Input, Modal, message } from "antd";
+import { Form, Input, Modal } from "antd";
 import { useState } from "react";
 
 const reg = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[.@$!%*#_~?&^]).{8,16}$/;
@@ -13,10 +12,10 @@ const Password = () => {
         return form.setFields([
           { name: "confirmPassword", errors: ["密码不一致"] },
         ]);
-      UserApi.updatePassword({ password }).then(() => {
-        setVisible(false);
-        message.success("密码修改成功");
-      });
+      // UserApi.updatePassword({ password }).then(() => {
+      //   setVisible(false);
+      //   message.success("密码修改成功");
+      // });
     });
   };
   return (
