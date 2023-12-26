@@ -1,8 +1,5 @@
-import { ContractImportApi } from "@/apis/projectApi";
 import { Space, Tabs } from "antd";
-import { DefaultOptionType } from "antd/es/select";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { ProjectContext } from "..";
+import { useState } from "react";
 import FbTable from "./fbTable";
 import ImportBtn from "./importBtn";
 import SgTable from "./sgTable";
@@ -15,34 +12,14 @@ import SummaryTable from "./summaryTable";
  */
 
 const ContractListImport = () => {
-  const { projectId } = useContext(ProjectContext);
-  const [typeList, setTypeList] = useState<DefaultOptionType[]>([]);
-  const getTypeList = useCallback(() => {
-    return ContractImportApi.getProjectTypeList({ id: projectId }).then(
-      (res) => {
-        const opts = res.data.map((v) => ({
-          label: v.unitProject,
-          value: v.uuid,
-          children: v.unitSectionDtoList?.map((e) => ({
-            label: e.name,
-            value: e.uuid,
-          })),
-        }));
-        setTypeList(opts);
-      },
-    );
-  }, [projectId]);
-
-  useEffect(() => {
-    getTypeList();
-  }, [getTypeList]);
+  const [num, setNum] = useState(0);
 
   return (
     <div>
       <Space style={{ marginBottom: 15 }}>
         <ImportBtn
           onSuccess={() => {
-            getTypeList();
+            setNum(num + 1);
           }}
         />
       </Space>
@@ -52,17 +29,17 @@ const ContractListImport = () => {
           {
             label: "汇总表",
             key: "0",
-            children: <SummaryTable options={typeList} />,
+            children: <SummaryTable num={num} />,
           },
           {
             label: "分部分项清单表",
             key: "1",
-            children: <FbTable options={typeList} />,
+            children: <FbTable num={num} />,
           },
           {
             label: "施工技术措施清单表",
             key: "2",
-            children: <SgTable options={typeList} />,
+            children: <SgTable num={num} />,
           },
         ]}
       ></Tabs>

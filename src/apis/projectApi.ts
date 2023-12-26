@@ -36,7 +36,7 @@ export class ContractImportServer extends BaseApi {
       .get<IListBaseModel>("/unit/project/by/finance/list", { params })
       .then((v) => v.data);
   }
-  getProjectTypeList(params: { id: Key }) {
+  getProjectTypeList(params: { id: Key; type?: number }) {
     return this.axios
       .get<IBaseModel<IProjectTypeModel[]>>("/unit/project/list", { params })
       .then((v) => v.data);

@@ -64,7 +64,7 @@ const MaterialFee = ({ options }: { options?: DefaultOptionType[] }) => {
     if (!types && options && options?.length > 0) {
       setTypes({
         typeId1: options[0].value?.toString(),
-        typeId2: options[0]?.children?.[0].value,
+        typeId2: options[0]?.children?.[0]?.value,
       });
       actionRef.current?.reloadAndRest?.();
     }

@@ -8,12 +8,13 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Select, Typography } from "antd";
 import { DefaultOptionType } from "antd/es/select";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 
-const SgTable = ({ options }: { options?: DefaultOptionType[] }) => {
+const SgTable = ({ num }: { num: number }) => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
+  const [options, setOptions] = useState<DefaultOptionType[]>();
   const [types, setTypes] = useState<{ typeId1?: string; typeId2?: string }>();
   const columns: ProColumns[] = [
     {
@@ -60,11 +61,32 @@ const SgTable = ({ options }: { options?: DefaultOptionType[] }) => {
     if (!types && options && options?.length > 0) {
       setTypes({
         typeId1: options[0].value?.toString(),
-        typeId2: options[0]?.children?.[0].value,
+        typeId2: options[0]?.children?.[0]?.value,
       });
       actionRef.current?.reloadAndRest?.();
     }
   }, [options, types]);
+
+  const getTypeList = useCallback(() => {
+    return ContractImportApi.getProjectTypeList({
+      id: projectId,
+      type: 2,
+    }).then((res) => {
+      const opts = res.data.map((v) => ({
+        label: v.unitProject,
+        value: v.uuid,
+        children: v.unitSectionDtoList?.map((e) => ({
+          label: e.name,
+          value: e.uuid,
+        })),
+      }));
+      setOptions(opts);
+    });
+  }, [projectId]);
+
+  useEffect(() => {
+    getTypeList();
+  }, [getTypeList, num]);
 
   return (
     <ProTable
