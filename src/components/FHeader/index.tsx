@@ -64,7 +64,7 @@ const FHeader = () => {
     <div className={style[PREFIX]}>
       <Row justify="space-between">
         <Col span={16}>
-          <div className={style[`${PREFIX}-logo`]}>欢迎使用成本管理平台</div>
+          <div className={style[`${PREFIX}-logo`]}>三局华东成本管控系统</div>
         </Col>
         <Col span={8} style={{ textAlign: "right" }}>
           <div className={style[`${PREFIX}-account`]}>

@@ -46,7 +46,7 @@ const LoginPage = () => {
         <img src={getImageUrl("logo.png")} />
       </div> */}
       <div className={styles[`${PREFIX}-content`]}>
-        <h1>成本管理平台</h1>
+        <h1>三局华东成本管控系统</h1>
         <p>账户登录</p>
         <br />
         <Form size="large" layout="vertical" form={form} onFinish={onFinish}>
