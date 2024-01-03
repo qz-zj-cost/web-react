@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --mode dev",
     "build:dev": "tsc && vite build --mode dev",
+    "build:xp": "tsc && vite build --mode xp",
     "build:prod": "tsc && vite build --mode pro",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
