@@ -6,15 +6,18 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Select, Typography } from "antd";
-import { DefaultOptionType } from "antd/es/select";
-import { useContext, useEffect, useRef, useState } from "react";
+import { Typography } from "antd";
+import { useContext, useRef } from "react";
 import { ProjectContext } from "..";
+import useSelect from "../components/useSelect";
 
-const ProjectCost = ({ options }: { options?: DefaultOptionType[] }) => {
+const ProjectCost = () => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
-  const [types, setTypes] = useState<{ typeId1?: string; typeId2?: string }>();
+  const { selectProject, selectProjectType, types } = useSelect({
+    actionRef: actionRef.current,
+    type: 2,
+  });
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -60,16 +63,6 @@ const ProjectCost = ({ options }: { options?: DefaultOptionType[] }) => {
     },
   ];
 
-  useEffect(() => {
-    if (!types && options && options?.length > 0) {
-      setTypes({
-        typeId1: options[0].value?.toString(),
-        typeId2: options[0]?.children?.[0]?.value,
-      });
-      actionRef.current?.reloadAndRest?.();
-    }
-  }, [options, types]);
-
   return (
     <ProTable
       actionRef={actionRef}
@@ -98,31 +91,7 @@ const ProjectCost = ({ options }: { options?: DefaultOptionType[] }) => {
       }}
       toolbar={{
         settings: [],
-        actions: [
-          <Select
-            style={{ width: 300 }}
-            placeholder="请选择单位工程"
-            options={options?.map((e) => ({ label: e.label, value: e.value }))}
-            value={types?.typeId1}
-            onChange={(v) => {
-              setTypes({ typeId1: v, typeId2: void 0 });
-            }}
-            allowClear
-          />,
-          <Select
-            style={{ width: 300 }}
-            placeholder="请选择分部分项工程"
-            options={options
-              ?.find((v) => v.value === types?.typeId1)
-              ?.children?.map((e) => ({ label: e.label, value: e.value }))}
-            value={types?.typeId2}
-            onChange={(v) => {
-              setTypes({ ...types, typeId2: v });
-              actionRef.current?.reloadAndRest?.();
-            }}
-            allowClear
-          />,
-        ],
+        actions: [selectProject, selectProjectType],
       }}
     />
   );

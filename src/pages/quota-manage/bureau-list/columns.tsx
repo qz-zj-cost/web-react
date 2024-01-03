@@ -41,6 +41,16 @@ const BureauColumns: ProColumns<IBureauItemModel>[] = [
     ),
   },
   {
+    title: "局清单编号",
+    dataIndex: "groupBillCode",
+    hideInTable: true,
+  },
+  {
+    title: "局清单名称",
+    dataIndex: "groupBillName",
+    hideInTable: true,
+  },
+  {
     title: "编号",
     dataIndex: "code",
     search: false,

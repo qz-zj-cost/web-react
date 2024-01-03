@@ -6,17 +6,17 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Select } from "antd";
-import { DefaultOptionType } from "antd/es/select";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
+import useSelect from "../components/useSelect";
 
 const SummaryTable = ({ num }: { num: number }) => {
   const { projectId } = useContext(ProjectContext);
-  const [typeId, setTypeId] = useState<string>();
   const actionRef = useRef<ActionType>();
-  const [options, setOptions] = useState<DefaultOptionType[]>();
-
+  const { selectProject, types, getTypeList } = useSelect({
+    actionRef: actionRef.current,
+    type: 1,
+  });
   const columns: ProColumns[] = [
     {
       title: "序号",
@@ -35,30 +35,6 @@ const SummaryTable = ({ num }: { num: number }) => {
       dataIndex: "amount",
     },
   ];
-
-  useEffect(() => {
-    if (!typeId && options && options?.length > 0) {
-      const id = options[0].value;
-      setTypeId(`${id}`);
-      actionRef.current?.reloadAndRest?.();
-    }
-  }, [options, typeId]);
-  const getTypeList = useCallback(() => {
-    return ContractImportApi.getProjectTypeList({ id: projectId }).then(
-      (res) => {
-        const opts = res.data.map((v) => ({
-          label: v.unitProject,
-          value: v.uuid,
-          children: v.unitSectionDtoList?.map((e) => ({
-            label: e.name,
-            value: e.uuid,
-          })),
-        }));
-        setOptions(opts);
-      },
-    );
-  }, [projectId]);
-
   useEffect(() => {
     getTypeList();
   }, [getTypeList, num]);
@@ -70,10 +46,10 @@ const SummaryTable = ({ num }: { num: number }) => {
       scroll={{ x: "max-content" }}
       rowKey={"id"}
       request={async () => {
-        if (!typeId) return { data: [] };
+        if (!types?.typeId1) return { data: [] };
         const res = await ContractImportApi.getSummaryList({
           projectId: projectId,
-          unitProjectUuid: typeId,
+          unitProjectUuid: types?.typeId1,
         });
         return {
           data: res.data || [],
@@ -84,19 +60,7 @@ const SummaryTable = ({ num }: { num: number }) => {
       columns={columns}
       toolbar={{
         settings: [],
-        actions: [
-          <Select
-            style={{ width: 300 }}
-            placeholder="请选择单位工程"
-            options={options?.map((e) => ({ label: e.label, value: e.value }))}
-            value={typeId}
-            onChange={(v) => {
-              setTypeId(v);
-              actionRef.current?.reloadAndRest?.();
-            }}
-            allowClear
-          />,
-        ],
+        actions: [selectProject],
       }}
       cardProps={{
         bodyStyle: { padding: 0 },
