@@ -71,7 +71,6 @@ const LaborCost = () => {
         return (
           <Space>
             <Typography.Link onClick={() => {}}>匹配企业定额</Typography.Link>
-
             <Typography.Link type="danger">手动分类</Typography.Link>
           </Space>
         );

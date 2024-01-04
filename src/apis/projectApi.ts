@@ -52,10 +52,23 @@ export class ContractImportServer extends BaseApi {
     return this.axios.post("/unit/project/import", data).then((v) => v.data);
   }
 }
+export class OverheadServer extends BaseApi {
+  getProjectPayList(params: {
+    projectId: string;
+    feeType: number;
+    stageType: string;
+  }) {
+    //获取项目款列表
+    return this.axios
+      .get<IListBaseModel>("/project/payment/list", { params })
+      .then((v) => v.data);
+  }
+}
 
 const ProjectApi = new ProjectServer();
 const ContractImportApi = new ContractImportServer();
+const OverheadApi = new OverheadServer();
 
-export { ContractImportApi };
+export { ContractImportApi, OverheadApi };
 
 export default ProjectApi;

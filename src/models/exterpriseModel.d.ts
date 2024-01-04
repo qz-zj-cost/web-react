@@ -15,3 +15,10 @@ interface IExterpriseItemModel {
   calcRule: string;
   status: number;
 }
+
+interface IAraeItemModel {
+  area: string;
+  corpQuotaCode: string;
+  monthDate: string;
+  price: number;
+}

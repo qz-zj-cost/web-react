@@ -14,11 +14,14 @@ import {
 } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useRef } from "react";
+import ImportBtn from "./importBtn";
 import MatchModal, { IMatchModalRef } from "./matchModal";
+import PriceModal, { IPriceModalRef } from "./priceModal";
 
 const ExterpriseQuotaPage = () => {
   const actionRef = useRef<ActionType>();
   const modalRef = useRef<IMatchModalRef>(null);
+  const priceRef = useRef<IPriceModalRef>(null);
   const columns: ProColumns<IExterpriseItemModel>[] = [
     {
       title: "分类",
@@ -137,6 +140,13 @@ const ExterpriseQuotaPage = () => {
             >
               匹配
             </Typography.Link>
+            <Typography.Link
+              onClick={() => {
+                priceRef.current?.show(val);
+              }}
+            >
+              价格维护
+            </Typography.Link>
             {/* <Popconfirm
               title="确认删除此项目？"
               onConfirm={() => {
@@ -178,7 +188,7 @@ const ExterpriseQuotaPage = () => {
         bordered
         columns={columns}
         toolbar={{
-          actions: [],
+          actions: [<ImportBtn onSuccess={() => {}} />],
           multipleLine: true,
         }}
       />
@@ -188,6 +198,7 @@ const ExterpriseQuotaPage = () => {
           actionRef.current?.reload();
         }}
       />
+      <PriceModal ref={priceRef} />
     </FPage>
   );
 };

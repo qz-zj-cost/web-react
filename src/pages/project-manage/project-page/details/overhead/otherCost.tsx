@@ -4,54 +4,99 @@
  * @date 2023/12/25
  */
 
+import { OverheadApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { useRef } from "react";
+import { Typography } from "antd";
+import { useContext, useRef, useState } from "react";
+import { ProjectContext } from "..";
 
 const OtherCost = () => {
+  const { projectId } = useContext(ProjectContext);
+  const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
-
   const columns: ProColumns[] = [
     {
       title: "费用名称",
-      dataIndex: "orgName",
+      dataIndex: "feeName",
     },
     {
       title: "单位",
-      dataIndex: "d",
+      dataIndex: "unit",
+    },
+    {
+      title: "数量",
+      dataIndex: "num",
     },
     {
       title: "不含税价格",
-      dataIndex: "orgUnit",
+      dataIndex: "noIncludedPrice",
     },
     {
       title: "局清单编码",
-      dataIndex: "orgUnit",
+      dataIndex: "groupBillUuid",
     },
     {
       title: "局清单名称",
-      dataIndex: "orgUnit",
+      dataIndex: "groupBillName",
     },
     {
-      title: "单位",
-      dataIndex: "orgUnit",
+      title: "局清单单位",
+      dataIndex: "groupBillUnit",
     },
     {
       title: "局清单特征",
-      dataIndex: "orgUnit",
+      dataIndex: "groupBillFeature",
+      render(dom) {
+        return (
+          <Typography.Paragraph
+            style={{ width: 300, margin: 0 }}
+            ellipsis={{ rows: 2, expandable: true }}
+          >
+            {dom}
+          </Typography.Paragraph>
+        );
+      },
     },
     {
       title: "费用",
-      dataIndex: "orgUnit",
+      dataIndex: "fee",
     },
   ];
 
   return (
     <ProTable
-      actionRef={actionRef}
       search={false}
       scroll={{ x: "max-content" }}
       rowKey={"id"}
       bordered
+      request={async () => {
+        const res = await OverheadApi.getProjectPayList({
+          projectId: projectId,
+          feeType: 2,
+          stageType: tabKey,
+        });
+        return {
+          data: res.data || [],
+          success: true,
+        };
+      }}
+      actionRef={actionRef}
+      toolbar={{
+        multipleLine: true,
+        menu: {
+          type: "tab",
+          activeKey: tabKey,
+          items: [
+            { label: "地下室阶段", key: "1" },
+            { label: "主体", key: "2" },
+            { label: "装饰修饰", key: "3" },
+          ],
+          onChange: (v) => {
+            settabKey(v as string);
+            actionRef.current?.reset?.();
+          },
+        },
+      }}
       columns={columns}
       cardProps={{
         bodyStyle: { padding: 0 },
