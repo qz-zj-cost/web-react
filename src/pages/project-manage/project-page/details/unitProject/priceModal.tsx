@@ -4,10 +4,12 @@ import {
   ProFormInstance,
   ProFormSelect,
 } from "@ant-design/pro-components";
-import { Button } from "antd";
-import { useCallback, useRef, useState } from "react";
+import { Button, message } from "antd";
+import { useCallback, useContext, useRef, useState } from "react";
+import { ProjectContext } from "..";
 
 const PriceModal = () => {
+  const { projectId } = useContext(ProjectContext);
   const [timeOpt, setTimeOpt] = useState<any[]>();
   const formRef = useRef<ProFormInstance>(null);
   const getTimeData = useCallback((area: string) => {
@@ -25,6 +27,16 @@ const PriceModal = () => {
       formRef={formRef}
       width={500}
       trigger={<Button type="primary">载入企业定额价格</Button>}
+      onFinish={async (val) => {
+        try {
+          await ProjectApi.price({ ...val, projectId }).then(() => {
+            message.success("操作成功");
+          });
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }}
     >
       <ProFormSelect
         label="地区"

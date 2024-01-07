@@ -1,25 +1,16 @@
-/**
- * @author Destin
- * @description 合同清单导入-分部分项清单表
- * @date 2023/12/25
- */
-
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Typography } from "antd";
-import { useContext, useEffect, useRef } from "react";
-import { ProjectContext } from "..";
-import useSelect from "../components/useSelect";
-import ChildTable from "./childTable";
-import MatchBtn from "./matchBtn";
+import { useRef } from "react";
+import MatchModal, { IMatchModalRef } from "./matchModal";
 
-const FbTable = ({ num }: { num: number }) => {
+type IChildTableProp = {
+  unitProjectUuid?: string;
+  uuid?: string;
+};
+const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
+  const matchRef = useRef<IMatchModalRef>(null);
   const actionRef = useRef<ActionType>();
-  const { projectId } = useContext(ProjectContext);
-  const { selectProject, selectProjectType, types, getTypeList } = useSelect({
-    actionRef: actionRef.current,
-    type: 1,
-  });
   const columns: ProColumns[] = [
     {
       title: "项目编码",
@@ -74,31 +65,40 @@ const FbTable = ({ num }: { num: number }) => {
       },
     },
   ];
-
-  useEffect(() => {
-    getTypeList();
-  }, [getTypeList, num]);
   return (
     <>
       <ProTable
-        actionRef={actionRef}
         search={false}
         scroll={{ x: "max-content" }}
         rowKey={"id"}
         bordered
-        columns={columns}
-        cardProps={{
-          bodyStyle: { padding: 0 },
-        }}
-        request={async ({ current: pageNum, pageSize }) => {
-          if (!types?.typeId1 || !types?.typeId2) return { data: [] };
-          const res = await ContractImportApi.getFbList({
-            projectId: projectId,
-            unitProjectUuid: types.typeId1,
-            unitSectionUuid: types.typeId2,
-            type: 1,
-            pageNum,
-            pageSize,
+        size="small"
+        actionRef={actionRef}
+        columns={[
+          ...columns,
+          {
+            title: "操作",
+            width: "auto",
+            fixed: "right",
+            align: "center",
+            render: (_, entity) => {
+              return (
+                <Typography.Link
+                  onClick={() => {
+                    matchRef.current?.show(entity);
+                  }}
+                >
+                  手动匹配
+                </Typography.Link>
+              );
+            },
+          },
+        ]}
+        request={async () => {
+          if (!unitProjectUuid) return { data: [], success: true };
+          const res = await ContractImportApi.getChildList({
+            unitProjectUuid,
+            uuid: uuid,
           });
           return {
             data: res.data || [],
@@ -107,18 +107,16 @@ const FbTable = ({ num }: { num: number }) => {
         }}
         toolbar={{
           settings: [],
-          actions: [selectProject(), selectProjectType, <MatchBtn />],
         }}
-        expandable={{
-          expandedRowRender: (record) => {
-            return (
-              <ChildTable unitProjectUuid={types?.typeId1} uuid={record.uuid} />
-            );
-          },
+        pagination={false}
+      />
+      <MatchModal
+        ref={matchRef}
+        onSuccess={() => {
+          actionRef.current?.reload?.();
         }}
       />
     </>
   );
 };
-
-export default FbTable;
+export default ChildTable;

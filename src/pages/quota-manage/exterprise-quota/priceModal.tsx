@@ -6,6 +6,7 @@ import {
 } from "@ant-design/pro-components";
 import { Modal, Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
+import lodash from "lodash";
 import {
   forwardRef,
   useCallback,
@@ -26,9 +27,9 @@ const PriceModal = forwardRef<IPriceModalRef>((_, ref) => {
 
   const getAreaList = useCallback((code: string) => {
     ExterpriseApi.getArea({ code: code }).then((res) => {
-      const arr = res.data.map((e) => ({ label: e.area, vlaue: e.area }));
+      const arr = res.data.map((e) => ({ label: e.area, value: e.area }));
       setAreaData(arr);
-      setArea(arr?.[0]?.vlaue);
+      setArea(arr?.[0]?.value);
       actionRef.current?.reloadAndRest?.();
     });
   }, []);
@@ -66,7 +67,9 @@ const PriceModal = forwardRef<IPriceModalRef>((_, ref) => {
       </ProDescriptions>
       <ProTable
         scroll={{ y: 500, x: "max-content" }}
-        rowKey={"code"}
+        rowKey={() => {
+          return lodash.uniqueId("pc-");
+        }}
         size="small"
         actionRef={actionRef}
         cardProps={{
@@ -96,15 +99,12 @@ const PriceModal = forwardRef<IPriceModalRef>((_, ref) => {
               allowClear
               onChange={(e) => {
                 setArea(e);
+                actionRef.current?.reload();
               }}
             />
           ),
         }}
         columns={[
-          {
-            title: "地区",
-            hideInTable: true,
-          },
           {
             title: "日期",
             dataIndex: "monthDate",

@@ -7,13 +7,13 @@ class ProjectServer extends ListApi {
   url = "/project";
   getAllArea() {
     return this.axios
-      .post<IBaseModel<IAreaItem[]>>("/corp/quota/area/all")
+      .get<IBaseModel<IAreaItem[]>>("/corp/quota/area/all")
       .then((v) => v.data);
   }
 
   getAllAreaTime(params: { area: string }) {
     return this.axios
-      .post<IBaseModel<IAreaItem[]>>("/corp/quota/month/all", { params })
+      .get<IBaseModel<IAreaItem[]>>("/corp/quota/month/all", { params })
       .then((v) => v.data);
   }
 
@@ -85,7 +85,7 @@ export class ContractImportServer extends BaseApi {
   import(data: any) {
     return this.axios.post("/unit/project/import", data).then((v) => v.data);
   }
-  smartMatch(data: { unitProjectUuid?: string; uuid?: string }) {
+  smartMatch(data: { projectId: string }) {
     return this.axios
       .post("/unit/project/automatic/mate", data)
       .then((v) => v.data);

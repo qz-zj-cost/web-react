@@ -1,13 +1,14 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { Button, message } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ProjectContext } from "..";
 
-const MatchBtn = (props: { uuid?: string; unitProjectUuid?: string }) => {
+const MatchBtn = () => {
   const [loading, setloading] = useState(false);
+  const { projectId } = useContext(ProjectContext);
   const handleClick = () => {
-    if (!props.unitProjectUuid || !props.uuid) return;
     setloading(true);
-    ContractImportApi.smartMatch(props)
+    ContractImportApi.smartMatch({ projectId })
       .then(() => {
         message.success("操作成功");
       })
@@ -16,12 +17,7 @@ const MatchBtn = (props: { uuid?: string; unitProjectUuid?: string }) => {
       });
   };
   return (
-    <Button
-      disabled={!props.unitProjectUuid || !props.uuid}
-      loading={loading}
-      onClick={handleClick}
-      type="primary"
-    >
+    <Button loading={loading} onClick={handleClick} type="primary">
       智能匹配局清单
     </Button>
   );

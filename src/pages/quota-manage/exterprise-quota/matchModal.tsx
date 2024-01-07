@@ -194,7 +194,7 @@ const MatchModal = forwardRef<IMatchModalRef, IMatchModalProps>(
             }}
             bordered
             columns={[
-              ...BureauColumns.slice(0, 5),
+              ...BureauColumns.slice(0, 7),
               {
                 title: "操作",
                 width: "auto",

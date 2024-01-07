@@ -43,20 +43,24 @@ const useSelect = ({
     });
   }, [projectId, type]);
 
-  const selectProject = useMemo(() => {
-    return (
-      <Select
-        style={{ width: 300 }}
-        placeholder="请选择单位工程"
-        options={options?.map((e) => ({ label: e.label, value: e.value }))}
-        value={types?.typeId1}
-        onChange={(v) => {
-          setTypes({ typeId1: v, typeId2: void 0 });
-        }}
-        allowClear
-      />
-    );
-  }, [options, types?.typeId1]);
+  const selectProject = useCallback(
+    (callback?: VoidFunction) => {
+      return (
+        <Select
+          style={{ width: 300 }}
+          placeholder="请选择单位工程"
+          options={options?.map((e) => ({ label: e.label, value: e.value }))}
+          value={types?.typeId1}
+          onChange={(v) => {
+            setTypes({ typeId1: v, typeId2: void 0 });
+            callback?.();
+          }}
+          allowClear
+        />
+      );
+    },
+    [options, types?.typeId1],
+  );
   const selectProjectType = useMemo(() => {
     return (
       <Select

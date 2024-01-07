@@ -60,7 +60,11 @@ const SummaryTable = ({ num }: { num: number }) => {
       columns={columns}
       toolbar={{
         settings: [],
-        actions: [selectProject],
+        actions: [
+          selectProject(() => {
+            actionRef.current?.reloadAndRest?.();
+          }),
+        ],
       }}
       cardProps={{
         bodyStyle: { padding: 0 },
