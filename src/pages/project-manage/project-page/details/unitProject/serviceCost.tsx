@@ -6,12 +6,13 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 
 const ServiceCost = () => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
+  const [tabKey, settabKey] = useState("1");
   const columns: ProColumns[] = [
     {
       title: "序号",
@@ -53,11 +54,29 @@ const ServiceCost = () => {
       request={async () => {
         const res = await ContractImportApi.getServiceCost({
           projectId: projectId,
+          stageType: tabKey,
         });
         return {
           data: res.data || [],
           success: true,
         };
+      }}
+      toolbar={{
+        settings: [],
+        // actions: [selectProject, selectProjectType],
+        menu: {
+          type: "tab",
+          activeKey: tabKey,
+          items: [
+            { label: "地下室阶段", key: "1" },
+            { label: "主体", key: "2" },
+            { label: "装饰修饰", key: "3" },
+          ],
+          onChange: (v) => {
+            settabKey(v as string);
+            actionRef.current?.reset?.();
+          },
+        },
       }}
     />
   );

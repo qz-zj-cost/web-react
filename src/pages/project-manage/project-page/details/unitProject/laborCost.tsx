@@ -7,17 +7,18 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
-import useSelect from "../components/useSelect";
+import ChildTable from "./childTable";
 
 const LaborCost = () => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
-  const { selectProject, selectProjectType, types } = useSelect({
-    actionRef: actionRef.current,
-    type: 2,
-  });
+  // const { selectProject, selectProjectType, types } = useSelect({
+  //   actionRef: actionRef.current,
+  //   type: 2,
+  // });
+  const [tabKey, settabKey] = useState("1");
 
   const columns: ProColumns[] = [
     {
@@ -48,15 +49,19 @@ const LaborCost = () => {
     },
     {
       title: "局清单编码",
-      dataIndex: "",
+      dataIndex: "groupBillCode",
     },
     {
       title: "局清单量",
-      dataIndex: "",
+      dataIndex: "groupBillEngineeringNum",
     },
     {
-      title: "合约包价格",
-      dataIndex: "",
+      title: "企业定额",
+      dataIndex: "corpQuotaCode",
+    },
+    {
+      title: "价格",
+      dataIndex: "price",
     },
     {
       title: "合价",
@@ -90,12 +95,13 @@ const LaborCost = () => {
         bodyStyle: { padding: 0 },
       }}
       request={async ({ current: pageNum, pageSize }) => {
-        if (!types?.typeId1 || !types?.typeId2) return { data: [] };
+        // if (!types?.typeId1 || !types?.typeId2) return { data: [] };
         const res = await ContractImportApi.getUnitProjectList({
-          unitProjectUuid: types.typeId1,
-          unitSectionUuid: types.typeId2,
+          // unitProjectUuid: types.typeId1,
+          // unitSectionUuid: types.typeId2,
           projectId: projectId,
-          byFinance: "人工费",
+          priceType: 1,
+          stageType: tabKey,
           pageNum,
           pageSize,
         });
@@ -104,9 +110,27 @@ const LaborCost = () => {
           success: true,
         };
       }}
+      expandable={{
+        expandedRowRender: (record) => {
+          return <ChildTable record={record} />;
+        },
+      }}
       toolbar={{
         settings: [],
-        actions: [selectProject, selectProjectType],
+        // actions: [selectProject, selectProjectType],
+        menu: {
+          type: "tab",
+          activeKey: tabKey,
+          items: [
+            { label: "地下室阶段", key: "1" },
+            { label: "主体", key: "2" },
+            { label: "装饰修饰", key: "3" },
+          ],
+          onChange: (v) => {
+            settabKey(v as string);
+            actionRef.current?.reset?.();
+          },
+        },
       }}
     />
   );

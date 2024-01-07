@@ -6,10 +6,11 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Typography, message } from "antd";
 import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
+import MatchBtn from "./matchBtn";
 
 const SgTable = ({ num }: { num: number }) => {
   const actionRef = useRef<ActionType>();
@@ -57,6 +58,20 @@ const SgTable = ({ num }: { num: number }) => {
       title: "合价",
       dataIndex: "totalAmount",
     },
+    {
+      title: "匹配的局清单",
+      dataIndex: "groupBillCodeList",
+      render(_, entity) {
+        return (
+          <Typography.Paragraph
+            style={{ width: 200, margin: 0 }}
+            ellipsis={{ rows: 2, expandable: true }}
+          >
+            {entity["groupBillCodeList"].join("，")}
+          </Typography.Paragraph>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
@@ -91,7 +106,70 @@ const SgTable = ({ num }: { num: number }) => {
       }}
       toolbar={{
         settings: [],
-        actions: [selectProject, selectProjectType],
+        actions: [
+          selectProject,
+          selectProjectType,
+          <MatchBtn uuid={types?.typeId2} unitProjectUuid={types?.typeId1} />,
+        ],
+      }}
+      expandable={{
+        expandedRowRender: (record) => {
+          return (
+            <ProTable
+              search={false}
+              scroll={{ x: "max-content" }}
+              rowKey={"id"}
+              bordered
+              size="small"
+              // cardProps={{
+              //   bodyStyle: {
+              //     padding: 0,
+              //   },
+              // }}
+              columns={[
+                ...columns,
+                {
+                  title: "操作",
+                  width: "auto",
+                  fixed: "right",
+                  align: "center",
+                  render: (_, entity) => {
+                    return (
+                      <Typography.Link
+                        onClick={() => {
+                          ContractImportApi.match({
+                            groupBillUuid: entity.groupBillUuid,
+                            id: record.id,
+                          }).then(() => {
+                            message.success("操作成功");
+                            actionRef.current?.reload();
+                          });
+                        }}
+                      >
+                        手动匹配
+                      </Typography.Link>
+                    );
+                  },
+                },
+              ]}
+              request={async () => {
+                if (!types?.typeId1) return { data: [], success: true };
+                const res = await ContractImportApi.getChildList({
+                  unitProjectUuid: types.typeId1,
+                  uuid: record.uuid,
+                });
+                return {
+                  data: res.data || [],
+                  success: true,
+                };
+              }}
+              toolbar={{
+                settings: [],
+              }}
+              pagination={false}
+            />
+          );
+        },
       }}
     />
   );

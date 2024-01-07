@@ -1,6 +1,6 @@
 /**
  * @author Destin
- * @description 项目成本差费-材料费
+ * @description 项目措施费测算-其它措施费
  * @date 2023/12/25
  */
 
@@ -9,23 +9,18 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
-import ChildTable from "./childTable";
 
-const MaterialFee = () => {
-  const actionRef = useRef<ActionType>();
+const MTable5 = () => {
   const { projectId } = useContext(ProjectContext);
-  // const { selectProject, selectProjectType, types } = useSelect({
-  //   actionRef: actionRef.current,
-  //   type: 2,
-  // });
   const [tabKey, settabKey] = useState("1");
+  const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {
       title: "项目名称",
       dataIndex: "name",
     },
     {
-      title: "项目特征",
+      title: "特征",
       dataIndex: "feature",
       render(dom) {
         return (
@@ -39,52 +34,43 @@ const MaterialFee = () => {
       },
     },
     {
+      title: "局清单编码",
+      dataIndex: "groupBillUuid",
+    },
+    {
+      title: "局清单名称",
+      dataIndex: "groupBillName",
+    },
+    {
       title: "单位",
       dataIndex: "unit",
-    },
-    {
-      title: "清单工程量",
-      dataIndex: "num",
-    },
-    {
-      title: "局清单编码",
-      dataIndex: "groupBillCode",
     },
     {
       title: "局清单量",
       dataIndex: "groupBillEngineeringNum",
     },
     {
-      title: "企业定额",
-      dataIndex: "corpQuotaCode",
-    },
-    {
       title: "价格",
-      dataIndex: "price",
+      dataIndex: "subtotal",
     },
     {
       title: "合价",
-      dataIndex: "totalAmount",
+      dataIndex: "sumPrice",
     },
   ];
 
   return (
     <ProTable
-      actionRef={actionRef}
       search={false}
       scroll={{ x: "max-content" }}
       rowKey={"id"}
       bordered
-      columns={columns}
-      cardProps={{
-        bodyStyle: { padding: 0 },
-      }}
+      actionRef={actionRef}
       request={async ({ current: pageNum, pageSize }) => {
-        // if (!types?.typeId1 || !types?.typeId2) return { data: [] };
         const res = await ContractImportApi.getUnitProjectList({
           projectId: projectId,
-          priceType: 2,
           stageType: tabKey,
+          priceType: 8,
           pageNum,
           pageSize,
         });
@@ -93,14 +79,8 @@ const MaterialFee = () => {
           success: true,
         };
       }}
-      expandable={{
-        expandedRowRender: (record) => {
-          return <ChildTable record={record} />;
-        },
-      }}
       toolbar={{
-        settings: [],
-        // actions: [selectProject, selectProjectType],
+        multipleLine: true,
         menu: {
           type: "tab",
           activeKey: tabKey,
@@ -115,8 +95,12 @@ const MaterialFee = () => {
           },
         },
       }}
+      columns={columns}
+      cardProps={{
+        bodyStyle: { padding: 0 },
+      }}
     />
   );
 };
 
-export default MaterialFee;
+export default MTable5;

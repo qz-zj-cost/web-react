@@ -6,7 +6,9 @@ import { createContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import BaseInfo from "./baseInfo";
 import ContractListImport from "./contractListImport";
+import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
+import UnBureau from "./unBureau";
 import UnitProject from "./unitProject";
 
 interface IContextProps {
@@ -59,6 +61,16 @@ const ProjectDetails = () => {
               label: "项目间接费测算",
               key: "3",
               children: <Overhead />,
+            },
+            {
+              label: "项目措施费测算",
+              key: "4",
+              children: <MeasuresFee />,
+            },
+            {
+              label: "未归类局清单",
+              key: "5",
+              children: <UnBureau />,
             },
           ]}
         ></Tabs>

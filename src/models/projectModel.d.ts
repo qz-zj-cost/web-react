@@ -85,3 +85,9 @@ export interface IProjectTypeModel {
   ];
   uuid: string;
 }
+interface IAreaItem {
+  area: string;
+  corpQuotaCode: string;
+  monthDate: string;
+  price: number;
+}
