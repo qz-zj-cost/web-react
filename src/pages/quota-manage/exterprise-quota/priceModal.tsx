@@ -6,7 +6,7 @@ import {
 } from "@ant-design/pro-components";
 import { Modal, Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
-import lodash from "lodash";
+import { uniqueId } from "lodash";
 import {
   forwardRef,
   useCallback,
@@ -68,7 +68,7 @@ const PriceModal = forwardRef<IPriceModalRef>((_, ref) => {
       <ProTable
         scroll={{ y: 500, x: "max-content" }}
         rowKey={() => {
-          return lodash.uniqueId("pc-");
+          return uniqueId("pc-");
         }}
         size="small"
         actionRef={actionRef}

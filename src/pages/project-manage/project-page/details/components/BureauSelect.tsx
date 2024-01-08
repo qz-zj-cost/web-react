@@ -1,47 +1,47 @@
 import BureauApi from "@/apis/bureauApi";
-import { ContractImportApi } from "@/apis/projectApi";
 import BureauColumns from "@/pages/quota-manage/bureau-list/columns";
+import { EditOutlined } from "@ant-design/icons";
 import { ProTable } from "@ant-design/pro-components";
-import { Modal, message } from "antd";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { Modal, Space, Typography } from "antd";
+import { useState } from "react";
 
-export type IMatchModalRef = {
-  show: (e: any) => void;
-};
-const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
-  ({ onSuccess }, ref) => {
-    const [visible, setVisible] = useState(false);
-    const record = useRef<any>();
-    const [selectKeys, setSelectKeys] = useState<string[]>();
-
-    useImperativeHandle(
-      ref,
-      () => ({
-        show: (e) => {
-          setVisible(true);
-          record.current = e;
-        },
-      }),
-      [],
-    );
-    return (
+interface IBureauSelectProps {
+  value?: string;
+  onChange?: (e?: string) => void;
+}
+const BureauSelect = ({ value, onChange }: IBureauSelectProps) => {
+  const [visible, setVisible] = useState(false);
+  const [selectKeys, setSelectKeys] = useState<string[]>();
+  const [selectRows, setSelectRows] = useState<any[]>();
+  return (
+    <div>
+      {value ? (
+        <Space>
+          <Typography>
+            {selectRows?.find((e) => e.uuid === value)?.name ?? value}
+          </Typography>
+          <Typography.Link onClick={() => setVisible(true)}>
+            <EditOutlined />
+            选择局清单
+          </Typography.Link>
+        </Space>
+      ) : (
+        <Typography.Link onClick={() => setVisible(true)}>
+          <EditOutlined />
+          选择局清单
+        </Typography.Link>
+      )}
       <Modal
+        width={900}
         open={visible}
         onCancel={() => {
           setVisible(false);
         }}
-        width={900}
         onOk={() => {
-          if (!selectKeys || selectKeys.length === 0) return;
-          ContractImportApi.match({
-            groupBillUuid: selectKeys,
-            id: record.current.id,
-          }).then(() => {
-            message.success("操作成功");
-            setVisible(false);
-            onSuccess?.();
-          });
+          onChange?.(selectKeys?.[0]);
+          setVisible(false);
         }}
+        centered
       >
         <ProTable
           scroll={{ y: 500, x: "max-content" }}
@@ -52,9 +52,10 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
           }}
           rowSelection={{
             selectedRowKeys: selectKeys,
-            type: "checkbox",
-            onChange: (keys) => {
+            type: "radio",
+            onChange: (keys, rows) => {
               setSelectKeys(keys as string[]);
+              setSelectRows(rows);
             },
           }}
           request={async ({ current: pageNum, pageSize, ...val }) => {
@@ -79,8 +80,8 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
           columns={[...BureauColumns.slice(0, 7)]}
         />
       </Modal>
-    );
-  },
-);
+    </div>
+  );
+};
 
-export default MatchModal;
+export default BureauSelect;

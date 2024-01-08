@@ -16,7 +16,7 @@ const MeasuresFee = () => {
       type="card"
       items={[
         {
-          label: "现场经费",
+          label: "机械使用费",
           key: "0",
           children: <MTable1 />,
         },

@@ -52,14 +52,14 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
     },
     {
       title: "匹配的局清单",
-      dataIndex: "groupBillCodeList",
+      dataIndex: "groupBillCode",
       render(_, entity) {
         return (
           <Typography.Paragraph
             style={{ width: 200, margin: 0 }}
             ellipsis={{ rows: 2, expandable: true }}
           >
-            {entity["groupBillCodeList"]?.join("，") ?? "-"}
+            {entity["groupBillCode"] ?? "-"}
           </Typography.Paragraph>
         );
       },

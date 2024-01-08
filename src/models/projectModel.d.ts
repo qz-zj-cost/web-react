@@ -73,16 +73,9 @@ export interface IProjectTypeModel {
   id: number;
   projectId: number;
   status: number;
+  name: string;
   unitProject: string;
-  unitSectionDtoList: [
-    {
-      id: number;
-      name: string;
-      projectId: number;
-      totalAmount: number;
-      uuid: string;
-    },
-  ];
+  unitSectionDtoList: IProjectTypeModel[];
   uuid: string;
 }
 interface IAreaItem {
@@ -90,4 +83,14 @@ interface IAreaItem {
   corpQuotaCode: string;
   monthDate: string;
   price: number;
+}
+
+interface IServiceCostModal {
+  managementFee: number;
+  managementFeeRatio: number;
+  projectId: number;
+  remark: string;
+  stageType: number;
+  subpackageAmount: number;
+  subpackageName: string;
 }

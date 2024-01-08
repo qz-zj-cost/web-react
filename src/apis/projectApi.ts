@@ -1,5 +1,9 @@
 import { IBaseModel, IListBaseModel } from "@/models/baseModel";
-import { IAreaItem, IProjectTypeModel } from "@/models/projectModel";
+import {
+  IAreaItem,
+  IProjectTypeModel,
+  IServiceCostModal,
+} from "@/models/projectModel";
 import { BaseApi, ListApi } from "@/utils/https/service";
 import { Key } from "react";
 
@@ -25,6 +29,28 @@ class ProjectServer extends ListApi {
   }) {
     return this.axios
       .post("/unit/project/corp/price", data)
+      .then((v) => v.data);
+  }
+
+  addServiceCost(data: IServiceCostModal) {
+    return this.axios
+      .post("/project/general/contracting/add", data)
+      .then((v) => v.data);
+  }
+  getServiceCost(params: { projectId: string; stageType?: string }) {
+    return this.axios
+      .get<IListBaseModel>("/project/general/contracting/list", {
+        params,
+      })
+      .then((e) => e.data);
+  }
+  addOverHeadCost(data: any) {
+    return this.axios.post("/project/payment/add", data).then((v) => v.data);
+  }
+
+  getTargetCostList(params: { projectId: string }) {
+    return this.axios
+      .get("/unit/project/data/statistics/cost", { params })
       .then((v) => v.data);
   }
 }
@@ -75,13 +101,7 @@ export class ContractImportServer extends BaseApi {
       .get<IBaseModel<IProjectTypeModel[]>>("/unit/project/list", { params })
       .then((v) => v.data);
   }
-  getServiceCost(params: { projectId: string; stageType?: string }) {
-    return this.axios
-      .get<IListBaseModel>("/project/general/contracting/list", {
-        params,
-      })
-      .then((e) => e.data);
-  }
+
   import(data: any) {
     return this.axios.post("/unit/project/import", data).then((v) => v.data);
   }
@@ -90,7 +110,7 @@ export class ContractImportServer extends BaseApi {
       .post("/unit/project/automatic/mate", data)
       .then((v) => v.data);
   }
-  match(data: { groupBillUuid?: string; id?: string }) {
+  match(data: { groupBillUuid?: string[]; id?: string }) {
     return this.axios.post("/unit/project/mate", data).then((v) => v.data);
   }
 }

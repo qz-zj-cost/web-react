@@ -20,42 +20,33 @@ const UnBureau = () => {
       dataIndex: "name",
     },
     {
-      title: "特征",
-      dataIndex: "feature",
-      render(dom) {
-        return (
-          <Typography.Paragraph
-            style={{ width: 300, margin: 0 }}
-            ellipsis={{ rows: 2, expandable: true }}
-          >
-            {dom}
-          </Typography.Paragraph>
-        );
-      },
-    },
-    {
       title: "局清单编码",
-      dataIndex: "groupBillUuid",
+      dataIndex: "groupBillCode",
     },
     {
-      title: "局清单名称",
-      dataIndex: "groupBillName",
+      title: "企业定额",
+      dataIndex: "corpQuotaCode",
     },
     {
       title: "单位",
       dataIndex: "unit",
     },
     {
-      title: "局清单量",
-      dataIndex: "groupBillEngineeringNum",
-    },
-    {
-      title: "价格",
-      dataIndex: "subtotal",
-    },
-    {
-      title: "合价",
-      dataIndex: "sumPrice",
+      title: "目标成本",
+      children: [
+        {
+          title: "工程量",
+          dataIndex: "groupBillEngineeringNum",
+        },
+        {
+          title: "单价",
+          dataIndex: "price",
+        },
+        {
+          title: "合价",
+          dataIndex: "sumPrice",
+        },
+      ],
     },
     {
       title: "操作",

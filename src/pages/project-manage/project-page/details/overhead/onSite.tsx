@@ -9,6 +9,7 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
+import AddModal from "./addModal";
 
 const OnSite = () => {
   const { projectId } = useContext(ProjectContext);
@@ -96,6 +97,14 @@ const OnSite = () => {
             actionRef.current?.reloadAndRest?.();
           },
         },
+        actions: [
+          <AddModal
+            feeType={1}
+            onSuccess={() => {
+              actionRef.current?.reload();
+            }}
+          />,
+        ],
       }}
       columns={columns}
       cardProps={{

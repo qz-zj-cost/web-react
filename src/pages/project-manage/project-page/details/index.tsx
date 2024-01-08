@@ -8,6 +8,7 @@ import BaseInfo from "./baseInfo";
 import ContractListImport from "./contractListImport";
 import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
+import TargetCost from "./targetCost";
 import UnBureau from "./unBureau";
 import UnitProject from "./unitProject";
 
@@ -71,6 +72,11 @@ const ProjectDetails = () => {
               label: "未归类局清单",
               key: "5",
               children: <UnBureau />,
+            },
+            {
+              label: "目标成本归集",
+              key: "7",
+              children: <TargetCost />,
             },
           ]}
         ></Tabs>

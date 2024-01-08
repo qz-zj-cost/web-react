@@ -51,13 +51,14 @@ export class BaseApi extends BasicService {
     return config;
   }
   responseFun(data: AxiosResponse<any, any>): AxiosResponse<any, any> {
+    console.log(data);
     if (data.status === 200) {
       if (data.data?.code === "200") {
         return data;
-      } else if (data.data?.message) {
+      } else if (data.data?.code) {
         notification.error({
           message: "请求失败",
-          description: data.data?.message,
+          description: data.data?.message ?? "接口错误",
         });
         throw data;
       } else {

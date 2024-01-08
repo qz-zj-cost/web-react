@@ -4,10 +4,11 @@
  * @date 2023/12/25
  */
 
-import { ContractImportApi } from "@/apis/projectApi";
+import ProjectApi from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
+import AddCostModal from "./addCostModal";
 
 const ServiceCost = () => {
   const actionRef = useRef<ActionType>();
@@ -52,7 +53,7 @@ const ServiceCost = () => {
         bodyStyle: { padding: 0 },
       }}
       request={async () => {
-        const res = await ContractImportApi.getServiceCost({
+        const res = await ProjectApi.getServiceCost({
           projectId: projectId,
           stageType: tabKey,
         });
@@ -63,6 +64,13 @@ const ServiceCost = () => {
       }}
       toolbar={{
         settings: [],
+        actions: [
+          <AddCostModal
+            onSuccess={() => {
+              actionRef.current?.reload();
+            }}
+          />,
+        ],
         // actions: [selectProject, selectProjectType],
         menu: {
           type: "tab",

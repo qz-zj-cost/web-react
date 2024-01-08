@@ -26,46 +26,50 @@ const LaborCost = () => {
       dataIndex: "name",
     },
     {
-      title: "项目特征",
-      dataIndex: "feature",
-      render(dom) {
-        return (
-          <Typography.Paragraph
-            style={{ width: 300, margin: 0 }}
-            ellipsis={{ rows: 2, expandable: true }}
-          >
-            {dom}
-          </Typography.Paragraph>
-        );
-      },
-    },
-    {
-      title: "单位",
-      dataIndex: "unit",
-    },
-    {
-      title: "清单工程量",
-      dataIndex: "num",
-    },
-    {
       title: "局清单编码",
       dataIndex: "groupBillCode",
-    },
-    {
-      title: "局清单量",
-      dataIndex: "groupBillEngineeringNum",
     },
     {
       title: "企业定额",
       dataIndex: "corpQuotaCode",
     },
     {
-      title: "价格",
-      dataIndex: "price",
+      title: "单位",
+      dataIndex: "unit",
     },
     {
-      title: "合价",
-      dataIndex: "totalAmount",
+      title: "合同收入",
+      children: [
+        {
+          title: "工程量",
+          dataIndex: "num",
+        },
+        {
+          title: "单价",
+          dataIndex: "incomePrice",
+        },
+        {
+          title: "合价",
+          dataIndex: "incomeSumPrice",
+        },
+      ],
+    },
+    {
+      title: "目标成本",
+      children: [
+        {
+          title: "工程量",
+          dataIndex: "groupBillEngineeringNum",
+        },
+        {
+          title: "单价",
+          dataIndex: "price",
+        },
+        {
+          title: "合价",
+          dataIndex: "sumPrice",
+        },
+      ],
     },
     {
       title: "操作",
