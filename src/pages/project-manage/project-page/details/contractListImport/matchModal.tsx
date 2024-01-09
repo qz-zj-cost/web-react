@@ -34,7 +34,7 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
         onOk={() => {
           if (!selectKeys || selectKeys.length === 0) return;
           ContractImportApi.match({
-            groupBillUuid: selectKeys,
+            groupBillUuidList: selectKeys,
             id: record.current.id,
           }).then(() => {
             message.success("操作成功");

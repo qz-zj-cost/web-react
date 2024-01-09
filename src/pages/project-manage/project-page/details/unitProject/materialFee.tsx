@@ -76,7 +76,7 @@ const MaterialFee = () => {
       actionRef={actionRef}
       search={false}
       scroll={{ x: "max-content" }}
-      rowKey={"id"}
+      rowKey={"groupBillCode"}
       bordered
       columns={columns}
       cardProps={{

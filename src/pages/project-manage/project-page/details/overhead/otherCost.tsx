@@ -30,11 +30,11 @@ const OtherCost = () => {
     },
     {
       title: "不含税价格",
-      dataIndex: "noIncludedPrice",
+      dataIndex: "notIncludedPrice",
     },
     {
       title: "局清单编码",
-      dataIndex: "groupBillUuid",
+      dataIndex: "groupBillCode",
     },
     {
       title: "局清单名称",

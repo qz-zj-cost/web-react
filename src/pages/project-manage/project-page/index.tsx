@@ -15,7 +15,7 @@ import ProjectDrawer from "./projectDrawer";
 
 const ProjectPage = () => {
   const actionRef = useRef<ActionType>();
-  const tabRef = useRef("0");
+  // const tabRef = useRef("0");
   const navitate = useNavigate();
   const columns: ProColumns<IProjectModel>[] = [
     {
@@ -102,7 +102,7 @@ const ProjectPage = () => {
           const res = await ProjectApi.getList({
             pageNum,
             pageSize,
-            queryStatus: Number(tabRef.current),
+            // queryStatus: Number(tabRef.current),
           });
           return {
             data: res.data || [],
@@ -120,32 +120,32 @@ const ProjectPage = () => {
               }}
             />,
           ],
-          menu: {
-            type: "tab",
-            defaultActiveKey: tabRef.current,
-            onChange(e) {
-              tabRef.current = e as string;
-              actionRef.current?.reload();
-            },
-            items: [
-              {
-                label: "全部项目",
-                key: "0",
-              },
-              {
-                label: "待审核项目",
-                key: "1",
-              },
-              {
-                label: "审核中项目",
-                key: "2",
-              },
-              {
-                label: "审核通过项目",
-                key: "3",
-              },
-            ],
-          },
+          // menu: {
+          //   type: "tab",
+          //   defaultActiveKey: tabRef.current,
+          //   onChange(e) {
+          //     tabRef.current = e as string;
+          //     actionRef.current?.reload();
+          //   },
+          //   items: [
+          //     {
+          //       label: "全部项目",
+          //       key: "0",
+          //     },
+          //     {
+          //       label: "待审核项目",
+          //       key: "1",
+          //     },
+          //     {
+          //       label: "审核中项目",
+          //       key: "2",
+          //     },
+          //     {
+          //       label: "审核通过项目",
+          //       key: "3",
+          //     },
+          //   ],
+          // },
           multipleLine: true,
         }}
       />

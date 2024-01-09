@@ -48,8 +48,20 @@ const SgTable = ({ num }: { num: number }) => {
       dataIndex: "unit",
     },
     {
-      title: "清单工程量",
+      title: "数量",
       dataIndex: "num",
+    },
+    {
+      title: "人工费",
+      dataIndex: "laborCosts",
+    },
+    {
+      title: "材料费",
+      dataIndex: "materialCosts",
+    },
+    {
+      title: "机械费",
+      dataIndex: "machineryCosts",
     },
     {
       title: "综合单价",

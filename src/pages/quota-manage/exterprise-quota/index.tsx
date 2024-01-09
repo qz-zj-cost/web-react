@@ -15,12 +15,12 @@ import {
 import { Space, Typography } from "antd";
 import { useRef } from "react";
 import ImportBtn from "./importBtn";
-import MatchModal, { IMatchModalRef } from "./matchModal";
+import ExterpriseMatchModal, { IExterpriseMatchModalRef } from "./matchModal";
 import PriceModal, { IPriceModalRef } from "./priceModal";
 
 const ExterpriseQuotaPage = () => {
   const actionRef = useRef<ActionType>();
-  const modalRef = useRef<IMatchModalRef>(null);
+  const modalRef = useRef<IExterpriseMatchModalRef>(null);
   const priceRef = useRef<IPriceModalRef>(null);
   const columns: ProColumns<IExterpriseItemModel>[] = [
     {
@@ -192,7 +192,7 @@ const ExterpriseQuotaPage = () => {
           multipleLine: true,
         }}
       />
-      <MatchModal
+      <ExterpriseMatchModal
         ref={modalRef}
         onCreate={() => {
           actionRef.current?.reload();

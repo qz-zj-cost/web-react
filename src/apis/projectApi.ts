@@ -53,6 +53,22 @@ class ProjectServer extends ListApi {
       .get("/unit/project/data/statistics/cost", { params })
       .then((v) => v.data);
   }
+  //调整分段和分类
+  updateStage(data: { id: number; priceType: number; stageType: number }) {
+    return this.axios
+      .post("/unit/project/by/finance/update", data)
+      .then((v) => v.data);
+  }
+  //更新企业定额
+  updateQuota(data: {
+    uuid: string;
+    corpQuotaCode: string;
+    groupBillCode: string;
+  }) {
+    return this.axios
+      .post("/unit/project/corp/quota/update", data)
+      .then((v) => v.data);
+  }
 }
 export class ContractImportServer extends BaseApi {
   getSummaryList(params: { projectId: string; unitProjectUuid?: string }) {
@@ -91,7 +107,7 @@ export class ContractImportServer extends BaseApi {
       .then((v) => v.data);
   }
 
-  getUnitChildList(params: { id: number }) {
+  getUnitChildList(params: { id: number; groupBillCode: string }) {
     return this.axios
       .get("/unit/project/by/finance/extend", { params })
       .then((v) => v.data);
@@ -110,7 +126,7 @@ export class ContractImportServer extends BaseApi {
       .post("/unit/project/automatic/mate", data)
       .then((v) => v.data);
   }
-  match(data: { groupBillUuid?: string[]; id?: string }) {
+  match(data: { groupBillUuidList?: string[]; id?: string }) {
     return this.axios.post("/unit/project/mate", data).then((v) => v.data);
   }
 }

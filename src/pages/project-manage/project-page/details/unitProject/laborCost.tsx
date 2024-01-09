@@ -10,6 +10,7 @@ import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import ChildTable from "./childTable";
+import MatchModal, { IMatchModalRef } from "./matchModal";
 
 const LaborCost = () => {
   const actionRef = useRef<ActionType>();
@@ -18,6 +19,8 @@ const LaborCost = () => {
   //   actionRef: actionRef.current,
   //   type: 2,
   // });
+
+  const modalRef = useRef<IMatchModalRef>(null);
   const [tabKey, settabKey] = useState("1");
 
   const columns: ProColumns[] = [
@@ -76,11 +79,16 @@ const LaborCost = () => {
       width: "auto",
       fixed: "right",
       align: "center",
-      render: () => {
+      render: (_, val) => {
         return (
           <Space>
-            <Typography.Link onClick={() => {}}>匹配企业定额</Typography.Link>
-            <Typography.Link type="danger">手动分类</Typography.Link>
+            <Typography.Link
+              onClick={() => {
+                modalRef.current?.show(val);
+              }}
+            >
+              匹配企业定额
+            </Typography.Link>
           </Space>
         );
       },
@@ -88,55 +96,63 @@ const LaborCost = () => {
   ];
 
   return (
-    <ProTable
-      actionRef={actionRef}
-      search={false}
-      scroll={{ x: "max-content" }}
-      rowKey={"id"}
-      bordered
-      columns={columns}
-      cardProps={{
-        bodyStyle: { padding: 0 },
-      }}
-      request={async ({ current: pageNum, pageSize }) => {
-        // if (!types?.typeId1 || !types?.typeId2) return { data: [] };
-        const res = await ContractImportApi.getUnitProjectList({
-          // unitProjectUuid: types.typeId1,
-          // unitSectionUuid: types.typeId2,
-          projectId: projectId,
-          priceType: 1,
-          stageType: tabKey,
-          pageNum,
-          pageSize,
-        });
-        return {
-          data: res.data || [],
-          success: true,
-        };
-      }}
-      expandable={{
-        expandedRowRender: (record) => {
-          return <ChildTable record={record} />;
-        },
-      }}
-      toolbar={{
-        settings: [],
-        // actions: [selectProject, selectProjectType],
-        menu: {
-          type: "tab",
-          activeKey: tabKey,
-          items: [
-            { label: "地下室阶段", key: "1" },
-            { label: "主体", key: "2" },
-            { label: "装饰修饰", key: "3" },
-          ],
-          onChange: (v) => {
-            settabKey(v as string);
-            actionRef.current?.reset?.();
+    <>
+      <ProTable
+        actionRef={actionRef}
+        search={false}
+        scroll={{ x: "max-content" }}
+        rowKey={"groupBillCode"}
+        bordered
+        columns={columns}
+        cardProps={{
+          bodyStyle: { padding: 0 },
+        }}
+        request={async ({ current: pageNum, pageSize }) => {
+          // if (!types?.typeId1 || !types?.typeId2) return { data: [] };
+          const res = await ContractImportApi.getUnitProjectList({
+            // unitProjectUuid: types.typeId1,
+            // unitSectionUuid: types.typeId2,
+            projectId: projectId,
+            priceType: 1,
+            stageType: tabKey,
+            pageNum,
+            pageSize,
+          });
+          return {
+            data: res.data || [],
+            success: true,
+          };
+        }}
+        expandable={{
+          expandedRowRender: (record) => {
+            return <ChildTable record={record} />;
           },
-        },
-      }}
-    />
+        }}
+        toolbar={{
+          settings: [],
+          // actions: [selectProject, selectProjectType],
+          menu: {
+            type: "tab",
+            activeKey: tabKey,
+            items: [
+              { label: "地下室阶段", key: "1" },
+              { label: "主体", key: "2" },
+              { label: "装饰修饰", key: "3" },
+            ],
+            onChange: (v) => {
+              settabKey(v as string);
+              actionRef.current?.reset?.();
+            },
+          },
+        }}
+      />
+      <MatchModal
+        ref={modalRef}
+        onSuccess={() => {
+          actionRef.current?.reload();
+        }}
+      />
+    </>
   );
 };
 
