@@ -134,21 +134,21 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
               dataIndex: "unit",
               search: false,
             },
-            {
-              title: "项目特征",
-              dataIndex: "feature",
-              search: false,
-              render(dom) {
-                return (
-                  <Typography.Paragraph
-                    style={{ width: 300, margin: 0 }}
-                    ellipsis={{ rows: 2, expandable: true }}
-                  >
-                    {dom}
-                  </Typography.Paragraph>
-                );
-              },
-            },
+            // {
+            //   title: "项目特征",
+            //   dataIndex: "feature",
+            //   search: false,
+            //   render(dom) {
+            //     return (
+            //       <Typography.Paragraph
+            //         style={{ width: 300, margin: 0 }}
+            //         ellipsis={{ rows: 2, expandable: true }}
+            //       >
+            //         {dom}
+            //       </Typography.Paragraph>
+            //     );
+            //   },
+            // },
             {
               title: "工作内容",
               dataIndex: "content",

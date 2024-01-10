@@ -10,7 +10,7 @@ import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import ChildTable from "./childTable";
-import MatchModal, { IMatchModalRef } from "./matchModal";
+import MatchModal, { IMatchModalRef } from "./modal/matchModal";
 
 const LaborCost = () => {
   const actionRef = useRef<ActionType>();
@@ -22,6 +22,7 @@ const LaborCost = () => {
 
   const modalRef = useRef<IMatchModalRef>(null);
   const [tabKey, settabKey] = useState("1");
+  const [reloadNum, setReloadNum] = useState(0);
 
   const columns: ProColumns[] = [
     {
@@ -67,6 +68,9 @@ const LaborCost = () => {
         {
           title: "单价",
           dataIndex: "price",
+          render(dom) {
+            return <Space>{dom ?? "-"}</Space>;
+          },
         },
         {
           title: "合价",
@@ -125,7 +129,7 @@ const LaborCost = () => {
         }}
         expandable={{
           expandedRowRender: (record) => {
-            return <ChildTable record={record} />;
+            return <ChildTable record={record} key={reloadNum} />;
           },
         }}
         toolbar={{
@@ -150,6 +154,7 @@ const LaborCost = () => {
         ref={modalRef}
         onSuccess={() => {
           actionRef.current?.reload();
+          setReloadNum(reloadNum + 1);
         }}
       />
     </>

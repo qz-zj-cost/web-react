@@ -6,9 +6,9 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
+import AdModal from "../components/AdModal";
 
 const UnBureau = () => {
   const { projectId } = useContext(ProjectContext);
@@ -53,8 +53,15 @@ const UnBureau = () => {
       width: "auto",
       fixed: "right",
       align: "center",
-      render: () => {
-        return <Typography.Link onClick={() => {}}>分配</Typography.Link>;
+      render: (_, val) => {
+        return (
+          <AdModal
+            id={val.id}
+            onSuccess={() => {
+              actionRef.current?.reload();
+            }}
+          />
+        );
       },
     },
   ];

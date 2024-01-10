@@ -1,7 +1,7 @@
 import { Tabs } from "antd";
 import LaborCost from "./laborCost";
 import MaterialFee from "./materialFee";
-import PriceModal from "./priceModal";
+import PriceModal from "./modal/priceModal";
 import ProjectCost from "./projectCost";
 import ServiceCost from "./serviceCost";
 

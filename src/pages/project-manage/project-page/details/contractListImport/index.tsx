@@ -2,6 +2,7 @@ import { Space, Tabs } from "antd";
 import { useState } from "react";
 import FbTable from "./fbTable";
 import ImportBtn from "./importBtn";
+import MatchBtn from "./matchBtn";
 import SgTable from "./sgTable";
 import SummaryTable from "./summaryTable";
 
@@ -22,6 +23,7 @@ const ContractListImport = () => {
             setNum(num + 1);
           }}
         />
+        <MatchBtn />
       </Space>
       <Tabs
         type="card"

@@ -21,6 +21,12 @@ class ProjectServer extends ListApi {
       .then((v) => v.data);
   }
 
+  getStatisticsList(params: { projectId: string }) {
+    return this.axios
+      .get<IBaseModel<IAreaItem[]>>("/project/summary/amount", { params })
+      .then((v) => v.data);
+  }
+
   price(data: {
     area: string;
     extendId: number;
@@ -67,6 +73,17 @@ class ProjectServer extends ListApi {
   }) {
     return this.axios
       .post("/unit/project/corp/quota/update", data)
+      .then((v) => v.data);
+  }
+  // 修改单价
+  updateUnitPrice(data: {
+    extendId: number;
+    projectId: string;
+    price: string;
+    sourceType: number;
+  }) {
+    return this.axios
+      .post("/unit/project/corp/price/extend", data)
       .then((v) => v.data);
   }
 }

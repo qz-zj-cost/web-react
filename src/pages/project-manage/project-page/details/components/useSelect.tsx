@@ -34,10 +34,13 @@ const useSelect = ({
       const opts = res.data.map((v) => ({
         label: v.unitProject,
         value: v.uuid,
-        children: v.unitSectionDtoList?.map((e) => ({
-          label: e.name,
-          value: e.uuid,
-        })),
+        children: [
+          { label: "全部", value: 0 },
+          ...(v.unitSectionDtoList?.map((e) => ({
+            label: e.name,
+            value: e.uuid,
+          })) ?? []),
+        ],
       }));
       setOptions(opts);
     });

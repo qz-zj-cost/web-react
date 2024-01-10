@@ -11,7 +11,7 @@ import {
 } from "@ant-design/pro-components";
 import { Button, message } from "antd";
 import { useContext, useRef } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../..";
 
 type IAddCostModalProps = {
   onSuccess: VoidFunction;

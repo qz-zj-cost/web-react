@@ -8,7 +8,7 @@ import ProjectApi from "@/apis/projectApi";
 import { FPage } from "@/components";
 import { IProjectModel } from "@/models/projectModel";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Popconfirm, Space, Typography, message } from "antd";
+import { Space, Typography } from "antd";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectDrawer from "./projectDrawer";
@@ -74,7 +74,7 @@ const ProjectPage = () => {
             >
               详情
             </Typography.Link>
-            <Popconfirm
+            {/* <Popconfirm
               title="确认删除此项目？"
               onConfirm={() => {
                 return ProjectApi.delete(val.id).then(() => {
@@ -84,7 +84,7 @@ const ProjectPage = () => {
               }}
             >
               <Typography.Link type="danger">删除</Typography.Link>
-            </Popconfirm>
+            </Popconfirm> */}
           </Space>
         );
       },

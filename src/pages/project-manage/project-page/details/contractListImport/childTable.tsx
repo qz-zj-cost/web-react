@@ -20,20 +20,20 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
       title: "项目名称",
       dataIndex: "name",
     },
-    {
-      title: "项目特征",
-      dataIndex: "feature",
-      render(dom) {
-        return (
-          <Typography.Paragraph
-            style={{ width: 300, margin: 0 }}
-            ellipsis={{ rows: 2, expandable: true }}
-          >
-            {dom}
-          </Typography.Paragraph>
-        );
-      },
-    },
+    // {
+    //   title: "项目特征",
+    //   dataIndex: "feature",
+    //   render(dom) {
+    //     return (
+    //       <Typography.Paragraph
+    //         style={{ width: 300, margin: 0 }}
+    //         ellipsis={{ rows: 2, expandable: true }}
+    //       >
+    //         {dom}
+    //       </Typography.Paragraph>
+    //     );
+    //   },
+    // },
     {
       title: "单位",
       dataIndex: "unit",
@@ -71,7 +71,11 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
         search={false}
         scroll={{ x: "max-content" }}
         rowKey={"id"}
+        cardBordered
         bordered
+        cardProps={{
+          bodyStyle: { padding: 0 },
+        }}
         size="small"
         actionRef={actionRef}
         columns={[

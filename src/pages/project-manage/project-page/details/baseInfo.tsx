@@ -111,6 +111,14 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
             name="contractEndDate"
             label="合同竣工时间"
           />
+          <ProFormDigit
+            width="md"
+            name="retrenchBudgetRatio"
+            label="集团节约预算比例"
+            fieldProps={{
+              suffix: "%",
+            }}
+          />
         </ProForm.Group>
         {/* <ProFormList label="算量工程师" name="d">
           <Input />

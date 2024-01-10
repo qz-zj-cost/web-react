@@ -6,18 +6,18 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import ChildTable from "./childTable";
+import MatchModal, { IMatchModalRef } from "./modal/matchModal";
 
 const ProjectCost = () => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
-  // const { selectProject, selectProjectType, types } = useSelect({
-  //   actionRef: actionRef.current,
-  //   type: 2,
-  // });
+  const [reloadNum, setReloadNum] = useState(0);
   const [tabKey, settabKey] = useState("1");
+  const modalRef = useRef<IMatchModalRef>(null);
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -59,66 +59,109 @@ const ProjectCost = () => {
           title: "工程量",
           dataIndex: "groupBillEngineeringNum",
         },
-        {
-          title: "单价",
-          dataIndex: "price",
-        },
+        // {
+        //   title: "单价",
+        //   dataIndex: "price",
+        //   render(dom, record) {
+        //     return (
+        //       <Space>
+        //         {dom ?? "-"}
+        //         <UnitPriceModal
+        //           type={1}
+        //           code={record.corpQuotaCode}
+        //           id={record.id}
+        //           onSuccess={() => {
+        //             actionRef.current?.reload();
+        //           }}
+        //         />
+        //       </Space>
+        //     );
+        //   },
+        // },
         {
           title: "合价",
           dataIndex: "sumPrice",
         },
       ],
     },
+    {
+      title: "操作",
+      width: "auto",
+      fixed: "right",
+      align: "center",
+      render: (_, val) => {
+        return (
+          <Space>
+            <Typography.Link
+              onClick={() => {
+                modalRef.current?.show(val);
+              }}
+            >
+              匹配企业定额
+            </Typography.Link>
+          </Space>
+        );
+      },
+    },
   ];
 
   return (
-    <ProTable
-      actionRef={actionRef}
-      search={false}
-      scroll={{ x: "max-content" }}
-      rowKey={"groupBillCode"}
-      bordered
-      columns={columns}
-      cardProps={{
-        bodyStyle: { padding: 0 },
-      }}
-      request={async ({ current: pageNum, pageSize }) => {
-        // if (!types?.typeId1 || !types?.typeId2) return { data: [] };
-        const res = await ContractImportApi.getUnitProjectList({
-          projectId: projectId,
-          priceType: 3,
-          stageType: tabKey,
-          pageNum,
-          pageSize,
-        });
-        return {
-          data: res.data || [],
-          success: true,
-        };
-      }}
-      expandable={{
-        expandedRowRender: (record) => {
-          return <ChildTable record={record} />;
-        },
-      }}
-      toolbar={{
-        settings: [],
-        // actions: [selectProject, selectProjectType],
-        menu: {
-          type: "tab",
-          activeKey: tabKey,
-          items: [
-            { label: "地下室阶段", key: "1" },
-            { label: "主体", key: "2" },
-            { label: "装饰修饰", key: "3" },
-          ],
-          onChange: (v) => {
-            settabKey(v as string);
-            actionRef.current?.reset?.();
+    <>
+      <ProTable
+        actionRef={actionRef}
+        search={false}
+        scroll={{ x: "max-content" }}
+        rowKey={"groupBillCode"}
+        bordered
+        columns={columns}
+        cardProps={{
+          bodyStyle: { padding: 0 },
+        }}
+        request={async ({ current: pageNum, pageSize }) => {
+          // if (!types?.typeId1 || !types?.typeId2) return { data: [] };
+          const res = await ContractImportApi.getUnitProjectList({
+            projectId: projectId,
+            priceType: 3,
+            stageType: tabKey,
+            pageNum,
+            pageSize,
+          });
+          return {
+            data: res.data || [],
+            success: true,
+          };
+        }}
+        expandable={{
+          expandedRowRender: (record) => {
+            return <ChildTable record={record} key={reloadNum} />;
           },
-        },
-      }}
-    />
+        }}
+        toolbar={{
+          settings: [],
+          // actions: [selectProject, selectProjectType],
+          menu: {
+            type: "tab",
+            activeKey: tabKey,
+            items: [
+              { label: "地下室阶段", key: "1" },
+              { label: "主体", key: "2" },
+              { label: "装饰修饰", key: "3" },
+            ],
+            onChange: (v) => {
+              settabKey(v as string);
+              actionRef.current?.reset?.();
+            },
+          },
+        }}
+      />
+      <MatchModal
+        ref={modalRef}
+        onSuccess={() => {
+          actionRef.current?.reload();
+          setReloadNum(reloadNum + 1);
+        }}
+      />
+    </>
   );
 };
 

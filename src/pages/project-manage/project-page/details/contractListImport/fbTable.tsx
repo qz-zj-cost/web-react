@@ -11,7 +11,6 @@ import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
 import ChildTable from "./childTable";
-import MatchBtn from "./matchBtn";
 
 const FbTable = ({ num }: { num: number }) => {
   const actionRef = useRef<ActionType>();
@@ -29,20 +28,20 @@ const FbTable = ({ num }: { num: number }) => {
       title: "项目名称",
       dataIndex: "name",
     },
-    {
-      title: "项目特征",
-      dataIndex: "feature",
-      render(dom) {
-        return (
-          <Typography.Paragraph
-            style={{ width: 300, margin: 0 }}
-            ellipsis={{ rows: 2, expandable: true }}
-          >
-            {dom}
-          </Typography.Paragraph>
-        );
-      },
-    },
+    // {
+    //   title: "项目特征",
+    //   dataIndex: "feature",
+    //   render(dom) {
+    //     return (
+    //       <Typography.Paragraph
+    //         style={{ width: 300, margin: 0 }}
+    //         ellipsis={{ rows: 2, expandable: true }}
+    //       >
+    //         {dom}
+    //       </Typography.Paragraph>
+    //     );
+    //   },
+    // },
     {
       title: "单位",
       dataIndex: "unit",
@@ -103,7 +102,7 @@ const FbTable = ({ num }: { num: number }) => {
           bodyStyle: { padding: 0 },
         }}
         request={async ({ current: pageNum, pageSize }) => {
-          if (!types?.typeId1 || !types?.typeId2) return { data: [] };
+          if (!types?.typeId1) return { data: [] };
           const res = await ContractImportApi.getFbList({
             projectId: projectId,
             unitProjectUuid: types.typeId1,
@@ -119,7 +118,7 @@ const FbTable = ({ num }: { num: number }) => {
         }}
         toolbar={{
           settings: [],
-          actions: [selectProject(), selectProjectType, <MatchBtn />],
+          actions: [selectProject(), selectProjectType],
         }}
         expandable={{
           expandedRowRender: (record) => {

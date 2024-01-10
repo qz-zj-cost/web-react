@@ -1,13 +1,9 @@
-import ProjectApi, { ContractImportApi } from "@/apis/projectApi";
-import {
-  ActionType,
-  ModalForm,
-  ProColumns,
-  ProFormRadio,
-  ProTable,
-} from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { ContractImportApi } from "@/apis/projectApi";
+import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Space } from "antd";
 import { useRef } from "react";
+import AdModal from "../components/AdModal";
+import UnitPriceModal from "./modal/unitPriceModal";
 
 const ChildTable = ({ record }: { record: any }) => {
   const actionRef = useRef<ActionType>();
@@ -16,20 +12,20 @@ const ChildTable = ({ record }: { record: any }) => {
       title: "项目名称",
       dataIndex: "name",
     },
-    {
-      title: "项目特征",
-      dataIndex: "feature",
-      render(dom) {
-        return (
-          <Typography.Paragraph
-            style={{ width: 300, margin: 0 }}
-            ellipsis={{ rows: 2, expandable: true }}
-          >
-            {dom}
-          </Typography.Paragraph>
-        );
-      },
-    },
+    // {
+    //   title: "项目特征",
+    //   dataIndex: "feature",
+    //   render(dom) {
+    //     return (
+    //       <Typography.Paragraph
+    //         style={{ width: 300, margin: 0 }}
+    //         ellipsis={{ rows: 2, expandable: true }}
+    //       >
+    //         {dom}
+    //       </Typography.Paragraph>
+    //     );
+    //   },
+    // },
     {
       title: "单位",
       dataIndex: "unit",
@@ -42,28 +38,69 @@ const ChildTable = ({ record }: { record: any }) => {
       title: "局清单编码",
       dataIndex: "groupBillCode",
     },
-    {
-      title: "局清单量",
-      dataIndex: "groupBillEngineeringNum",
-    },
+
     {
       title: "企业定额",
       dataIndex: "corpQuotaCode",
     },
     {
-      title: "价格",
-      dataIndex: "price",
+      title: "合同收入",
+      children: [
+        {
+          title: "工程量",
+          dataIndex: "num",
+        },
+        {
+          title: "单价",
+          dataIndex: "incomePrice",
+        },
+        {
+          title: "合价",
+          dataIndex: "incomeSumPrice",
+        },
+      ],
     },
     {
-      title: "合价",
-      dataIndex: "totalAmount",
+      title: "目标成本",
+      children: [
+        {
+          title: "工程量",
+          dataIndex: "groupBillEngineeringNum",
+        },
+        {
+          title: "单价",
+          dataIndex: "price",
+          render(dom, record) {
+            return (
+              <Space>
+                {dom ?? "-"}
+                <UnitPriceModal
+                  type={1}
+                  code={record.corpQuotaCode}
+                  id={record.id}
+                  onSuccess={() => {
+                    actionRef.current?.reload();
+                  }}
+                />
+              </Space>
+            );
+          },
+        },
+        {
+          title: "合价",
+          dataIndex: "sumPrice",
+        },
+      ],
     },
   ];
   return (
     <ProTable
       search={false}
-      scroll={{ x: "max-content" }}
       rowKey={"id"}
+      cardBordered
+      cardProps={{
+        bodyStyle: { padding: 0 },
+      }}
       bordered
       size="small"
       columns={[
@@ -103,53 +140,4 @@ const ChildTable = ({ record }: { record: any }) => {
   );
 };
 
-const AdModal = ({
-  id,
-  onSuccess,
-}: {
-  id: number;
-  onSuccess: VoidFunction;
-}) => {
-  return (
-    <ModalForm<{ priceType: number; stageType: number }>
-      modalProps={{ destroyOnClose: true }}
-      trigger={<Typography.Link>调整</Typography.Link>}
-      title="调整分类和阶段"
-      width={600}
-      onFinish={async (val) => {
-        try {
-          await ProjectApi.updateStage({ ...val, id });
-          onSuccess();
-          return true;
-        } catch (error) {
-          return false;
-        }
-      }}
-    >
-      <ProFormRadio.Group
-        name="priceType"
-        label="分类"
-        options={[
-          { value: 1, label: "直接人工费" },
-          { value: 2, label: "直接材料费" },
-          { value: 3, label: "分包工程支出" },
-          { value: 4, label: "机械使用费" },
-          { value: 5, label: "周转材料费（采购类" },
-          { value: 6, label: "周转材料费（租赁类）" },
-          { value: 7, label: "安全文明施工费" },
-          { value: 8, label: "其他措施费" },
-        ]}
-      />
-      <ProFormRadio.Group
-        name="stageType"
-        label="阶段"
-        options={[
-          { value: 1, label: "地下室" },
-          { value: 2, label: "主体" },
-          { value: 3, label: "装修装饰" },
-        ]}
-      />
-    </ModalForm>
-  );
-};
 export default ChildTable;

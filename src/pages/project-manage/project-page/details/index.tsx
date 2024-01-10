@@ -6,6 +6,7 @@ import { createContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import BaseInfo from "./baseInfo";
 import ContractListImport from "./contractListImport";
+import StatisticsList from "./contractListImport/statisticsList";
 import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
 import TargetCost from "./targetCost";
@@ -52,6 +53,11 @@ const ProjectDetails = () => {
               label: "合同清单导入",
               key: "1",
               children: <ContractListImport />,
+            },
+            {
+              label: "合同清单统计",
+              key: "1.1",
+              children: <StatisticsList />,
             },
             {
               label: "项目成本拆分",

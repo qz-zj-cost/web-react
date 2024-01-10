@@ -8,7 +8,7 @@ import ProjectApi from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
-import AddCostModal from "./addCostModal";
+import AddCostModal from "./modal/addCostModal";
 
 const ServiceCost = () => {
   const actionRef = useRef<ActionType>();

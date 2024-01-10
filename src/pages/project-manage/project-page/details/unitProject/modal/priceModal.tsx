@@ -6,7 +6,7 @@ import {
 } from "@ant-design/pro-components";
 import { Button, message } from "antd";
 import { useCallback, useContext, useRef, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../..";
 
 const PriceModal = () => {
   const { projectId } = useContext(ProjectContext);
