@@ -63,7 +63,6 @@ const ServiceCost = () => {
         };
       }}
       toolbar={{
-        settings: [],
         actions: [
           <AddCostModal
             onSuccess={() => {

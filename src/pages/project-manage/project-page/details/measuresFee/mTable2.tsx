@@ -6,13 +6,18 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
+import ChildTable from "../unitProject/childTable";
+import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
 
 const MTable2 = () => {
   const { projectId } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
+  const modalRef = useRef<IMatchModalRef>(null);
+  const [reloadNum, setReloadNum] = useState(0);
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -64,49 +69,80 @@ const MTable2 = () => {
         },
       ],
     },
+    {
+      title: "操作",
+      width: "auto",
+      fixed: "right",
+      align: "center",
+      render: (_, val) => {
+        return (
+          <Typography.Link
+            onClick={() => {
+              modalRef.current?.show(val);
+            }}
+          >
+            匹配企业定额
+          </Typography.Link>
+        );
+      },
+    },
   ];
 
   return (
-    <ProTable
-      search={false}
-      scroll={{ x: "max-content" }}
-      rowKey={"id"}
-      bordered
-      actionRef={actionRef}
-      request={async ({ current: pageNum, pageSize }) => {
-        const res = await ContractImportApi.getUnitProjectList({
-          projectId: projectId,
-          stageType: tabKey,
-          priceType: 5,
-          pageNum,
-          pageSize,
-        });
-        return {
-          data: res.data || [],
-          success: true,
-        };
-      }}
-      toolbar={{
-        multipleLine: true,
-        menu: {
-          type: "tab",
-          activeKey: tabKey,
-          items: [
-            { label: "地下室阶段", key: "1" },
-            { label: "主体", key: "2" },
-            { label: "装饰修饰", key: "3" },
-          ],
-          onChange: (v) => {
-            settabKey(v as string);
-            actionRef.current?.reset?.();
+    <>
+      <ProTable
+        search={false}
+        scroll={{ x: "max-content" }}
+        rowKey={"id"}
+        bordered
+        actionRef={actionRef}
+        request={async ({ current: pageNum, pageSize }) => {
+          const res = await ContractImportApi.getUnitProjectList({
+            projectId: projectId,
+            stageType: tabKey,
+            priceType: 5,
+            pageNum,
+            pageSize,
+          });
+          return {
+            data: res.data || [],
+            success: true,
+          };
+        }}
+        toolbar={{
+          multipleLine: true,
+          menu: {
+            type: "tab",
+            activeKey: tabKey,
+            items: [
+              { label: "地下室阶段", key: "1" },
+              { label: "主体", key: "2" },
+              { label: "装饰修饰", key: "3" },
+            ],
+            onChange: (v) => {
+              settabKey(v as string);
+              actionRef.current?.reset?.();
+            },
           },
-        },
-      }}
-      columns={columns}
-      cardProps={{
-        bodyStyle: { padding: 0 },
-      }}
-    />
+        }}
+        expandable={{
+          expandedRowRender: (record) => {
+            return <ChildTable record={record} key={reloadNum} />;
+          },
+        }}
+        columns={columns}
+        cardProps={{
+          bodyStyle: { padding: 0 },
+        }}
+      />
+      <MatchModal
+        ref={modalRef}
+        onSuccess={() => {
+          actionRef.current?.reload();
+          setReloadNum(reloadNum + 1);
+        }}
+      />
+    </>
   );
 };
 

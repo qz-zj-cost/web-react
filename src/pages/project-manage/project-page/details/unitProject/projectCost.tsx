@@ -59,25 +59,13 @@ const ProjectCost = () => {
           title: "工程量",
           dataIndex: "groupBillEngineeringNum",
         },
-        // {
-        //   title: "单价",
-        //   dataIndex: "price",
-        //   render(dom, record) {
-        //     return (
-        //       <Space>
-        //         {dom ?? "-"}
-        //         <UnitPriceModal
-        //           type={1}
-        //           code={record.corpQuotaCode}
-        //           id={record.id}
-        //           onSuccess={() => {
-        //             actionRef.current?.reload();
-        //           }}
-        //         />
-        //       </Space>
-        //     );
-        //   },
-        // },
+        {
+          title: "单价",
+          dataIndex: "price",
+          render(dom) {
+            return <Space>{dom ?? "-"}</Space>;
+          },
+        },
         {
           title: "合价",
           dataIndex: "sumPrice",
@@ -126,6 +114,7 @@ const ProjectCost = () => {
             pageNum,
             pageSize,
           });
+          setReloadNum(reloadNum + 1);
           return {
             data: res.data || [],
             success: true,
@@ -137,7 +126,6 @@ const ProjectCost = () => {
           },
         }}
         toolbar={{
-          settings: [],
           // actions: [selectProject, selectProjectType],
           menu: {
             type: "tab",

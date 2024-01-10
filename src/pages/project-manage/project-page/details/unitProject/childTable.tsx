@@ -103,6 +103,7 @@ const ChildTable = ({ record }: { record: any }) => {
       }}
       bordered
       size="small"
+      actionRef={actionRef}
       columns={[
         ...columns,
         {

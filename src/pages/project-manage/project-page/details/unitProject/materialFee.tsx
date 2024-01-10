@@ -6,7 +6,7 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import ChildTable from "./childTable";
@@ -59,25 +59,13 @@ const MaterialFee = () => {
           title: "工程量",
           dataIndex: "groupBillEngineeringNum",
         },
-        // {
-        //   title: "单价",
-        //   dataIndex: "price",
-        //   render(dom, record) {
-        //     return (
-        //       <Space>
-        //         {dom ?? "-"}
-        //         <UnitPriceModal
-        //           type={1}
-        //           code={record.corpQuotaCode}
-        //           id={record.id}
-        //           onSuccess={() => {
-        //             actionRef.current?.reload();
-        //           }}
-        //         />
-        //       </Space>
-        //     );
-        //   },
-        // },
+        {
+          title: "单价",
+          dataIndex: "price",
+          render(dom) {
+            return <Space>{dom ?? "-"}</Space>;
+          },
+        },
         {
           title: "合价",
           dataIndex: "sumPrice",
@@ -124,6 +112,7 @@ const MaterialFee = () => {
             pageNum,
             pageSize,
           });
+          setReloadNum(reloadNum + 1);
           return {
             data: res.data || [],
             success: true,
@@ -135,7 +124,6 @@ const MaterialFee = () => {
           },
         }}
         toolbar={{
-          settings: [],
           // actions: [selectProject, selectProjectType],
           menu: {
             type: "tab",

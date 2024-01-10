@@ -122,6 +122,7 @@ const LaborCost = () => {
             pageNum,
             pageSize,
           });
+          setReloadNum(reloadNum + 1);
           return {
             data: res.data || [],
             success: true,
@@ -133,7 +134,6 @@ const LaborCost = () => {
           },
         }}
         toolbar={{
-          settings: [],
           // actions: [selectProject, selectProjectType],
           menu: {
             type: "tab",
