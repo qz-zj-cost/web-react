@@ -2,9 +2,9 @@ import { Space, Tabs } from "antd";
 import { useState } from "react";
 import FbTable from "./fbTable";
 import ImportBtn from "./importBtn";
+import ImportProjectBtn from "./importProjectBtn";
 import MatchBtn from "./matchBtn";
 import SgTable from "./sgTable";
-import SummaryTable from "./summaryTable";
 
 /**
  * @author Destin
@@ -23,16 +23,21 @@ const ContractListImport = () => {
             setNum(num + 1);
           }}
         />
+        <ImportProjectBtn
+          onSuccess={() => {
+            setNum(num + 1);
+          }}
+        />
         <MatchBtn />
       </Space>
       <Tabs
         type="card"
         items={[
-          {
-            label: "汇总表",
-            key: "0",
-            children: <SummaryTable num={num} />,
-          },
+          // {
+          //   label: "汇总表",
+          //   key: "0",
+          //   children: <SummaryTable num={num} />,
+          // },
           {
             label: "分部分项清单表",
             key: "1",

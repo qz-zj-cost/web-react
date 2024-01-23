@@ -5,6 +5,7 @@ import {
   ProFormDatePicker,
   ProFormDigit,
   ProFormInstance,
+  ProFormSelect,
   ProFormText,
 } from "@ant-design/pro-components";
 import { message } from "antd";
@@ -118,6 +119,13 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
             fieldProps={{
               suffix: "%",
             }}
+          />
+          <ProFormSelect
+            width="md"
+            name="projectRegion"
+            label="项目区域"
+            options={["上海", "江苏", "苏州", "浙江"]}
+            rules={[{ required: true }]}
           />
         </ProForm.Group>
         {/* <ProFormList label="算量工程师" name="d">

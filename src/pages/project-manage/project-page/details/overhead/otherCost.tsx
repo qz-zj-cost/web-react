@@ -4,12 +4,13 @@
  * @date 2023/12/25
  */
 
-import { OverheadApi } from "@/apis/projectApi";
+import ProjectApi, { OverheadApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Popconfirm, Space, Typography, message } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import AddModal from "./addModal";
+import EditModal from "./editModal";
 
 const OtherCost = () => {
   const { projectId } = useContext(ProjectContext);
@@ -25,12 +26,38 @@ const OtherCost = () => {
       dataIndex: "unit",
     },
     {
-      title: "数量",
-      dataIndex: "num",
+      title: "合同收入",
+      children: [
+        {
+          title: "工程量",
+          dataIndex: "incomeNum",
+        },
+        {
+          title: "单价",
+          dataIndex: "incomePrice",
+        },
+        {
+          title: "合价",
+          dataIndex: "incomeSumPrice",
+        },
+      ],
     },
     {
-      title: "不含税价格",
-      dataIndex: "notIncludedPrice",
+      title: "目标成本",
+      children: [
+        {
+          title: "工程量",
+          dataIndex: "num",
+        },
+        {
+          title: "单价",
+          dataIndex: "notIncludedPrice",
+        },
+        {
+          title: "总价",
+          dataIndex: "fee",
+        },
+      ],
     },
     {
       title: "局清单编码",
@@ -59,8 +86,37 @@ const OtherCost = () => {
       },
     },
     {
-      title: "费用",
-      dataIndex: "fee",
+      title: "操作",
+      width: "auto",
+      fixed: "right",
+      align: "center",
+      render: (_, val) => {
+        if (!val.id) return;
+        return (
+          <Space>
+            <EditModal
+              feeType={1}
+              onSuccess={() => {
+                actionRef.current?.reload();
+              }}
+              record={val}
+            />
+            <Popconfirm
+              title="确认删除此项目？"
+              onConfirm={() => {
+                return ProjectApi.deleteOverHeadCost({ id: val.id }).then(
+                  () => {
+                    actionRef.current?.reload();
+                    message.success("操作成功");
+                  },
+                );
+              }}
+            >
+              <Typography.Link type="danger">删除</Typography.Link>
+            </Popconfirm>
+          </Space>
+        );
+      },
     },
   ];
 

@@ -53,6 +53,7 @@ const AddModal = ({ onSuccess, feeType }: IAddModalProps) => {
       <ProFormRadio.Group
         name="stageType"
         label="阶段"
+        rules={[{ required: true }]}
         width={"md"}
         options={[
           { value: 1, label: "地下室" },
@@ -63,8 +64,25 @@ const AddModal = ({ onSuccess, feeType }: IAddModalProps) => {
       <ProFormGroup>
         <ProFormText label="费用名称" width={"md"} name="feeName" />
         <ProFormText label="单位" width={"md"} name="unit" />
-        <ProFormDigit label="不含税价格" width={"md"} name="notIncludedPrice" />
-        <ProFormDigit label="数量" width={"md"} name="num" />
+        <ProFormDigit
+          label="合同收入单价"
+          width={"md"}
+          name="incomePrice"
+          rules={[{ required: true }]}
+        />
+        <ProFormDigit
+          label="合同收入工程量"
+          width={"md"}
+          name="incomeNum"
+          rules={[{ required: true }]}
+        />
+        <ProFormDigit
+          label="目标成本单价"
+          width={"md"}
+          name="notIncludedPrice"
+        />
+        <ProFormDigit label="目标成本工程量" width={"md"} name="num" />
+
         <ProForm.Item label="局清单" name="groupBillUuid">
           <BureauSelect />
         </ProForm.Item>

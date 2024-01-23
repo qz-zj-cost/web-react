@@ -31,6 +31,7 @@ const ProjectPage = () => {
       dataIndex: "auditsStatus",
       valueType: "select",
       valueEnum: {
+        0: { text: "成本核算", status: "Default" },
         1: { text: "草稿", status: "Default" },
         2: { text: "待算量", status: "Warning" },
         3: { text: "待审核", status: "Warning" },

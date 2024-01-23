@@ -21,6 +21,7 @@ export interface IProjectModel {
   actualCost: number;
   projectManager: string;
   auditsStatus: string;
+  projectRegion: string;
 }
 
 export interface ExpertList {
@@ -78,14 +79,14 @@ export interface IProjectTypeModel {
   unitSectionDtoList: IProjectTypeModel[];
   uuid: string;
 }
-interface IAreaItem {
+export interface IAreaItem {
   area: string;
   corpQuotaCode: string;
   monthDate: string;
   price: number;
 }
 
-interface IServiceCostModal {
+export interface IServiceCostModal {
   managementFee: number;
   managementFeeRatio: number;
   projectId: number;

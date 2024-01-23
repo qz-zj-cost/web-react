@@ -118,6 +118,7 @@ const ProjectCost = () => {
           return {
             data: res.data || [],
             success: true,
+            total: res.totalRow,
           };
         }}
         expandable={{

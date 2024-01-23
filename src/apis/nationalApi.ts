@@ -1,4 +1,5 @@
 import { IBaseModel, IListBaseModel } from "@/models/baseModel";
+import { INationalItemModel, INationalTypeModel } from "@/models/nationalModel";
 import { BaseApi } from "@/utils/https/service";
 
 class NationalServer extends BaseApi {

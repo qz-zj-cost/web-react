@@ -52,14 +52,14 @@ const menuConfigs: IMenuModel[] = [
         type: 2,
         authCode: "123",
       },
-      {
-        id: 23,
-        name: "国标清单",
-        path: "/quota-manage/national-list",
-        component: "quota-manage/national-list",
-        type: 2,
-        authCode: "123",
-      },
+      // {
+      //   id: 23,
+      //   name: "国标清单",
+      //   path: "/quota-manage/national-list",
+      //   component: "quota-manage/national-list",
+      //   type: 2,
+      //   authCode: "123",
+      // },
     ],
   },
   {

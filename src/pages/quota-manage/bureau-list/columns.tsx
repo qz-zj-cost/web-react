@@ -1,4 +1,5 @@
 import BureauApi from "@/apis/bureauApi";
+import { IBureauItemModel, IBureauTreeModel } from "@/models/bureauModel";
 import { ProColumns, ProFormTreeSelect } from "@ant-design/pro-components";
 import { Typography } from "antd";
 
@@ -125,14 +126,14 @@ const BureauColumns: ProColumns<IBureauItemModel>[] = [
       1: { text: "已匹配", status: "Success" },
     },
   },
-  {
-    title: "匹配国标清单",
-    dataIndex: "nationalStandardMate",
-    search: false,
-    valueEnum: {
-      0: { text: "未匹配", status: "Warning" },
-      1: { text: "已匹配", status: "Success" },
-    },
-  },
+  // {
+  //   title: "匹配国标清单",
+  //   dataIndex: "nationalStandardMate",
+  //   search: false,
+  //   valueEnum: {
+  //     0: { text: "未匹配", status: "Warning" },
+  //     1: { text: "已匹配", status: "Success" },
+  //   },
+  // },
 ];
 export default BureauColumns;

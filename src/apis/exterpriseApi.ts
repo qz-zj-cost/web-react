@@ -1,4 +1,6 @@
 import { IBaseModel, IListBaseModel } from "@/models/baseModel";
+import { IBureauItemModel } from "@/models/bureauModel";
+import { IAraeItemModel, IExterpriseTypeModel } from "@/models/exterpriseModel";
 import { BaseApi } from "@/utils/https/service";
 
 class ExterpriseServer extends BaseApi {

@@ -62,10 +62,11 @@ const SummaryTable = ({ num }: { num: number }) => {
         settings: [],
         actions: [
           selectProject(() => {
-            actionRef.current?.reloadAndRest?.();
+            actionRef.current?.reload();
           }),
         ],
       }}
+      pagination={false}
       cardProps={{
         bodyStyle: { padding: 0 },
       }}

@@ -84,6 +84,7 @@ const UnBureau = () => {
         return {
           data: res.data || [],
           success: true,
+          total: res.totalRow,
         };
       }}
       toolbar={{

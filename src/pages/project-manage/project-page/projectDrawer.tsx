@@ -6,6 +6,7 @@ import {
   ProFormDatePicker,
   ProFormDigit,
   ProFormInstance,
+  ProFormSelect,
   ProFormText,
 } from "@ant-design/pro-components";
 import { Button, message } from "antd";
@@ -112,6 +113,13 @@ const ProjectDrawer = ({ onCreate }: IProjectDrawerProps) => {
           width="md"
           name="contractEndDate"
           label="合同竣工时间"
+        />
+        <ProFormSelect
+          width="md"
+          name="projectRegion"
+          label="项目区域"
+          options={["上海", "江苏", "苏州", "浙江"]}
+          rules={[{ required: true }]}
         />
       </ProForm.Group>
     </DrawerForm>

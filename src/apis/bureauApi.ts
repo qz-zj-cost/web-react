@@ -1,4 +1,5 @@
 import { IBaseModel, IListBaseModel } from "@/models/baseModel";
+import { IBureauItemModel, IBureauTreeModel } from "@/models/bureauModel";
 import { BaseApi } from "@/utils/https/service";
 
 class BureauServer extends BaseApi {

@@ -1,4 +1,4 @@
-interface IBureauItemModel {
+export interface IBureauItemModel {
   calcRule: string;
   classPath: string;
   code: string;
@@ -13,7 +13,7 @@ interface IBureauItemModel {
   uuid: string;
 }
 
-interface IBureauTreeModel {
+export interface IBureauTreeModel {
   childList: IBureauTreeModel[];
   level: number;
   name: string;

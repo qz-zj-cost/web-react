@@ -1,4 +1,5 @@
 import ExterpriseApi from "@/apis/exterpriseApi";
+import { IExterpriseItemModel } from "@/models/exterpriseModel";
 import {
   ActionType,
   ProDescriptions,
@@ -30,7 +31,7 @@ const PriceModal = forwardRef<IPriceModalRef>((_, ref) => {
       const arr = res.data.map((e) => ({ label: e.area, value: e.area }));
       setAreaData(arr);
       setArea(arr?.[0]?.value);
-      actionRef.current?.reloadAndRest?.();
+      actionRef.current?.reload();
     });
   }, []);
 

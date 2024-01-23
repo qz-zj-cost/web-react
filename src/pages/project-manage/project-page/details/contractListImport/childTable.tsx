@@ -71,7 +71,6 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
         search={false}
         scroll={{ x: "max-content" }}
         rowKey={"id"}
-        cardBordered
         bordered
         cardProps={{
           bodyStyle: { padding: 0 },

@@ -1,4 +1,4 @@
-interface INationalItemModel {
+export interface INationalItemModel {
   calcRule: string;
   code: string;
   detype: string;
@@ -6,6 +6,6 @@ interface INationalItemModel {
   name: string;
   unit: string;
 }
-interface INationalTypeModel {
+export interface INationalTypeModel {
   detype: string;
 }

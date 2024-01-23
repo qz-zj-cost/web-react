@@ -126,6 +126,7 @@ const LaborCost = () => {
           return {
             data: res.data || [],
             success: true,
+            total: res.totalRow,
           };
         }}
         expandable={{

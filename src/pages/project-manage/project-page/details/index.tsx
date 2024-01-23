@@ -5,8 +5,12 @@ import { Tabs } from "antd";
 import { createContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import BaseInfo from "./baseInfo";
+import Bim from "./bim";
+import BuildBureauList from "./buildBureauList";
+import BuildList from "./buildList";
 import ContractListImport from "./contractListImport";
 import StatisticsList from "./contractListImport/statisticsList";
+import InstallmentCost from "./installmentCost";
 import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
 import TargetCost from "./targetCost";
@@ -83,6 +87,26 @@ const ProjectDetails = () => {
               label: "目标成本归集",
               key: "7",
               children: <TargetCost />,
+            },
+            {
+              label: "导入构件清单",
+              key: "8",
+              children: <BuildList />,
+            },
+            {
+              label: "构件匹配局清单",
+              key: "9",
+              children: <BuildBureauList />,
+            },
+            {
+              label: "分期成本",
+              key: "10",
+              children: <InstallmentCost />,
+            },
+            {
+              label: "BIM模型",
+              key: "11",
+              children: <Bim />,
             },
           ]}
         ></Tabs>

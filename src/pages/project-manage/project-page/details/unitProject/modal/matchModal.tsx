@@ -1,5 +1,6 @@
 import ExterpriseApi from "@/apis/exterpriseApi";
 import ProjectApi from "@/apis/projectApi";
+import { IExterpriseTypeModel } from "@/models/exterpriseModel";
 import { ProFormTreeSelect, ProTable } from "@ant-design/pro-components";
 import { Modal, Typography, message } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";

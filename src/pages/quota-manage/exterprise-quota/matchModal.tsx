@@ -1,5 +1,7 @@
 import BureauApi from "@/apis/bureauApi";
 import ExterpriseApi from "@/apis/exterpriseApi";
+import { IBureauItemModel } from "@/models/bureauModel";
+import { IExterpriseItemModel } from "@/models/exterpriseModel";
 import {
   ActionType,
   ProDescriptions,

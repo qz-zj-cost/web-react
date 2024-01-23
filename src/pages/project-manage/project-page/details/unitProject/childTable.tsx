@@ -97,10 +97,7 @@ const ChildTable = ({ record }: { record: any }) => {
     <ProTable
       search={false}
       rowKey={"id"}
-      cardBordered
-      cardProps={{
-        bodyStyle: { padding: 0 },
-      }}
+      scroll={{ x: "max-content" }}
       bordered
       size="small"
       actionRef={actionRef}

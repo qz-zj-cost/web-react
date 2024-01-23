@@ -1,4 +1,4 @@
-interface IExterpriseTypeModel {
+export interface IExterpriseTypeModel {
   childList: IExterpriseTypeModel[];
   code: string;
   id: number;
@@ -6,7 +6,7 @@ interface IExterpriseTypeModel {
   parentId: number;
 }
 
-interface IExterpriseItemModel {
+export interface IExterpriseItemModel {
   code: string;
   name: string;
   unit: string;
@@ -16,7 +16,7 @@ interface IExterpriseItemModel {
   status: number;
 }
 
-interface IAraeItemModel {
+export interface IAraeItemModel {
   area: string;
   corpQuotaCode: string;
   monthDate: string;

@@ -1,5 +1,6 @@
 import NationalApi from "@/apis/nationalApi";
 import { FPage } from "@/components";
+import { INationalItemModel } from "@/models/nationalModel";
 import {
   ActionType,
   ProColumns,

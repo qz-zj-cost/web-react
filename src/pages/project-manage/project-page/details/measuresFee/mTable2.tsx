@@ -107,6 +107,7 @@ const MTable2 = () => {
           return {
             data: res.data || [],
             success: true,
+            total: res.totalRow,
           };
         }}
         toolbar={{

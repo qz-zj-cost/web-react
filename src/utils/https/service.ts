@@ -5,7 +5,7 @@ import Axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import queryString from "query-string";
 
 export abstract class BasicService {
-  axios = Axios.create({ baseURL: "", timeout: 5000 });
+  axios = Axios.create({ baseURL: "", timeout: 50000 });
   abstract _baseUrl: string;
 
   abstract requestFun(
@@ -20,10 +20,18 @@ export abstract class BasicService {
       const newConfig = this.requestFun(config);
       return newConfig;
     });
-    this.axios.interceptors.response.use((data) => {
-      const newData = this.responseFun(data);
-      return newData;
-    });
+    this.axios.interceptors.response.use(
+      (data) => {
+        const newData = this.responseFun(data);
+        return newData;
+      },
+      (error) => {
+        notification.error({
+          message: "请求失败",
+          description: error.message ?? "网络错误",
+        });
+      },
+    );
   }
 }
 
@@ -51,7 +59,6 @@ export class BaseApi extends BasicService {
     return config;
   }
   responseFun(data: AxiosResponse<any, any>): AxiosResponse<any, any> {
-    console.log(data);
     if (data.status === 200) {
       if (data.data?.code === "200") {
         return data;

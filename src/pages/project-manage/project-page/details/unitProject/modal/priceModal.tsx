@@ -9,7 +9,7 @@ import { useCallback, useContext, useRef, useState } from "react";
 import { ProjectContext } from "../..";
 
 const PriceModal = () => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [timeOpt, setTimeOpt] = useState<any[]>();
   const formRef = useRef<ProFormInstance>(null);
   const getTimeData = useCallback((area: string) => {
@@ -42,6 +42,7 @@ const PriceModal = () => {
         label="地区"
         name="area"
         width={"md"}
+        initialValue={projectInfo?.projectRegion}
         request={async () => {
           const res = await ProjectApi.getAllArea();
           return res.data.map((e) => ({ label: e.area, value: e.area }));

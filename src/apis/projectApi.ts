@@ -54,6 +54,13 @@ class ProjectServer extends ListApi {
     return this.axios.post("/project/payment/add", data).then((v) => v.data);
   }
 
+  updateOverHeadCost(data: any) {
+    return this.axios.post("/project/payment/update", data).then((v) => v.data);
+  }
+  deleteOverHeadCost(data: any) {
+    return this.axios.post("/project/payment/del", data).then((v) => v.data);
+  }
+
   getTargetCostList(params: { projectId: string }) {
     return this.axios
       .get("/unit/project/data/statistics/cost", { params })
@@ -137,6 +144,9 @@ export class ContractImportServer extends BaseApi {
 
   import(data: any) {
     return this.axios.post("/unit/project/import", data).then((v) => v.data);
+  }
+  projectImport(data: any) {
+    return this.axios.post("/unit/project/v2/import", data).then((v) => v.data);
   }
   smartMatch(data: { projectId: string }) {
     return this.axios

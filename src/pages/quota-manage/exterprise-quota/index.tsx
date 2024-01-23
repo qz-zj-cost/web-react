@@ -7,6 +7,10 @@
 import ExterpriseApi from "@/apis/exterpriseApi";
 import { FPage } from "@/components";
 import {
+  IExterpriseItemModel,
+  IExterpriseTypeModel,
+} from "@/models/exterpriseModel";
+import {
   ActionType,
   ProColumns,
   ProFormTreeSelect,

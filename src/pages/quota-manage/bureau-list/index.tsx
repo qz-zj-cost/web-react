@@ -7,7 +7,6 @@
 import BureauApi from "@/apis/bureauApi";
 import { FPage } from "@/components";
 import { ActionType, ProTable } from "@ant-design/pro-components";
-import { Space, Typography } from "antd";
 import { useRef } from "react";
 import BureauColumns from "./columns";
 
@@ -38,20 +37,20 @@ const BureauListPage = () => {
         bordered
         columns={[
           ...BureauColumns,
-          {
-            title: "操作",
-            width: "auto",
-            fixed: "right",
-            align: "center",
-            search: false,
-            render: () => {
-              return (
-                <Space>
-                  <Typography.Link onClick={() => {}}>详情</Typography.Link>
-                </Space>
-              );
-            },
-          },
+          // {
+          //   title: "操作",
+          //   width: "auto",
+          //   fixed: "right",
+          //   align: "center",
+          //   search: false,
+          //   render: () => {
+          //     return (
+          //       <Space>
+          //         <Typography.Link onClick={() => {}}>详情</Typography.Link>
+          //       </Space>
+          //     );
+          //   },
+          // },
         ]}
         toolbar={{
           actions: [],

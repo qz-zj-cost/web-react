@@ -7,6 +7,9 @@ class UserService extends BaseApi {
   logout() {
     return this.axios.get("/logout");
   }
+  dopLogin(data: { code: string }) {
+    return this.axios.post("/dop/login", data).then((e) => e.data);
+  }
 }
 const UserApi = new UserService();
 export default UserApi;
