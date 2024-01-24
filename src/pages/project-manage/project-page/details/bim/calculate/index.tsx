@@ -25,7 +25,7 @@ const CalculateModal = ({ pathList }: { pathList?: string[] }) => {
               children: <SummaryTable pathList={pathList} />,
             },
             {
-              label: "构建明细",
+              label: "构件明细",
               key: "1",
               children: <BuildTable pathList={pathList} />,
             },

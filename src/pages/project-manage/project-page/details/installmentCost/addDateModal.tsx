@@ -33,11 +33,16 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
         destroyOnClose: true,
       }}
     >
-      <ProFormDatePicker.Month label="分期月份" name="monthDate" />
+      <ProFormDatePicker.Month
+        label="分期月份"
+        name="monthDate"
+        rules={[{ required: true }]}
+      />
       <ProForm.Item
         label="分期工程量"
         name="quantitiesQueries"
         trigger="onValuesChange"
+        rules={[{ required: true }]}
       >
         <EditableProTable<{
           id: number;

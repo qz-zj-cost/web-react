@@ -16,11 +16,11 @@ const InstallmentCost = () => {
 
   return (
     <div style={{ display: "flex", width: "100%", overflow: "auto" }}>
-      <div style={{ width: 350, minWidth: 350 }}>
+      <div style={{ width: 400, minWidth: 400 }}>
         <DateTable onChange={(e) => setDate(e)} date={date} />
       </div>
       <Divider type="vertical" style={{ height: "auto" }} />
-      <div style={{ width: "calc(100% - 380px)" }}>
+      <div style={{ width: "calc(100% - 420px)" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography>日期：{date}</Typography>
           <ImportPriceBtn date={date} />

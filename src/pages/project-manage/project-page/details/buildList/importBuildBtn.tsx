@@ -69,7 +69,7 @@ const ImportBuildBtn = ({ onSuccess }: IImportBuildBtnProps) => {
           }}
           placeholder={"请选择单位工程"}
         />
-        <Form.Item label="构件计划书">
+        <Form.Item label="构件计算书">
           <Upload
             multiple
             customRequest={customRequest}

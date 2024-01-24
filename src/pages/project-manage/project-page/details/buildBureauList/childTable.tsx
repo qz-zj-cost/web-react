@@ -6,11 +6,11 @@ const ChildTable = ({ id }: { id: number }) => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {
-      title: "局清单编码",
+      title: "构件区域",
       dataIndex: "groupBillCode",
     },
     {
-      title: "局清单名称",
+      title: "构件名称",
       dataIndex: "name",
     },
     {

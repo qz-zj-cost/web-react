@@ -10,6 +10,7 @@ import {
   TreeProps,
   Typography,
 } from "antd";
+import { uniqueId } from "lodash";
 import Postmate, { ParentAPI } from "postmate";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { BimContext } from ".";
@@ -30,6 +31,7 @@ const IframeView = ({
   const [loading, setLoading] = useState(true);
   const [treeData, setTreeData] = useState<any[]>();
   const { getToken } = useContext(BimContext);
+  const keysRef = useRef<string[]>([]);
 
   const getTeeData = useCallback(async () => {
     await getToken();
@@ -41,16 +43,25 @@ const IframeView = ({
       path?: string,
     ): TreeProps["treeData"] => {
       const opts = arr?.map((e) => {
-        const curPath = path ? `${path},${e.name}` : e.name;
+        const curPath = path ? `${path},${e.name}` : `${e.name}`;
         let child: TreeProps["treeData"] = [];
         if (e.children) {
           child = tree2arr(e.children, curPath);
         } else if (e.modelPathList) {
-          child = e.modelPathList.map((e) => ({ title: e, key: e }));
+          child = e.modelPathList.map((v) => {
+            const _key = `${v}&${uniqueId("ids_")}`;
+            keysRef.current.push(_key);
+            return {
+              title: v,
+              key: _key,
+            };
+          });
         }
+        const _key = `${curPath}&${uniqueId("ids_")}`;
+        keysRef.current.push(_key);
         return {
           title: e.name,
-          key: curPath,
+          key: _key,
           children: child,
         };
       });
@@ -77,9 +88,10 @@ const IframeView = ({
     if (parentFrameRef.current === null) {
       return;
     }
-    const newKeys = keys.map((e) => e.split(",")).filter((v) => v.length > 4);
     setSelectInfo(keys);
-
+    const newKeys = keys
+      .map((e) => e.split("&")[0].split(","))
+      .filter((v) => v.length > 4);
     // parentFrameRef.current.call("selectDir", [["第10层", "IFC", "IfcSlab", "未注板", "未注板"]]);
     parentFrameRef.current.call("selectDir", newKeys);
   }, []);
@@ -106,8 +118,12 @@ const IframeView = ({
       parent.on(
         "selectChange",
         (info: { id: string; bimId: string; dir: string[] }[]) => {
-          // console.log(info.map((el) => el.dir).join(","));
-          setSelectInfo(info.map((el) => el.dir.join(",")));
+          const path = info.map((el) => el.dir.join(","));
+          //寻找对应的唯一key
+          const keys = keysRef.current.filter((v) =>
+            path.some((e) => e === v.split("&")[0]),
+          );
+          setSelectInfo(keys);
         },
       );
 
@@ -163,7 +179,9 @@ const IframeView = ({
             }}
           >
             <Typography.Title level={5}>构件树</Typography.Title>
-            <CalculateModal pathList={selectInfo} />
+            <CalculateModal
+              pathList={selectInfo?.map((v) => v.split("&")[0])}
+            />
           </div>
           <Tree
             checkable

@@ -85,6 +85,7 @@ const BuildBook = () => {
         return {
           data: res.data || [],
           success: true,
+          total: res.totalRow,
         };
       }}
       columns={columns}
@@ -93,12 +94,12 @@ const BuildBook = () => {
         actions: [
           <ImportBuildBtn
             onSuccess={() => {
-              getOpts();
+              actionRef.current?.reload();
             }}
           />,
           <ImportQuanBtn
             onSuccess={() => {
-              getOpts();
+              actionRef.current?.reload();
             }}
           />,
           <Select

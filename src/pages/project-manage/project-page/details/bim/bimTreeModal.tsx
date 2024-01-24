@@ -1,7 +1,6 @@
 import BimApi from "@/apis/bimApi";
 import { ITreeItem } from "@/models/bimModel";
 import { Alert, Button, Drawer, Tree, message } from "antd";
-import { isArray } from "lodash";
 import {
   forwardRef,
   useCallback,
@@ -27,6 +26,7 @@ const BimTreeModal = forwardRef<
   const [uuid, setUuid] = useState<string>();
   const { projectId } = useContext(ProjectContext);
   const [loading, setLoading] = useState(false);
+
   const getTeeData = useCallback(async () => {
     await getToken();
     const res = await BimApi.getBimMatchTree({
@@ -58,13 +58,15 @@ const BimTreeModal = forwardRef<
     [],
   );
   useEffect(() => {
-    getTeeData();
-  }, [getTeeData]);
+    if (visible) {
+      getTeeData();
+    }
+  }, [getTeeData, visible]);
   const handleOk = () => {
     if (selectKeys && selectKeys?.length < 1) return;
     setLoading(true);
     BimApi.match({
-      modelPathList: selectKeys?.[0].split(","),
+      modelPathList: selectKeys,
       memberStoreyUuid: uuid,
       unitProjectUuid,
       projectId,
@@ -88,13 +90,18 @@ const BimTreeModal = forwardRef<
         title="选择构件"
         onClose={() => setVisible(false)}
         footer={
-          <Button type="primary" onClick={handleOk} loading={loading}>
+          <Button
+            type="primary"
+            onClick={handleOk}
+            disabled={!selectKeys || selectKeys?.length < 1}
+            loading={loading}
+          >
             确定
           </Button>
         }
       >
         <Alert
-          message="请选择单个构件进行匹配"
+          message="请选择构件进行匹配"
           type="warning"
           style={{ marginBottom: 15 }}
         />
@@ -110,9 +117,7 @@ const BimTreeModal = forwardRef<
           //   defaultCheckedKeys={["0-0-0", "0-0-1"]}
           onCheck={(e) => {
             console.log(e);
-            if (isArray(e) && e.length > 0) {
-              setSelectKeys([e[e.length - 1] as string]);
-            }
+            setSelectKeys(e as string[]);
           }}
           treeData={treeData}
         />

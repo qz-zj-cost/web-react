@@ -42,9 +42,11 @@ const PriceModal = () => {
         label="地区"
         name="area"
         width={"md"}
+        rules={[{ required: true }]}
         initialValue={projectInfo?.projectRegion}
         request={async () => {
           const res = await ProjectApi.getAllArea();
+          getTimeData(res.data[0].area);
           return res.data.map((e) => ({ label: e.area, value: e.area }));
         }}
         onChange={(v: string) => {
@@ -57,6 +59,7 @@ const PriceModal = () => {
       <ProFormSelect
         label="时间"
         name="monthDate"
+        rules={[{ required: true }]}
         width={"md"}
         options={timeOpt}
       />

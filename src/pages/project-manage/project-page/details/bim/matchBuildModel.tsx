@@ -72,11 +72,11 @@ const MatchBuildModel = ({
               dataIndex: "name",
               width: 300,
             },
-            {
-              title: "构建位置",
-              dataIndex: "memberPosition",
-              width: 200,
-            },
+            // {
+            //   title: "构件位置",
+            //   dataIndex: "memberPosition",
+            //   width: 200,
+            // },
             {
               title: "匹配构件路径",
               dataIndex: "modelPathList",
