@@ -30,6 +30,9 @@ const ServiceCost = () => {
     {
       title: "管理费比例",
       dataIndex: "managementFeeRatio",
+      render(dom, record) {
+        return record["managementFeeRatio"] ? dom + "%" : "-";
+      },
     },
     {
       title: "管理费收入",

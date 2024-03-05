@@ -1,8 +1,18 @@
+import { RootState } from "@/store";
 import { Button, Result } from "antd";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
   const navitate = useNavigate();
+  const { isLogin } = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    if (!isLogin) {
+      navitate("/login");
+    }
+  }, [isLogin, navitate]);
+
   return (
     <Result
       status="404"

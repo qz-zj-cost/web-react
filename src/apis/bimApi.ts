@@ -39,9 +39,14 @@ export class BimServer extends BaseApi {
       .post<IBaseModel>("/member/tree/statistics/all", data)
       .then((e) => e.data);
   }
-  getBuildList(data: { projectId: string; pathList: string[] }) {
+  getBuildList(data: {
+    projectId: string;
+    pathList: string[];
+    pageSize?: number;
+    pageNum?: number;
+  }) {
     return this.axios
-      .post<IBaseModel>("/member/tree/statistics", data)
+      .post<IListBaseModel>("/member/tree/statistics", data)
       .then((e) => e.data);
   }
 }

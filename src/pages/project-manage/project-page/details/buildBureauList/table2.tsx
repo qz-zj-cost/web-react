@@ -51,7 +51,15 @@ const Table2 = () => {
       }}
       expandable={{
         expandedRowRender: (record) => {
-          return <ChildTable id={record.id} />;
+          return (
+            <ChildTable
+              id={record.id}
+              priceType={1}
+              stageType={tabKey}
+              groupBillCode={record.groupBillCode}
+              groupBillUuid={record.groupBillUuid}
+            />
+          );
         },
       }}
     />

@@ -1,6 +1,6 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Space, Tag, Typography } from "antd";
 import { useRef } from "react";
 import MatchModal, { IMatchModalRef } from "./matchModal";
 
@@ -50,17 +50,20 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
       title: "合价",
       dataIndex: "totalAmount",
     },
+
     {
       title: "匹配的局清单",
-      dataIndex: "groupBillCode",
-      render(_, entity) {
+      dataIndex: "groupBillDtos",
+      render: (_, entity) => {
         return (
-          <Typography.Paragraph
-            style={{ width: 200, margin: 0 }}
-            ellipsis={{ rows: 2, expandable: true }}
-          >
-            {entity["groupBillCode"] ?? "-"}
-          </Typography.Paragraph>
+          <Space direction="vertical">
+            {entity["groupBillDtos"]?.map((item: any, index: number) => (
+              <Tag key={index}>
+                名称：{item.groupBillName}&nbsp;编码：{item.groupBillCode}
+                &nbsp;路径：{item.groupBillStage}
+              </Tag>
+            )) ?? "-"}
+          </Space>
         );
       },
     },

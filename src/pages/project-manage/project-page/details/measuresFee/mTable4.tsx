@@ -9,8 +9,8 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
-import ChildTable from "../unitProject/childTable";
 import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
+import ChildTable from "./childTable";
 
 const MTable4 = () => {
   const { projectId } = useContext(ProjectContext);
@@ -128,7 +128,15 @@ const MTable4 = () => {
         }}
         expandable={{
           expandedRowRender: (record) => {
-            return <ChildTable record={record} key={reloadNum} />;
+            return (
+              <ChildTable
+                record={record}
+                key={reloadNum}
+                onReload={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+            );
           },
         }}
         columns={columns}

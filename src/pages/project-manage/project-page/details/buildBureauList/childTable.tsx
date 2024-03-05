@@ -1,8 +1,28 @@
 import BuildApi from "@/apis/buildApi";
-import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import {
+  ActionType,
+  ProColumns,
+  ProFormDigit,
+  ProTable,
+} from "@ant-design/pro-components";
+import { Space } from "antd";
 import { useRef } from "react";
+import AddModal from "./addModal";
+import EditModal from "./editModal";
 
-const ChildTable = ({ id }: { id: number }) => {
+const ChildTable = ({
+  id,
+  stageType,
+  priceType,
+  groupBillCode,
+  groupBillUuid,
+}: {
+  id: number;
+  stageType: string;
+  priceType: number;
+  groupBillCode: string;
+  groupBillUuid: string;
+}) => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {
@@ -24,6 +44,26 @@ const ChildTable = ({ id }: { id: number }) => {
     {
       title: "构件工程量",
       dataIndex: "memberNum",
+      render(dom, record) {
+        return (
+          <Space>
+            {dom}
+            <EditModal
+              title="工程量"
+              id={record.id}
+              onSuccess={() => {
+                actionRef.current?.reload();
+              }}
+            >
+              <ProFormDigit
+                name={"computerValue"}
+                label={"工程量"}
+                rules={[{ required: true }]}
+              />
+            </EditModal>
+          </Space>
+        );
+      },
     },
   ];
   return (
@@ -48,7 +88,17 @@ const ChildTable = ({ id }: { id: number }) => {
         };
       }}
       toolbar={{
-        settings: [],
+        actions: [
+          <AddModal
+            stageType={stageType}
+            priceType={priceType}
+            onCreate={() => {
+              actionRef.current?.reload();
+            }}
+            groupBillCode={groupBillCode}
+            groupBillUuid={groupBillUuid}
+          />,
+        ],
       }}
     />
   );

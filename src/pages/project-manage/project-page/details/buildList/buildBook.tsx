@@ -6,7 +6,7 @@
 
 import BuildApi from "@/apis/buildApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Select } from "antd";
+import { Select, Space } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
@@ -91,28 +91,30 @@ const BuildBook = () => {
       columns={columns}
       toolbar={{
         // settings: [],
-        actions: [
-          <ImportBuildBtn
-            onSuccess={() => {
-              actionRef.current?.reload();
-            }}
-          />,
-          <ImportQuanBtn
-            onSuccess={() => {
-              actionRef.current?.reload();
-            }}
-          />,
-          <Select
-            popupMatchSelectWidth={false}
-            value={unitUUid}
-            placeholder="请选择单位工程"
-            onChange={(v) => {
-              setUnitUUid(v);
-              actionRef.current?.reload();
-            }}
-            options={options}
-          />,
-        ],
+        title: (
+          <Space>
+            <ImportBuildBtn
+              onSuccess={() => {
+                actionRef.current?.reload();
+              }}
+            />
+            <ImportQuanBtn
+              onSuccess={() => {
+                actionRef.current?.reload();
+              }}
+            />
+            <Select
+              popupMatchSelectWidth={false}
+              value={unitUUid}
+              placeholder="请选择单位工程"
+              onChange={(v) => {
+                setUnitUUid(v);
+                actionRef.current?.reload();
+              }}
+              options={options}
+            />
+          </Space>
+        ),
       }}
       expandable={{
         expandedRowRender: (record) => {

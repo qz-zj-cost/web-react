@@ -62,6 +62,45 @@ export class BuildServer extends BaseApi {
       .get<IBaseModel<{ name: string }[]>>("/member/storey/name", { params })
       .then((v) => v.data);
   }
+  getRebarList(params: {
+    unitProjectUuid: string;
+    pageSize?: number;
+    pageNum?: number;
+  }) {
+    //获取钢筋表
+    return this.axios
+      .get<IListBaseModel>("/member/rebar/list", { params })
+      .then((v) => v.data);
+  }
+  importRebar(data: any) {
+    return this.axios
+      .post("/member/rebar/file/import", data)
+      .then((v) => v.data);
+  }
+  //获取楼层
+  getLcList(params: { unitProjectUuid: string; type: number }) {
+    return this.axios
+      .get<IBaseModel<{ name: string }[]>>("/member/storey/name/list", {
+        params,
+      })
+      .then((v) => v.data);
+  }
+  //根据楼层获取钢筋表
+  getLcRebarList(params: {
+    unitProjectUuid: string;
+    storeyName: string;
+    type: number;
+  }) {
+    return this.axios
+      .get<IListBaseModel>("/member/and/rebar/list", { params })
+      .then((v) => v.data);
+  }
+  addGjAndRebar(data: any) {
+    return this.axios.post("/member/rebar/add", data).then((v) => v.data);
+  }
+  editGjAndRebar(data: any) {
+    return this.axios.post("/member/rebar/update", data).then((v) => v.data);
+  }
 }
 const BuildApi = new BuildServer();
 export default BuildApi;

@@ -4,11 +4,13 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import ChildTable from "./childTable";
 import { columns } from "./columns";
+import ExportBtn from "./exportBtn";
 
 const Table3 = ({ monthDate }: { monthDate?: string }) => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
+  const pageRef = useRef<{ pageSize?: number; pageNum?: number }>();
   useEffect(() => {
     if (monthDate) {
       actionRef.current?.reload();
@@ -35,6 +37,7 @@ const Table3 = ({ monthDate }: { monthDate?: string }) => {
           pageSize,
           monthDate,
         });
+        pageRef.current = { pageSize, pageNum };
         return {
           data: res.data || [],
           success: true,
@@ -55,6 +58,16 @@ const Table3 = ({ monthDate }: { monthDate?: string }) => {
             actionRef.current?.reset?.();
           },
         },
+        actions: [
+          <ExportBtn
+            priceType={3}
+            fileName="专业分包工程费"
+            pageNum={pageRef.current?.pageNum}
+            pageSize={pageRef.current?.pageSize}
+            stageType={Number(tabKey)}
+            monthDate={monthDate}
+          />,
+        ],
       }}
       expandable={{
         expandedRowRender: (record) => {

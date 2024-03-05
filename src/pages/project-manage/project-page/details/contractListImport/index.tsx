@@ -1,10 +1,10 @@
 import { Space, Tabs } from "antd";
 import { useState } from "react";
 import FbTable from "./fbTable";
-import ImportBtn from "./importBtn";
+import GfTable from "./gfTable";
 import ImportProjectBtn from "./importProjectBtn";
-import MatchBtn from "./matchBtn";
 import SgTable from "./sgTable";
+import ZjTable from "./zjTable";
 
 /**
  * @author Destin
@@ -18,17 +18,17 @@ const ContractListImport = () => {
   return (
     <div>
       <Space style={{ marginBottom: 15 }}>
-        <ImportBtn
+        {/* <ImportBtn
           onSuccess={() => {
             setNum(num + 1);
           }}
-        />
+        /> */}
         <ImportProjectBtn
           onSuccess={() => {
             setNum(num + 1);
           }}
         />
-        <MatchBtn />
+        {/* <MatchBtn /> */}
       </Space>
       <Tabs
         type="card"
@@ -47,6 +47,16 @@ const ContractListImport = () => {
             label: "施工技术措施清单表",
             key: "2",
             children: <SgTable num={num} />,
+          },
+          {
+            label: "总价措施项目",
+            key: "3",
+            children: <ZjTable />,
+          },
+          {
+            label: "规费、税金项目",
+            key: "4",
+            children: <GfTable />,
           },
         ]}
       ></Tabs>

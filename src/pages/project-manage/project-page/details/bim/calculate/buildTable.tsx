@@ -61,15 +61,18 @@ const BuildTable = ({ pathList }: { pathList?: string[] }) => {
       cardProps={{
         bodyStyle: { padding: 0 },
       }}
-      request={async () => {
+      request={async ({ current: pageNum, pageSize }) => {
         if (!pathList) return { data: [] };
         const res = await BimApi.getBuildList({
           projectId,
           pathList,
+          pageNum,
+          pageSize,
         });
         return {
           data: res.data || [],
           success: true,
+          total: res.totalRow,
         };
       }}
       columns={columns}

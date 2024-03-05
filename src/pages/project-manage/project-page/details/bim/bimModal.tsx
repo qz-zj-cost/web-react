@@ -17,8 +17,11 @@ const BimModal = ({ motor3dId, uuid }: { motor3dId: string; uuid: string }) => {
       <Modal
         style={{
           maxWidth: "100vw",
-          top: 0,
+          height: "100vh",
           padding: 0,
+          position: "absolute",
+          top: 0,
+          left: 0,
         }}
         styles={{
           content: { padding: 0 },

@@ -11,6 +11,7 @@ import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
 import ChildTable from "./childTable";
+import ExportBtn from "./exportBtn";
 
 const FbTable = ({ num }: { num: number }) => {
   const actionRef = useRef<ActionType>();
@@ -19,6 +20,7 @@ const FbTable = ({ num }: { num: number }) => {
     actionRef: actionRef.current,
     type: 1,
   });
+  const pageRef = useRef<{ pageSize?: number; pageNum?: number }>();
   const columns: ProColumns[] = [
     {
       title: "项目编码",
@@ -111,6 +113,7 @@ const FbTable = ({ num }: { num: number }) => {
             pageNum,
             pageSize,
           });
+          pageRef.current = { pageSize, pageNum };
           return {
             data: res.data || [],
             success: true,
@@ -119,7 +122,18 @@ const FbTable = ({ num }: { num: number }) => {
         }}
         toolbar={{
           settings: [],
-          actions: [selectProject(), selectProjectType],
+          actions: [
+            selectProject(),
+            selectProjectType,
+            <ExportBtn
+              type={1}
+              fileName="分部分项清单"
+              pageNum={pageRef.current?.pageNum}
+              pageSize={pageRef.current?.pageSize}
+              unitProjectUuid={types?.typeId1}
+              unitSectionUuid={types?.typeId2}
+            />,
+          ],
         }}
         expandable={{
           expandedRowRender: (record) => {

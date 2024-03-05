@@ -43,6 +43,18 @@ export class InstallmentServer extends BaseApi {
   importPrice(data: any) {
     return this.axios.post("/member/price/import", data).then((e) => e.data);
   }
+  export(data: {
+    projectId: string;
+    monthDate?: string;
+    pageNum?: number;
+    pageSize?: number;
+    priceType: number;
+    stageType: number;
+  }) {
+    return this.axios.post("/price/file/export", data, {
+      responseType: "arraybuffer",
+    });
+  }
 }
 
 const InstallmentApi = new InstallmentServer();

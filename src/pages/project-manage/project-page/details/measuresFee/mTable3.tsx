@@ -5,12 +5,18 @@
  */
 
 import { ContractImportApi } from "@/apis/projectApi";
-import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import {
+  ActionType,
+  ProColumns,
+  ProFormDigit,
+  ProTable,
+} from "@ant-design/pro-components";
+import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
-import ChildTable from "../unitProject/childTable";
 import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
+import ChildTable from "./childTable";
+import EditModal from "./editModal";
 
 const MTable3 = () => {
   const { projectId } = useContext(ProjectContext);
@@ -66,6 +72,30 @@ const MTable3 = () => {
         {
           title: "合价",
           dataIndex: "sumPrice",
+        },
+        {
+          title: "使用时长(月)",
+          dataIndex: "duration",
+          render(dom, record) {
+            return (
+              <Space>
+                {dom}
+                <EditModal
+                  id={record.id}
+                  onSuccess={() => {
+                    actionRef.current?.reload();
+                    setReloadNum(reloadNum + 1);
+                  }}
+                >
+                  <ProFormDigit
+                    name={"duration"}
+                    label={"时长"}
+                    rules={[{ required: true }]}
+                  />
+                </EditModal>
+              </Space>
+            );
+          },
         },
       ],
     },
@@ -128,7 +158,16 @@ const MTable3 = () => {
         }}
         expandable={{
           expandedRowRender: (record) => {
-            return <ChildTable record={record} key={reloadNum} />;
+            return (
+              <ChildTable
+                record={record}
+                key={reloadNum}
+                type={1}
+                onReload={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+            );
           },
         }}
         columns={columns}

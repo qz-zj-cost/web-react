@@ -3,9 +3,18 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useRef } from "react";
 import AdModal from "../components/AdModal";
-import UnitPriceModal from "./modal/unitPriceModal";
+import UnitPriceModal from "../unitProject/modal/unitPriceModal";
+import EditNumModal from "./editNumModal";
 
-const ChildTable = ({ record }: { record: any }) => {
+const ChildTable = ({
+  record,
+  type,
+  onReload,
+}: {
+  record: any;
+  type?: number;
+  onReload?: VoidFunction;
+}) => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {
@@ -36,10 +45,7 @@ const ChildTable = ({ record }: { record: any }) => {
     //     );
     //   },
     // },
-    {
-      title: "单位",
-      dataIndex: "unit",
-    },
+
     {
       title: "清单工程量",
       dataIndex: "num",
@@ -52,6 +58,10 @@ const ChildTable = ({ record }: { record: any }) => {
     {
       title: "企业定额",
       dataIndex: "corpQuotaCode",
+    },
+    {
+      title: "单位",
+      dataIndex: "unit",
     },
     {
       title: "合同收入",
@@ -76,6 +86,20 @@ const ChildTable = ({ record }: { record: any }) => {
         {
           title: "工程量",
           dataIndex: "groupBillEngineeringNum",
+          render(dom, record) {
+            return (
+              <Space>
+                {dom ?? "-"}
+                <EditNumModal
+                  id={record.id}
+                  onSuccess={() => {
+                    actionRef.current?.reload();
+                    onReload?.();
+                  }}
+                ></EditNumModal>
+              </Space>
+            );
+          },
         },
         {
           title: "单价",
@@ -90,6 +114,7 @@ const ChildTable = ({ record }: { record: any }) => {
                   id={record.id}
                   onSuccess={() => {
                     actionRef.current?.reload();
+                    onReload?.();
                   }}
                 />
               </Space>
@@ -99,6 +124,22 @@ const ChildTable = ({ record }: { record: any }) => {
         {
           title: "合价",
           dataIndex: "sumPrice",
+        },
+        {
+          title: "使用时长(月)",
+          dataIndex: "duration",
+          hideInTable: type !== 1,
+          render(dom) {
+            return <Space>{dom}</Space>;
+          },
+        },
+        {
+          title: "周转次数",
+          dataIndex: "frequency",
+          hideInTable: type !== 2,
+          render(dom) {
+            return <Space>{dom}</Space>;
+          },
         },
       ],
     },

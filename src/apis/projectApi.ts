@@ -156,6 +156,48 @@ export class ContractImportServer extends BaseApi {
   match(data: { groupBillUuidList?: string[]; id?: string }) {
     return this.axios.post("/unit/project/mate", data).then((v) => v.data);
   }
+  getZjList(params: { unitProjectUuid: string; projectId: string }) {
+    return this.axios
+      .get<IListBaseModel>("/unit/project/price/measures/list", { params })
+      .then((v) => v.data);
+  }
+  getGfList(params: { unitProjectUuid: string; projectId: string }) {
+    return this.axios
+      .get<IListBaseModel>("/unit/project/taxes/list", { params })
+      .then((v) => v.data);
+  }
+  import2(data: any) {
+    return this.axios
+      .post("/unit/project/summary/import", data)
+      .then((v) => v.data);
+  }
+  export(data: {
+    projectId: string;
+    type?: number;
+    unitProjectUuid?: string;
+    unitSectionUuid?: string;
+    pageNum?: number;
+    pageSize?: number;
+  }) {
+    return this.axios.post("/unit/project/unit/section/import/list", data, {
+      responseType: "arraybuffer",
+    });
+  }
+  modify(data: {
+    duration?: number;
+    frequency?: number;
+    id: number;
+    num?: number;
+  }) {
+    return this.axios
+      .post("/unit/project/frequency/duration/update", data)
+      .then((v) => v.data);
+  }
+  modifyNum(data: { extendId: number; num: number }) {
+    return this.axios
+      .post("/unit/project/corp/num/extend", data)
+      .then((v) => v.data);
+  }
 }
 export class OverheadServer extends BaseApi {
   getProjectPayList(params: {

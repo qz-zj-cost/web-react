@@ -1,8 +1,16 @@
 import BuildApi from "@/apis/buildApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { useRef } from "react";
+import { Key, useRef } from "react";
 
-const BuildChildTable = ({ id }: { id: number }) => {
+const BuildChildTable = ({
+  id,
+  value,
+  onChange,
+}: {
+  id: number;
+  value?: Key;
+  onChange?: (value: Key) => void;
+}) => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {
@@ -24,31 +32,48 @@ const BuildChildTable = ({ id }: { id: number }) => {
     },
   ];
   return (
-    <>
-      <ProTable
-        search={false}
-        scroll={{ x: "max-content" }}
-        rowKey={"sort"}
-        bordered
-        size="small"
-        actionRef={actionRef}
-        columns={[...columns]}
-        request={async () => {
-          if (!id) return { data: [], success: true };
-          const res = await BuildApi.getBuildChildList({
-            id,
-          });
-          return {
-            data: res.data || [],
-            success: true,
-          };
-        }}
-        toolbar={{
-          settings: [],
-        }}
-        pagination={false}
-      />
-    </>
+    <ProTable
+      search={false}
+      scroll={{ x: "max-content" }}
+      rowKey={"id"}
+      bordered
+      cardProps={{
+        bodyStyle: {
+          padding: 0,
+        },
+      }}
+      size="small"
+      actionRef={actionRef}
+      columns={[...columns]}
+      request={async () => {
+        if (!id) return { data: [], success: true };
+        const res = await BuildApi.getBuildChildList({
+          id,
+        });
+        return {
+          data: res.data || [],
+          success: true,
+        };
+      }}
+      toolbar={{
+        settings: [],
+      }}
+      pagination={false}
+      tableAlertRender={false}
+      rowSelection={
+        onChange
+          ? {
+              type: "radio",
+              selectedRowKeys: value ? [value] : void 0,
+              onChange: (_, selectedRows) => {
+                if (selectedRows.length > 0) {
+                  onChange?.(_[0]);
+                }
+              },
+            }
+          : false
+      }
+    />
   );
 };
 

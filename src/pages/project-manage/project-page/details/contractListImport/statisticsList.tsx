@@ -10,10 +10,10 @@ const StatisticsList = () => {
   const columns: ProColumns[] = [
     {
       title: "序号",
-      dataIndex: "number",
-      render(_, _v, index) {
-        return index + 1;
-      },
+      dataIndex: "sort",
+      // render(_, _v, index) {
+      //   return index + 1;
+      // },
     },
     {
       title: "单位工程",

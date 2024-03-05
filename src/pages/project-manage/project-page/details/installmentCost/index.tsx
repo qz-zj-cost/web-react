@@ -1,4 +1,4 @@
-import { Divider, Tabs, Typography } from "antd";
+import { Tabs, Typography } from "antd";
 import { useState } from "react";
 import DateTable from "./dateTable";
 import ImportPriceBtn from "./importPriceBtn";
@@ -16,11 +16,27 @@ const InstallmentCost = () => {
 
   return (
     <div style={{ display: "flex", width: "100%", overflow: "auto" }}>
-      <div style={{ width: 400, minWidth: 400 }}>
+      <div
+        style={{
+          width: 400,
+          minWidth: 400,
+          marginRight: 15,
+          padding: 15,
+          borderRadius: 4,
+          border: "1px solid rgba(5, 5, 5, 0.06)",
+        }}
+      >
         <DateTable onChange={(e) => setDate(e)} date={date} />
       </div>
-      <Divider type="vertical" style={{ height: "auto" }} />
-      <div style={{ width: "calc(100% - 420px)" }}>
+      <div
+        style={{
+          width: "calc(100% - 420px)",
+          border: "1px solid rgba(5, 5, 5, 0.06)",
+          marginRight: 15,
+          padding: 15,
+          borderRadius: 4,
+        }}
+      >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography>日期：{date}</Typography>
           <ImportPriceBtn date={date} />

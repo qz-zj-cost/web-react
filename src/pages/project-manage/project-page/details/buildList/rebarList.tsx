@@ -6,12 +6,11 @@
 
 import BuildApi from "@/apis/buildApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Select } from "antd";
+import { Select, Space } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
-import BuildChildTable from "./buildChildTable";
-import ImportBuildBtn from "./importBuildBtn";
+import ImportRebarBtn from "./importRebarBtn";
 
 const RebarList = () => {
   const { projectId } = useContext(ProjectContext);
@@ -20,27 +19,26 @@ const RebarList = () => {
     {
       title: "楼层",
       dataIndex: "storeyName",
-      search: false,
     },
     {
       title: "钢筋型号",
-      dataIndex: "memberType",
-      search: false,
+      dataIndex: "rebarCode",
     },
     {
       title: "直径",
-      dataIndex: "memberCode",
-      search: false,
+      dataIndex: "rebarType",
     },
     {
       title: "单位",
-      dataIndex: "memberPosition",
-      search: false,
+      dataIndex: "unit",
     },
     {
       title: "重量",
-      dataIndex: "concreteLevel",
-      search: false,
+      dataIndex: "rebarAmount",
+    },
+    {
+      title: "匹配状态",
+      dataIndex: "mateStatus",
     },
   ];
   const [options, setOptions] = useState<DefaultOptionType[]>();
@@ -76,7 +74,7 @@ const RebarList = () => {
       }}
       request={async ({ pageSize, current: pageNum }) => {
         if (!unitUUid) return { data: [] };
-        const res = await BuildApi.getBuildList({
+        const res = await BuildApi.getRebarList({
           unitProjectUuid: unitUUid,
           pageSize,
           pageNum,
@@ -84,34 +82,37 @@ const RebarList = () => {
         return {
           data: res.data || [],
           success: true,
+          total: res.totalRow,
         };
       }}
       columns={columns}
       toolbar={{
-        settings: [],
-        actions: [
-          <ImportBuildBtn
-            onSuccess={() => {
-              getOpts();
-            }}
-          />,
-          <Select
-            popupMatchSelectWidth={false}
-            value={unitUUid}
-            placeholder="请选择单位工程"
-            onChange={(v) => {
-              setUnitUUid(v);
-              actionRef.current?.reload();
-            }}
-            options={options}
-          />,
-        ],
+        // settings: [],
+        title: (
+          <Space>
+            <ImportRebarBtn
+              onSuccess={() => {
+                getOpts();
+              }}
+            />
+            <Select
+              popupMatchSelectWidth={false}
+              value={unitUUid}
+              placeholder="请选择单位工程"
+              onChange={(v) => {
+                setUnitUUid(v);
+                actionRef.current?.reload();
+              }}
+              options={options}
+            />
+          </Space>
+        ),
       }}
-      expandable={{
-        expandedRowRender: (record) => {
-          return <BuildChildTable id={record.id} />;
-        },
-      }}
+      // expandable={{
+      //   expandedRowRender: (record) => {
+      //     return <BuildChildTable id={record.id} />;
+      //   },
+      // }}
     />
   );
 };

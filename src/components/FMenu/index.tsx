@@ -102,7 +102,7 @@ const FMenu = () => {
         // theme="dark"
         mode="inline"
         items={BuildMenu(menus)}
-        // style={{ background: '#1C1C50' }}
+        style={{ border: "none" }}
       ></Menu>
     </div>
   );
