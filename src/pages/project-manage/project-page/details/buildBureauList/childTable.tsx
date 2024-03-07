@@ -5,7 +5,7 @@ import {
   ProFormDigit,
   ProTable,
 } from "@ant-design/pro-components";
-import { Space } from "antd";
+import { Popconfirm, Space, Typography, message } from "antd";
 import { useRef } from "react";
 import AddModal from "./addModal";
 import EditModal from "./editModal";
@@ -61,6 +61,29 @@ const ChildTable = ({
                 rules={[{ required: true }]}
               />
             </EditModal>
+          </Space>
+        );
+      },
+    },
+    {
+      title: "操作",
+      width: "auto",
+      fixed: "right",
+      align: "center",
+      render: (_, val) => {
+        return (
+          <Space>
+            <Popconfirm
+              title="确认删除此数据吗？"
+              onConfirm={() => {
+                return BuildApi.deleteBill({ id: val.id }).then(() => {
+                  actionRef.current?.reload();
+                  message.success("操作成功");
+                });
+              }}
+            >
+              <Typography.Link type="danger">删除</Typography.Link>
+            </Popconfirm>
           </Space>
         );
       },

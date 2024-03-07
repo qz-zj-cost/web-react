@@ -101,6 +101,11 @@ export class BuildServer extends BaseApi {
   editGjAndRebar(data: any) {
     return this.axios.post("/member/rebar/update", data).then((v) => v.data);
   }
+  deleteBill(data: { id: number }) {
+    return this.axios
+      .post("/member/group/bill/member/del", data)
+      .then((v) => v.data);
+  }
 }
 const BuildApi = new BuildServer();
 export default BuildApi;

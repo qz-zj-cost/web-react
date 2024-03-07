@@ -22,7 +22,7 @@ const Table1 = ({ monthDate }: { monthDate?: string }) => {
     <ProTable
       actionRef={actionRef}
       search={false}
-      scroll={{ x: 1200 }}
+      scroll={{ x: "max-content" }}
       rowKey={"groupBillCode"}
       bordered
       columns={columns}

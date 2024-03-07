@@ -37,10 +37,11 @@ const DateTable = ({
       search={false}
       rowKey={"monthDate"}
       bordered
-      scroll={{ x: "max-content" }}
+      scroll={{ x: "max-content", y: 500 }}
       cardProps={{
         bodyStyle: { padding: 0 },
       }}
+      size="small"
       rowSelection={{
         hideSelectAll: true,
         type: "radio",

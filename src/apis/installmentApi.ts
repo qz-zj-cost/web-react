@@ -35,6 +35,24 @@ export class InstallmentServer extends BaseApi {
       })
       .then((e) => e.data);
   }
+  getOtherCostList(params: {
+    pageNum?: number;
+    pageSize?: number;
+    projectId: string;
+    monthDate: string;
+    priceType: number;
+    stageType: string;
+    type: number;
+  }) {
+    return this.axios
+      .get<IListBaseModel>("/member/other/mortgage/quantities", { params })
+      .then((e) => e.data);
+  }
+  updateOther(data: { id: number; mortgageRatio: number; type: number }) {
+    return this.axios
+      .post("/member/other/mortgage/quantities/update", data)
+      .then((e) => e.data);
+  }
   addInstallment(data: any) {
     return this.axios
       .post("/member/mortgage/quantities/add", data)
