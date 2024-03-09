@@ -41,11 +41,11 @@ const Table10 = ({ monthDate }: { monthDate?: string }) => {
         },
         {
           title: "合同收入",
-          dataIndex: "sumPrice",
+          dataIndex: "incomeSumPrice",
         },
         {
           title: "目标成本",
-          dataIndex: "incomeSumPrice",
+          dataIndex: "sumPrice",
         },
         {
           title: "往期完成",
