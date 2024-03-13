@@ -7,7 +7,8 @@
     "dev": "vite --mode dev",
     "build:dev": "tsc && vite build --mode dev",
     "build:xp": "tsc && vite build --mode xp",
-    "build:prod": "tsc && vite build --mode pro",
+    "build:pro": "tsc && vite build --mode pro",
+    "build:pre": "tsc && vite build --mode pre",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install"
