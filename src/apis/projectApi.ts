@@ -198,6 +198,33 @@ export class ContractImportServer extends BaseApi {
       .post("/unit/project/corp/num/extend", data)
       .then((v) => v.data);
   }
+  delChildBureau(data: { groupBillUuid: string; uuid: string }) {
+    return this.axios
+      .post("/unit/project/section/extend/mate/del", data)
+      .then((v) => v.data);
+  }
+  //总价匹配局清单
+  matchZjBureau(data: { groupBillUuidList: string[]; id: string }) {
+    return this.axios
+      .post("/unit/project/price/measures/mate", data)
+      .then((v) => v.data);
+  }
+  //删除总价局清单
+  delZjBureau(data: { groupBillUuid: string; id: string }) {
+    return this.axios
+      .post("/unit/project/price/measures/del", data)
+      .then((v) => v.data);
+  }
+  //规费匹配局清单
+  matchGfBureau(data: { groupBillUuidList: string[]; id: string }) {
+    return this.axios
+      .post("/unit/project/taxes/mate", data)
+      .then((v) => v.data);
+  }
+  //删除规费局清单
+  delGfBureau(data: { groupBillUuid: string; id: string }) {
+    return this.axios.post("/unit/project/taxes/del", data).then((v) => v.data);
+  }
 }
 export class OverheadServer extends BaseApi {
   getProjectPayList(params: {

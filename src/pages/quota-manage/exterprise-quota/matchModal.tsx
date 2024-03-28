@@ -188,9 +188,6 @@ const ExterpriseMatchModal = forwardRef<
               total: res.totalRow,
             };
           }}
-          pagination={{
-            pageSize: 10,
-          }}
           search={{
             filterType: "light",
           }}

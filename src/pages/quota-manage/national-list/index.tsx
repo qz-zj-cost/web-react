@@ -14,7 +14,7 @@ const NationalListPage = () => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<INationalItemModel>[] = [
     {
-      title: "定额类型",
+      title: "专业类型",
       dataIndex: "detype",
       hideInTable: true,
       initialValue: "全部",

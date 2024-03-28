@@ -5,11 +5,14 @@
  */
 
 import { ContractImportApi } from "@/apis/projectApi";
+import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Space, Tag, Typography } from "antd";
 import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
 import ImportBtn2 from "./importBtn2";
+import MatchModal, { IMatchModalRef } from "./matchModal";
 
 const GfTable = () => {
   const actionRef = useRef<ActionType>();
@@ -18,6 +21,7 @@ const GfTable = () => {
     type: 1,
   });
   const { projectId } = useContext(ProjectContext);
+  const matchRef = useRef<IMatchModalRef>(null);
 
   const columns: ProColumns[] = [
     {
@@ -31,6 +35,62 @@ const GfTable = () => {
     {
       title: "金额(元)",
       dataIndex: "amount",
+    },
+    {
+      title: "匹配的局清单",
+      dataIndex: "codeList",
+      width: 200,
+      render: (_, entity) => {
+        return (
+          <Space direction="vertical">
+            {entity["codeList"]?.map((item: any) => (
+              <div
+                key={item.groupBillCode}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Tag color="processing">
+                  名称：{item?.groupBillName ?? "-"}
+                  <br />
+                  编码：{item?.groupBillCode ?? "-"}
+                  <br />
+                  路径：{item?.groupBillStage ?? "-"}
+                </Tag>
+                <Typography.Link
+                  type="danger"
+                  onClick={() => {
+                    ContractImportApi.delGfBureau({
+                      groupBillUuid: item.groupBillUuid,
+                      id: entity.id,
+                    }).then(() => {
+                      actionRef.current?.reload();
+                    });
+                  }}
+                >
+                  <DeleteOutlined />
+                </Typography.Link>
+              </div>
+            )) ?? "-"}
+          </Space>
+        );
+      },
+    },
+    {
+      title: "操作",
+      width: "auto",
+      fixed: "right",
+      align: "center",
+      render: (_, entity) => {
+        return (
+          <Typography.Link
+            disabled={entity.children?.length > 0}
+            onClick={() => {
+              matchRef.current?.show(entity);
+            }}
+          >
+            匹配局清单
+          </Typography.Link>
+        );
+      },
     },
   ];
   useEffect(() => {
@@ -71,6 +131,15 @@ const GfTable = () => {
               }}
             />,
           ],
+        }}
+      />
+      <MatchModal
+        ref={matchRef}
+        api={(data) => {
+          return ContractImportApi.matchGfBureau(data);
+        }}
+        onSuccess={() => {
+          actionRef.current?.reload?.();
         }}
       />
     </>

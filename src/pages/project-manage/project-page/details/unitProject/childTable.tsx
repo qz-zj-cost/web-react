@@ -36,14 +36,14 @@ const ChildTable = ({ record }: { record: any }) => {
     //     );
     //   },
     // },
-    {
-      title: "单位",
-      dataIndex: "unit",
-    },
-    {
-      title: "清单工程量",
-      dataIndex: "num",
-    },
+    // {
+    //   title: "单位",
+    //   dataIndex: "unit",
+    // },
+    // {
+    //   title: "清单工程量",
+    //   dataIndex: "num",
+    // },
     {
       title: "局清单编码",
       dataIndex: "groupBillCode",
@@ -67,6 +67,10 @@ const ChildTable = ({ record }: { record: any }) => {
         {
           title: "合价",
           dataIndex: "incomeSumPrice",
+        },
+        {
+          title: "单位",
+          dataIndex: "groupBillUnit",
         },
       ],
     },
@@ -99,6 +103,10 @@ const ChildTable = ({ record }: { record: any }) => {
         {
           title: "合价",
           dataIndex: "sumPrice",
+        },
+        {
+          title: "单位",
+          dataIndex: "groupBillUnit",
         },
       ],
     },

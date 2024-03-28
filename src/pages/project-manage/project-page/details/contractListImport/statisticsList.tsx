@@ -31,7 +31,7 @@ const StatisticsList = () => {
         actionRef={actionRef}
         search={false}
         scroll={{ x: "max-content" }}
-        rowKey={"unitProjectUuid"}
+        rowKey={"sort"}
         bordered
         columns={columns}
         cardProps={{

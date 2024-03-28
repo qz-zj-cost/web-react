@@ -37,10 +37,10 @@ const MTable1 = () => {
       title: "企业定额",
       dataIndex: "corpQuotaCode",
     },
-    {
-      title: "单位",
-      dataIndex: "unit",
-    },
+    // {
+    //   title: "单位",
+    //   dataIndex: "unit",
+    // },
     {
       title: "合同收入",
       children: [
@@ -55,6 +55,10 @@ const MTable1 = () => {
         {
           title: "合价",
           dataIndex: "incomeSumPrice",
+        },
+        {
+          title: "单位",
+          dataIndex: "groupBillUnit",
         },
       ],
     },
@@ -96,6 +100,10 @@ const MTable1 = () => {
               </Space>
             );
           },
+        },
+        {
+          title: "单位",
+          dataIndex: "groupBillUnit",
         },
       ],
     },

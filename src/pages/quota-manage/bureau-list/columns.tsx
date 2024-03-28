@@ -62,6 +62,16 @@ const BureauColumns: ProColumns<IBureauItemModel>[] = [
     search: false,
   },
   {
+    title: "拆分类型",
+    dataIndex: "priceName",
+    search: false,
+  },
+  {
+    title: "阶段类型",
+    dataIndex: "stageName",
+    search: false,
+  },
+  {
     title: "计量单位",
     dataIndex: "unit",
     search: false,
@@ -82,6 +92,7 @@ const BureauColumns: ProColumns<IBureauItemModel>[] = [
       );
     },
   },
+
   {
     title: "工作内容",
     dataIndex: "content",

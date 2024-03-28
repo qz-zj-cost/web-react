@@ -16,6 +16,7 @@ const FSider = () => {
   const breakPoint = (broken: boolean) => {
     setCollapsed(broken);
   };
+  console.log();
   return (
     <Sider
       width={240}
@@ -33,7 +34,7 @@ const FSider = () => {
         {!collapsed && (
           <div className={styles[`${PREFIX}-footer`]}>
             {/* 版本：{process.env.VERSION} */}
-            版本：1.0
+            版本：{__VITE_ENV_DATE__} {__VITE_ENV_VERSION__}
           </div>
         )}
       </div>

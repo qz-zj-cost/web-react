@@ -41,6 +41,7 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
             groupBillCode: record.current?.groupBillCode,
           }).then(() => {
             message.success("操作成功");
+            setSelectKeys([]);
             setVisible(false);
             onSuccess?.();
           });
@@ -71,9 +72,6 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
               success: true,
               total: res.totalRow,
             };
-          }}
-          pagination={{
-            pageSize: 10,
           }}
           search={{
             filterType: "light",

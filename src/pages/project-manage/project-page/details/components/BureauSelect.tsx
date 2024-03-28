@@ -70,9 +70,6 @@ const BureauSelect = ({ value, onChange }: IBureauSelectProps) => {
               total: res.totalRow,
             };
           }}
-          pagination={{
-            pageSize: 10,
-          }}
           search={{
             filterType: "light",
           }}

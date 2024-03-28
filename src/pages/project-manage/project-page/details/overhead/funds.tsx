@@ -21,10 +21,10 @@ const Funds = () => {
       title: "费用名称",
       dataIndex: "feeName",
     },
-    {
-      title: "单位",
-      dataIndex: "unit",
-    },
+    // {
+    //   title: "单位",
+    //   dataIndex: "unit",
+    // },
     {
       title: "合同收入",
       children: [
@@ -39,6 +39,10 @@ const Funds = () => {
         {
           title: "合价",
           dataIndex: "incomeSumPrice",
+        },
+        {
+          title: "单位",
+          dataIndex: "groupBillUnit",
         },
       ],
     },
@@ -56,6 +60,10 @@ const Funds = () => {
         {
           title: "总价",
           dataIndex: "fee",
+        },
+        {
+          title: "单位",
+          dataIndex: "groupBillUnit",
         },
       ],
     },

@@ -10,6 +10,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    __VITE_ENV_DATE__: JSON.stringify(
+      `${new Date().getFullYear()}-${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}`,
+    ),
+    __VITE_ENV_VERSION__: JSON.stringify(process.env.npm_package_version),
+  },
   server: {
     proxy: {
       "/*": {

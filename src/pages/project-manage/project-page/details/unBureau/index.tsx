@@ -9,11 +9,14 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import AdModal from "../components/AdModal";
+import ChildTable from "../unitProject/childTable";
 
 const UnBureau = () => {
   const { projectId } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
+
+  const [reloadNum, setReloadNum] = useState(0);
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -27,10 +30,10 @@ const UnBureau = () => {
       title: "企业定额",
       dataIndex: "corpQuotaCode",
     },
-    {
-      title: "单位",
-      dataIndex: "unit",
-    },
+    // {
+    //   title: "单位",
+    //   dataIndex: "unit",
+    // },
     {
       title: "目标成本",
       children: [
@@ -45,6 +48,10 @@ const UnBureau = () => {
         {
           title: "合价",
           dataIndex: "sumPrice",
+        },
+        {
+          title: "单位",
+          dataIndex: "groupBillUnit",
         },
       ],
     },
@@ -81,6 +88,7 @@ const UnBureau = () => {
           pageNum,
           pageSize,
         });
+        setReloadNum((e) => e + 1);
         return {
           data: res.data || [],
           success: true,
@@ -101,6 +109,11 @@ const UnBureau = () => {
             settabKey(v as string);
             actionRef.current?.reset?.();
           },
+        },
+      }}
+      expandable={{
+        expandedRowRender: (record) => {
+          return <ChildTable record={record} key={reloadNum} />;
         },
       }}
       columns={columns}
