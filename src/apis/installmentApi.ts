@@ -73,6 +73,19 @@ export class InstallmentServer extends BaseApi {
       responseType: "arraybuffer",
     });
   }
+  exportOther(data: {
+    projectId: string;
+    monthDate?: string;
+    pageNum?: number;
+    pageSize?: number;
+    priceType: number;
+    type: number;
+    stageType: number;
+  }) {
+    return this.axios.post("/member/other/mortgage/quantities/export", data, {
+      responseType: "arraybuffer",
+    });
+  }
 }
 
 const InstallmentApi = new InstallmentServer();

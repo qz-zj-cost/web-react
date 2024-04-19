@@ -25,6 +25,10 @@ const AccountPage = () => {
       title: "姓名",
       dataIndex: "name",
     },
+    {
+      title: "角色",
+      dataIndex: "roleName",
+    },
     // {
     //   title: "专业",
     //   dataIndex: "speciality",
@@ -49,8 +53,9 @@ const AccountPage = () => {
     // },
     {
       title: "操作",
-      align: "center",
       width: "auto",
+      fixed: "right",
+      align: "center",
       render: (_, entity) => {
         return (
           <Space>

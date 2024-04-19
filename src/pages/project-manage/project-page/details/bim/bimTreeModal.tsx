@@ -116,7 +116,6 @@ const BimTreeModal = forwardRef<
           //   defaultSelectedKeys={["0-0-0", "0-0-1"]}
           //   defaultCheckedKeys={["0-0-0", "0-0-1"]}
           onCheck={(e) => {
-            console.log(e);
             setSelectKeys(e as string[]);
           }}
           treeData={treeData}

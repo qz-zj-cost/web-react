@@ -71,6 +71,14 @@ const menuConfigs: IMenuModel[] = [
     type: 1,
     children: [
       {
+        id: 30,
+        name: "菜单管理",
+        path: "/system-manage/menu",
+        component: "system-manage/menu-page",
+        type: 2,
+        authCode: "11",
+      },
+      {
         id: 31,
         name: "角色管理",
         path: "/system-manage/role",

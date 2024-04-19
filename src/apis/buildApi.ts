@@ -106,6 +106,16 @@ export class BuildServer extends BaseApi {
       .post("/member/group/bill/member/del", data)
       .then((v) => v.data);
   }
+  getMemberType(params: { id: string; uuid: string }) {
+    return this.axios
+      .get<IBaseModel<{ memberType: string; id: number }[]>>(
+        "/member/group/member/type",
+        {
+          params,
+        },
+      )
+      .then((v) => v.data);
+  }
 }
 const BuildApi = new BuildServer();
 export default BuildApi;

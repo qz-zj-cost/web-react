@@ -5,7 +5,6 @@ import {
   ModalForm,
   ProForm,
   ProFormDatePicker,
-  ProFormSelect,
 } from "@ant-design/pro-components";
 import { Button, message } from "antd";
 import { useContext, useState } from "react";
@@ -58,45 +57,54 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
             {
               title: "单位工程",
               dataIndex: "unitProjectUuid",
-              renderFormItem: () => (
-                <ProFormSelect
-                  noStyle
-                  request={async () => {
-                    const res = await BuildApi.getBuildProject({
-                      id: projectId,
-                    });
-                    return res.data.map((e) => ({
-                      label: e.unitProject,
-                      value: e.uuid,
-                    }));
-                  }}
-                  placeholder={"请选择单位工程"}
-                />
-              ),
+              request: async ({ unitProjectUuid }) => {
+                if (unitProjectUuid) return [];
+                const res = await BuildApi.getBuildProject({
+                  id: projectId,
+                });
+                return res.data.map((e) => ({
+                  label: e.unitProject,
+                  value: e.uuid,
+                }));
+              },
             },
             {
               title: "楼层区域",
               dataIndex: "storeyRegionList",
               width: 250,
-              renderFormItem: (_, config) => {
-                if (!config.record?.unitProjectUuid)
-                  return <ProFormSelect noStyle placeholder={"请选择"} />;
-                return (
-                  <ProFormSelect
-                    noStyle
-                    mode="multiple"
-                    request={async () => {
-                      const res = await BuildApi.getBuildstorey({
-                        uuid: config.record!.unitProjectUuid!,
-                      });
-                      return res.data.map((e) => ({
-                        label: e.name,
-                        value: e.name,
-                      }));
-                    }}
-                    placeholder={"请选择"}
-                  />
-                );
+              dependencies: ["unitProjectUuid"],
+              fieldProps: {
+                mode: "multiple",
+              },
+              request: async ({ unitProjectUuid }) => {
+                if (!unitProjectUuid) return [];
+                const res = await BuildApi.getBuildstorey({
+                  uuid: unitProjectUuid,
+                });
+                return res.data.map((e) => ({
+                  label: e.name,
+                  value: e.name,
+                }));
+              },
+            },
+            {
+              title: "构件类型",
+              dataIndex: "memberTypeList",
+              valueType: "select",
+              fieldProps: {
+                mode: "multiple",
+              },
+              dependencies: ["unitProjectUuid"],
+              request: async ({ unitProjectUuid }) => {
+                if (!unitProjectUuid) return [];
+                const res = await BuildApi.getMemberType({
+                  id: projectId,
+                  uuid: unitProjectUuid,
+                });
+                return res.data.map((e) => ({
+                  label: e.memberType,
+                  value: e.memberType,
+                }));
               },
             },
             {

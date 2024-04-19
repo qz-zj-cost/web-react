@@ -1,5 +1,4 @@
 import ProjectApi from "@/apis/projectApi";
-import { IProjectModel } from "@/models/projectModel";
 import {
   ProForm,
   ProFormDatePicker,
@@ -9,23 +8,24 @@ import {
   ProFormText,
 } from "@ant-design/pro-components";
 import { message } from "antd";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { ProjectContext } from ".";
 
 type IBaseInfoProps = {
-  info?: IProjectModel;
   disabled?: boolean;
 };
-const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
+const BaseInfo = ({ disabled }: IBaseInfoProps) => {
   const formRef = useRef<ProFormInstance>();
+  const { projectInfo, projectId, getProjectInfo } = useContext(ProjectContext);
   useEffect(() => {
-    if (info) {
+    if (projectInfo) {
       formRef.current?.setFieldsValue({
-        ...info,
+        ...projectInfo,
         // engineerList: info.engineerList?.map((e) => e.userId) ?? [],
         // expertList: info.expertList?.map((e) => e.userId) ?? [],
       });
     }
-  }, [info]);
+  }, [projectInfo]);
 
   return (
     <div>
@@ -34,7 +34,8 @@ const BaseInfo = ({ info, disabled }: IBaseInfoProps) => {
         disabled={disabled}
         onFinish={async (val) => {
           try {
-            await ProjectApi.update({ ...val, id: info?.id });
+            await ProjectApi.update({ ...val, id: projectId });
+            getProjectInfo();
             message.success("保存成功");
             return true;
           } catch (error) {

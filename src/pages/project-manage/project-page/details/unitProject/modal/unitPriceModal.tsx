@@ -4,11 +4,11 @@ import { EditOutlined } from "@ant-design/icons";
 import {
   ActionType,
   ModalForm,
-  ProFormDigit,
+  ProForm,
   ProFormInstance,
   ProTable,
 } from "@ant-design/pro-components";
-import { Select, Typography } from "antd";
+import { InputNumber, Select, Typography } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "../..";
@@ -70,7 +70,9 @@ const UnitPriceModal = ({
         }
       }}
     >
-      <ProFormDigit label="价格" name="price" />
+      <ProForm.Item label="价格" name="price">
+        <InputNumber style={{ width: "100%" }} />
+      </ProForm.Item>
       <ProTable
         scroll={{ y: 500, x: "max-content" }}
         rowKey={"price"}

@@ -120,7 +120,7 @@ function BuildMenu(items?: IMenuModel[]) {
       children: BuildMenu(item.children),
     });
   }
-  return nodes;
+  return nodes.length > 0 ? nodes : void 0;
 }
 function BuildMenuTitle(menu: IMenuModel): ReactNode {
   let icon = null;

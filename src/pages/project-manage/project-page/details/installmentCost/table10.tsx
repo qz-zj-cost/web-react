@@ -4,6 +4,7 @@ import { Space } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import EditModal from "./editModal";
+import ExportBtn from "./exportBtn";
 //周转材料费
 const Table10 = ({ monthDate }: { monthDate?: string }) => {
   const actionRef = useRef<ActionType>();
@@ -123,6 +124,17 @@ const Table10 = ({ monthDate }: { monthDate?: string }) => {
             actionRef.current?.reset?.();
           },
         },
+        actions: [
+          <ExportBtn
+            priceType={5}
+            type={3}
+            fileName="周转材料费-采购类"
+            pageNum={pageRef.current?.pageNum}
+            pageSize={pageRef.current?.pageSize}
+            stageType={Number(tabKey)}
+            monthDate={monthDate}
+          />,
+        ],
       }}
     />
   );

@@ -38,8 +38,9 @@ export const buildRouteNode = (config: Array<IMenuModel>): ReactNode[] => {
           ] as any,
         )
       : lazy(layoutModules["../layouts/page-layout/index.tsx"] as any);
+    const newPath = /^\/.*$/.test(path) ? path : `/${path}`;
     const attirbute: Partial<PathRouteProps> = {
-      path: path === "#" ? "/" : path,
+      path: path === "#" ? "/" : newPath,
       element: (
         <RequireAuth>
           <SuspenseView>

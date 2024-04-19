@@ -1,9 +1,11 @@
 import AccountApi from "@/apis/accountApi";
+import RoleApi from "@/apis/roleApi";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   ModalForm,
   ProFormGroup,
   ProFormText,
+  ProFormTreeSelect,
 } from "@ant-design/pro-components";
 import { Button, Form } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
@@ -34,7 +36,7 @@ const AccountDarwer = forwardRef<IAccountDarwerRef, IAccountDarwerProps>(
     );
     return (
       <ModalForm
-        title="新建账号"
+        title={id.current ? "编辑账号" : "新建账号"}
         width={700}
         modalProps={{
           centered: true,
@@ -70,57 +72,58 @@ const AccountDarwer = forwardRef<IAccountDarwerRef, IAccountDarwerProps>(
       >
         <ProFormGroup>
           <ProFormText
-            width="sm"
+            width="md"
             name="userNo"
             label="账号"
             placeholder="请输入账号"
             rules={[
               {
                 required: true,
-                pattern: reg,
-                message: "账号必须满足8~16位，以字母开头，包含大小写字母、数字",
+                // pattern: reg,
+                // message: "账号必须满足8~16位，以字母开头，包含大小写字母、数字",
               },
             ]}
           />
           <ProFormText
-            width="sm"
+            width="md"
             name="name"
             label="姓名"
             tooltip="最长为 24 位"
             placeholder="请输入姓名"
             rules={[{ required: true }]}
           />
-
-          {/* <ProFormText
-            width="md"
-            name="speciality"
-            label="专业"
-            placeholder="请输入专业"
+          <ProFormTreeSelect
+            label="角色"
+            name="roleId"
+            width={"md"}
             rules={[{ required: true }]}
-          /> */}
+            fieldProps={{
+              treeDefaultExpandAll: true,
+            }}
+            request={async () => {
+              const res = await RoleApi.getRoleAll();
+              return res.data.map((v) => ({
+                label: v.roleName,
+                value: v.roleId,
+              }));
+            }}
+          />
+          {!id.current && (
+            <ProFormText.Password
+              name="password"
+              label="密码"
+              width={"md"}
+              extra="密码必须满足8~16位，包含大小写字母、数字和下列字符.@$!%*#_~?&^，如123546aA!"
+              rules={[
+                {
+                  required: true,
+                  pattern: reg,
+                  message: "请输入正确格式的密码",
+                },
+              ]}
+            />
+          )}
         </ProFormGroup>
-        {/* <ProFormRadio.Group
-          width="lg"
-          name="expert"
-          label="是否专家"
-          placeholder="请输入名称"
-          rules={[{ required: true }]}
-          options={[
-            { label: "是", value: 1 },
-            { label: "否", value: 0 },
-          ]}
-        />
-        <ProFormRadio.Group
-          width="lg"
-          name="engineer"
-          label="是否算量工程师"
-          placeholder="请输入名称"
-          rules={[{ required: true }]}
-          options={[
-            { label: "是", value: 1 },
-            { label: "否", value: 0 },
-          ]}
-        /> */}
       </ModalForm>
     );
   },

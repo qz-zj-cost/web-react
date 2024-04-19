@@ -1,11 +1,12 @@
-import UserApi from "@/apis/userApi";
+import { IUserData } from "@/apis/userApi";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import menuConfigs from "@/router/menu-config";
-import { setUserInfo } from "@/store/user";
-import { useDispatch } from "react-redux";
+import { RootState } from "@/store";
+import { getUserInfo } from "@/store/user";
+import { AnyAction } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.scss";
 
@@ -15,27 +16,33 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-
-  const onFinish = async ({ ...value }: any) => {
+  const { isLogin } = useSelector((state: RootState) => state.user);
+  const onFinish = async (value: IUserData) => {
     try {
       // if (code !== codeRef.current)
       //   return form.setFields([{ name: "code", errors: ["验证码错误"] }]);
-      setLoading(true);
-      const user = await UserApi.login({
-        ...value,
-        password: value.password.trim(),
-      });
-      dispatch(
-        setUserInfo({
-          info: user.data,
-          menus: menuConfigs,
-        }),
-      );
-      navitate("/", { replace: true });
+      // setLoading(true);
+      // const user = await UserApi.login({
+      //   ...value,
+      //   password: value.password.trim(),
+      // });
+      dispatch(getUserInfo({ val: value }) as unknown as AnyAction);
+      // dispatch(
+      //   setUserInfo({
+      //     info: user.data,
+      //     menus: menuConfigs,
+      //   }),
+      // );
     } catch (error: any) {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (isLogin) {
+      navitate("/", { replace: true });
+    }
+  }, [isLogin, navitate]);
+
   return (
     <div className={styles[PREFIX]}>
       {/* <div className={styles[`${PREFIX}-logo`]}>
@@ -45,7 +52,12 @@ const LoginPage = () => {
         <h1>三局华东成本管控系统</h1>
         <p>账户登录</p>
         <br />
-        <Form size="large" layout="vertical" form={form} onFinish={onFinish}>
+        <Form<IUserData>
+          size="large"
+          layout="vertical"
+          form={form}
+          onFinish={onFinish}
+        >
           <Form.Item
             name="userNo"
             rules={[

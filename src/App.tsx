@@ -54,7 +54,6 @@ function App() {
   const routes = useMemo(() => {
     return generatorDynamicRouter(menus);
   }, [menus]);
-
   if (loading)
     return (
       <Spin spinning={loading}>

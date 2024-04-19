@@ -8,6 +8,7 @@ import ProjectApi from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef } from "react";
 import { ProjectContext } from "..";
+import ExportModal from "./export";
 
 const TargetCost = () => {
   const { projectId } = useContext(ProjectContext);
@@ -56,7 +57,9 @@ const TargetCost = () => {
         };
       }}
       pagination={false}
-      toolbar={{}}
+      toolbar={{
+        actions: [<ExportModal />],
+      }}
       columns={columns}
       cardProps={{
         bodyStyle: { padding: 0 },

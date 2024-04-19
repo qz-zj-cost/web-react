@@ -66,6 +66,11 @@ class ProjectServer extends ListApi {
       .get("/unit/project/data/statistics/cost", { params })
       .then((v) => v.data);
   }
+  exportFile(data: { priceType: string; projectId: string; type: string }) {
+    return this.axios.post("/price/second/instance/file/export", data, {
+      responseType: "arraybuffer",
+    });
+  }
   //调整分段和分类
   updateStage(data: { id: number; priceType: number; stageType: number }) {
     return this.axios

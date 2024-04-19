@@ -94,6 +94,9 @@ const IframeView = ({
       .filter((v) => v.length > 4);
     // parentFrameRef.current.call("selectDir", [["第10层", "IFC", "IfcSlab", "未注板", "未注板"]]);
     parentFrameRef.current.call("selectDir", newKeys);
+    // parentFrameRef.current.call("setColor", [
+    //   { color: "red", dir: [["第10层", "IFC", "IfcSlab", "未注板", "未注板"]] },
+    // ]);
   }, []);
   // 创建连接
   const onCreateConnection = useCallback(() => {
