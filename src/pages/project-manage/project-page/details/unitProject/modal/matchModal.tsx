@@ -3,17 +3,27 @@ import ProjectApi from "@/apis/projectApi";
 import { IExterpriseTypeModel } from "@/models/exterpriseModel";
 import { ProFormTreeSelect, ProTable } from "@ant-design/pro-components";
 import { Modal, Typography, message } from "antd";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import {
+  forwardRef,
+  useContext,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { ProjectContext } from "../..";
 
+// type IRecord = { uuid: string; groupBillCode: string }[];
 //匹配企业定额
 export type IMatchModalRef = {
-  show: (e: any) => void;
+  show: (v: string[]) => void;
 };
 const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
   ({ onSuccess }, ref) => {
     const [visible, setVisible] = useState(false);
-    const record = useRef<any>();
+    const record = useRef<string[]>();
     const [selectKeys, setSelectKeys] = useState<string[]>();
+
+    const { projectId } = useContext(ProjectContext);
 
     useImperativeHandle(
       ref,
@@ -34,11 +44,10 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
         centered
         width={900}
         onOk={() => {
-          if (!selectKeys || selectKeys.length === 0) return;
+          if (!selectKeys || selectKeys.length === 0 || !record.current) return;
           ProjectApi.updateQuota({
-            uuid: record.current?.uuid,
             corpQuotaCode: selectKeys[0],
-            groupBillCode: record.current?.groupBillCode,
+            uuidGroupBillCode: record.current,
           }).then(() => {
             message.success("操作成功");
             setSelectKeys([]);
@@ -65,6 +74,7 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
             const res = await ExterpriseApi.getList({
               pageNum,
               pageSize,
+              projectId: projectId,
               ...val,
             });
             return {
@@ -117,6 +127,16 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
               title: "名称",
               dataIndex: "name",
               search: false,
+              render(dom) {
+                return (
+                  <Typography.Paragraph
+                    style={{ width: 300, margin: 0 }}
+                    ellipsis={{ rows: 2, expandable: true }}
+                  >
+                    {dom}
+                  </Typography.Paragraph>
+                );
+              },
             },
             {
               title: "匹配局清单",
@@ -131,6 +151,13 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
             {
               title: "计量单位",
               dataIndex: "unit",
+              width: 80,
+              search: false,
+            },
+            {
+              title: "价格",
+              dataIndex: "price",
+              width: 80,
               search: false,
             },
             // {

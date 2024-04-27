@@ -78,24 +78,20 @@ class ProjectServer extends ListApi {
       .then((v) => v.data);
   }
   //更新企业定额
-  updateQuota(data: {
-    uuid: string;
-    corpQuotaCode: string;
-    groupBillCode: string;
-  }) {
+  updateQuota(data: { corpQuotaCode: string; uuidGroupBillCode: string[] }) {
     return this.axios
-      .post("/unit/project/corp/quota/update", data)
+      .post("/unit/project/corp/quota/batch/update", data)
       .then((v) => v.data);
   }
   // 修改单价
   updateUnitPrice(data: {
-    extendId: number;
+    ids: number[];
     projectId: string;
     price: string;
     sourceType: number;
   }) {
     return this.axios
-      .post("/unit/project/corp/price/extend", data)
+      .post("/unit/project/corp/price/extend/batch", data)
       .then((v) => v.data);
   }
 }
@@ -158,7 +154,7 @@ export class ContractImportServer extends BaseApi {
       .post("/unit/project/automatic/mate", data)
       .then((v) => v.data);
   }
-  match(data: { groupBillUuidList?: string[]; id?: string }) {
+  match(data: { groupBillUuidList?: string[]; ids?: string }) {
     return this.axios.post("/unit/project/mate", data).then((v) => v.data);
   }
   getZjList(params: { unitProjectUuid: string; projectId: string }) {
@@ -209,7 +205,7 @@ export class ContractImportServer extends BaseApi {
       .then((v) => v.data);
   }
   //总价匹配局清单
-  matchZjBureau(data: { groupBillUuidList: string[]; id: string }) {
+  matchZjBureau(data: { groupBillUuidList: string[]; ids: string[] }) {
     return this.axios
       .post("/unit/project/price/measures/mate", data)
       .then((v) => v.data);
@@ -221,7 +217,7 @@ export class ContractImportServer extends BaseApi {
       .then((v) => v.data);
   }
   //规费匹配局清单
-  matchGfBureau(data: { groupBillUuidList: string[]; id: string }) {
+  matchGfBureau(data: { groupBillUuidList: string[]; ids: string }) {
     return this.axios
       .post("/unit/project/taxes/mate", data)
       .then((v) => v.data);

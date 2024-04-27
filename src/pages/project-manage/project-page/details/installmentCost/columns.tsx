@@ -14,6 +14,10 @@ export const columns: ProColumns[] = [
     dataIndex: "unit",
   },
   {
+    title: "节超率",
+    dataIndex: "overshootRate",
+  },
+  {
     title: "局清单量",
     dataIndex: "groupBillEngineeringNum",
   },

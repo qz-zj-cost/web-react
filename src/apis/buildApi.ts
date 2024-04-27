@@ -1,5 +1,5 @@
 import { IBaseModel, IListBaseModel } from "@/models/baseModel";
-import { IBuildProjectItem } from "@/models/buildModel";
+import { IBuildProjectItem, IMathchMemberConfig } from "@/models/buildModel";
 import { BaseApi } from "@/utils/https/service";
 
 export class BuildServer extends BaseApi {
@@ -115,6 +115,19 @@ export class BuildServer extends BaseApi {
         },
       )
       .then((v) => v.data);
+  }
+  getMatchMemberConfig(params: { projectId: string; unitProjectUuid: string }) {
+    return this.axios
+      .get<IBaseModel<IMathchMemberConfig>>("/member/rebar/config/all", {
+        params,
+      })
+      .then((v) => v.data);
+  }
+  matchMember(data: any) {
+    return this.axios.post<IBaseModel<IMathchMemberConfig>>(
+      "/member/hand/movement/mate",
+      data,
+    );
   }
 }
 const BuildApi = new BuildServer();

@@ -6,7 +6,7 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
@@ -18,6 +18,7 @@ const MTable5 = () => {
   const actionRef = useRef<ActionType>();
   const modalRef = useRef<IMatchModalRef>(null);
   const [reloadNum, setReloadNum] = useState(0);
+  const [selectKeys, setSelectKeys] = useState<string[]>();
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -82,11 +83,13 @@ const MTable5 = () => {
       width: "auto",
       fixed: "right",
       align: "center",
-      render: (_, val) => {
+      render: (_, record) => {
         return (
           <Typography.Link
             onClick={() => {
-              modalRef.current?.show(val);
+              modalRef.current?.show([
+                `${record.uuid},${record.groupBillCode}`,
+              ]);
             }}
           >
             匹配企业定额
@@ -101,7 +104,9 @@ const MTable5 = () => {
       <ProTable
         search={false}
         scroll={{ x: "max-content" }}
-        rowKey={"id"}
+        rowKey={(record) => {
+          return `${record.uuid},${record.groupBillCode}`;
+        }}
         bordered
         actionRef={actionRef}
         request={async ({ current: pageNum, pageSize }) => {
@@ -151,11 +156,35 @@ const MTable5 = () => {
         cardProps={{
           bodyStyle: { padding: 0 },
         }}
+        rowSelection={{
+          selectedRowKeys: selectKeys,
+          onChange(selectedRowKeys) {
+            setSelectKeys(selectedRowKeys as string[]);
+          },
+        }}
+        tableAlertOptionRender={({ onCleanSelected }) => {
+          return (
+            <Space size={16}>
+              <Typography.Link
+                onClick={() => {
+                  if (!selectKeys) return;
+                  modalRef.current?.show(selectKeys);
+                }}
+              >
+                批量匹配企业定额
+              </Typography.Link>
+              <Typography.Link onClick={onCleanSelected}>
+                取消选择
+              </Typography.Link>
+            </Space>
+          );
+        }}
       />
       <MatchModal
         ref={modalRef}
         onSuccess={() => {
           actionRef.current?.reload();
+          setSelectKeys(void 0);
           setReloadNum(reloadNum + 1);
         }}
       />

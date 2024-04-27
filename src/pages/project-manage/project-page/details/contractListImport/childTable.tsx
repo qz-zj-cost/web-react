@@ -2,7 +2,7 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Tag, Typography } from "antd";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import MatchModal, { IMatchModalRef } from "./matchModal";
 
 type IChildTableProp = {
@@ -12,6 +12,7 @@ type IChildTableProp = {
 const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
   const matchRef = useRef<IMatchModalRef>(null);
   const actionRef = useRef<ActionType>();
+  const [selectKeys, setSelectKeys] = useState<string[]>();
   const columns: ProColumns[] = [
     {
       title: "项目编码",
@@ -112,11 +113,11 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
             width: "auto",
             fixed: "right",
             align: "center",
-            render: (_, entity) => {
+            render: (_, record) => {
               return (
                 <Typography.Link
                   onClick={() => {
-                    matchRef.current?.show(entity);
+                    matchRef.current?.show([record.id]);
                   }}
                 >
                   手动匹配
@@ -140,6 +141,29 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
           settings: [],
         }}
         pagination={false}
+        rowSelection={{
+          selectedRowKeys: selectKeys,
+          onChange(selectedRowKeys) {
+            setSelectKeys(selectedRowKeys as string[]);
+          },
+        }}
+        tableAlertOptionRender={({ onCleanSelected }) => {
+          return (
+            <Space size={16}>
+              <Typography.Link
+                onClick={() => {
+                  if (!selectKeys) return;
+                  matchRef.current?.show(selectKeys);
+                }}
+              >
+                批量匹配局清单
+              </Typography.Link>
+              <Typography.Link onClick={onCleanSelected}>
+                取消选择
+              </Typography.Link>
+            </Space>
+          );
+        }}
       />
       <MatchModal
         ref={matchRef}
@@ -148,6 +172,7 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
         }}
         onSuccess={() => {
           actionRef.current?.reload?.();
+          setSelectKeys(void 0);
         }}
       />
     </>

@@ -38,9 +38,9 @@ function filterFeatures(arr: IMenuModel[]) {
       cur.children = obj.menus || [];
       features = [...features, ...obj.features];
     }
-    if (cur.type === 3) {
+    if (cur.type === 2) {
       features.push({ code: cur.authCode, eventId: cur.eventId });
-    } else if (cur.type === 4) {
+    } else if (cur.type === 3) {
       attributes.push(cur.authCode);
     } else {
       pre.push(cur);

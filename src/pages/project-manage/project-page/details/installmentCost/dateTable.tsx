@@ -3,6 +3,7 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef } from "react";
 import { ProjectContext } from "..";
 import AddDateModal from "./addDateModal";
+import ExportActualCost from "./exportActualCost";
 
 const DateTable = ({
   onChange,
@@ -84,6 +85,7 @@ const DateTable = ({
               actionRef.current?.reload();
             }}
           />,
+          <ExportActualCost monthDate={date} />,
         ],
       }}
     />

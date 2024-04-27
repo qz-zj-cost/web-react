@@ -57,7 +57,7 @@ const InstallmentCost = () => {
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography.Text strong>日期：{date}</Typography.Text>
+          <Typography.Text strong>日期：{date || "-"}</Typography.Text>
           <ImportPriceBtn date={date} />
         </div>
         <Tabs

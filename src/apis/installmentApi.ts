@@ -86,6 +86,16 @@ export class InstallmentServer extends BaseApi {
       responseType: "arraybuffer",
     });
   }
+  //导出实际成本
+  exportActualCost(data: { projectId: string; monthDate: string }) {
+    return this.axios.post(
+      "/member/mortgage/quantities/group/bill/export",
+      data,
+      {
+        responseType: "arraybuffer",
+      },
+    );
+  }
 }
 
 const InstallmentApi = new InstallmentServer();

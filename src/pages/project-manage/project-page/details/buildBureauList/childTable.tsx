@@ -110,6 +110,9 @@ const ChildTable = ({
           total: res.totalRow,
         };
       }}
+      pagination={{
+        defaultPageSize: 10,
+      }}
       toolbar={{
         actions: [
           <AddModal

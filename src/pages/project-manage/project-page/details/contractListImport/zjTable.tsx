@@ -8,7 +8,7 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Tag, Typography } from "antd";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
 import ImportBtn2 from "./importBtn2";
@@ -22,6 +22,7 @@ const ZjTable = () => {
   });
   const { projectId } = useContext(ProjectContext);
   const matchRef = useRef<IMatchModalRef>(null);
+  const [selectKeys, setSelectKeys] = useState<string[]>();
   const columns: ProColumns[] = [
     {
       title: "序号",
@@ -78,12 +79,12 @@ const ZjTable = () => {
       width: "auto",
       fixed: "right",
       align: "center",
-      render: (_, entity) => {
+      render: (_, record) => {
         return (
           <Typography.Link
-            disabled={entity.children?.length > 0}
+            disabled={record.children?.length > 0}
             onClick={() => {
-              matchRef.current?.show(entity);
+              matchRef.current?.show([record.id]);
             }}
           >
             匹配局清单
@@ -131,6 +132,29 @@ const ZjTable = () => {
             />,
           ],
         }}
+        rowSelection={{
+          selectedRowKeys: selectKeys,
+          onChange(selectedRowKeys) {
+            setSelectKeys(selectedRowKeys as string[]);
+          },
+        }}
+        tableAlertOptionRender={({ onCleanSelected }) => {
+          return (
+            <Space size={16}>
+              <Typography.Link
+                onClick={() => {
+                  if (!selectKeys) return;
+                  matchRef.current?.show(selectKeys);
+                }}
+              >
+                批量匹配局清单
+              </Typography.Link>
+              <Typography.Link onClick={onCleanSelected}>
+                取消选择
+              </Typography.Link>
+            </Space>
+          );
+        }}
       />
       <MatchModal
         ref={matchRef}
@@ -139,6 +163,7 @@ const ZjTable = () => {
         }}
         onSuccess={() => {
           actionRef.current?.reload?.();
+          setSelectKeys(void 0);
         }}
       />
     </>

@@ -18,6 +18,7 @@ const ProjectCost = () => {
   const [reloadNum, setReloadNum] = useState(0);
   const [tabKey, settabKey] = useState("1");
   const modalRef = useRef<IMatchModalRef>(null);
+  const [selectKeys, setSelectKeys] = useState<string[]>();
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -85,12 +86,14 @@ const ProjectCost = () => {
       width: "auto",
       fixed: "right",
       align: "center",
-      render: (_, val) => {
+      render: (_, record) => {
         return (
           <Space>
             <Typography.Link
               onClick={() => {
-                modalRef.current?.show(val);
+                modalRef.current?.show([
+                  `${record.uuid},${record.groupBillCode}`,
+                ]);
               }}
             >
               匹配企业定额
@@ -107,7 +110,9 @@ const ProjectCost = () => {
         actionRef={actionRef}
         search={false}
         scroll={{ x: "max-content" }}
-        rowKey={"groupBillCode"}
+        rowKey={(record) => {
+          return `${record.uuid},${record.groupBillCode}`;
+        }}
         bordered
         columns={columns}
         cardProps={{
@@ -150,11 +155,35 @@ const ProjectCost = () => {
             },
           },
         }}
+        rowSelection={{
+          selectedRowKeys: selectKeys,
+          onChange(selectedRowKeys) {
+            setSelectKeys(selectedRowKeys as string[]);
+          },
+        }}
+        tableAlertOptionRender={({ onCleanSelected }) => {
+          return (
+            <Space size={16}>
+              <Typography.Link
+                onClick={() => {
+                  if (!selectKeys) return;
+                  modalRef.current?.show(selectKeys);
+                }}
+              >
+                批量匹配企业定额
+              </Typography.Link>
+              <Typography.Link onClick={onCleanSelected}>
+                取消选择
+              </Typography.Link>
+            </Space>
+          );
+        }}
       />
       <MatchModal
         ref={modalRef}
         onSuccess={() => {
           actionRef.current?.reload();
+          setSelectKeys(void 0);
           setReloadNum(reloadNum + 1);
         }}
       />

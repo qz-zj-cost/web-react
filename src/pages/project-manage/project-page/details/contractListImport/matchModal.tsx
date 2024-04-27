@@ -5,14 +5,14 @@ import { Modal, message } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 export type IMatchModalRef = {
-  show: (e: any) => void;
+  show: (ids: string[]) => void;
 };
 const MatchModal = forwardRef<
   IMatchModalRef,
   { onSuccess?: VoidFunction; api: (data: any) => Promise<any> }
 >(({ onSuccess, api }, ref) => {
   const [visible, setVisible] = useState(false);
-  const record = useRef<any>();
+  const record = useRef<string[]>();
   const [selectKeys, setSelectKeys] = useState<string[]>();
 
   useImperativeHandle(
@@ -29,7 +29,7 @@ const MatchModal = forwardRef<
     if (!selectKeys || selectKeys.length === 0) return;
     api({
       groupBillUuidList: selectKeys,
-      id: record.current.id,
+      ids: record.current,
     }).then(() => {
       setSelectKeys([]);
       message.success("操作成功");
@@ -45,6 +45,7 @@ const MatchModal = forwardRef<
       }}
       width={1000}
       onOk={handleOk}
+      title="匹配局清单"
     >
       <ProTable
         scroll={{ y: 500, x: "max-content" }}
