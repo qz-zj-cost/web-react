@@ -34,5 +34,6 @@ export interface IMatchTreeItem {
   unitProjectUuid: string;
   memberPosition: string;
   modelPathList: string[];
+  completionDegree: number;
   children: IMatchTreeItem[];
 }

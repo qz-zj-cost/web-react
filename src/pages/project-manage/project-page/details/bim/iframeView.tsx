@@ -32,6 +32,7 @@ const IframeView = ({
   const [treeData, setTreeData] = useState<any[]>();
   const { getToken } = useContext(BimContext);
   const keysRef = useRef<string[]>([]);
+  const doneMapRef = useRef<Map<string, number>>(new Map());
 
   const getTeeData = useCallback(async () => {
     await getToken();
@@ -59,6 +60,7 @@ const IframeView = ({
         }
         const _key = `${curPath}&${uniqueId("ids_")}`;
         keysRef.current.push(_key);
+        doneMapRef.current.set(_key, e.completionDegree);
         return {
           title: e.name,
           key: _key,
@@ -84,16 +86,41 @@ const IframeView = ({
     parentFrameRef.current.call("destroy");
   }, []);
 
+  const transformKey = (keys: string[]) => {
+    return keys
+      .map((e) => e.split("&")[0].split(","))
+      .filter((v) => v.length > 4);
+  };
+
   const onChecked = useCallback((keys: string[]) => {
     if (parentFrameRef.current === null) {
       return;
     }
     setSelectInfo(keys);
-    const newKeys = keys
-      .map((e) => e.split("&")[0].split(","))
-      .filter((v) => v.length > 4);
+    const doneKeys: string[] = [],
+      noDoneKeys: string[] = [];
+    keys.forEach((e) => {
+      if (doneMapRef.current.has(e)) {
+        if (doneMapRef.current.get(e)! >= 100) {
+          doneKeys.push(e);
+        } else {
+          noDoneKeys.push(e);
+        }
+      }
+    });
+    if (doneKeys.length > 0) {
+      parentFrameRef.current.call("setColor", [
+        {
+          color: "red",
+          dir: transformKey(doneKeys),
+        },
+      ]);
+    }
+    if (noDoneKeys.length > 0) {
+      parentFrameRef.current.call("selectDir", transformKey(noDoneKeys));
+    }
     // parentFrameRef.current.call("selectDir", [["第10层", "IFC", "IfcSlab", "未注板", "未注板"]]);
-    parentFrameRef.current.call("selectDir", newKeys);
+
     // parentFrameRef.current.call("setColor", [
     //   { color: "red", dir: [["第10层", "IFC", "IfcSlab", "未注板", "未注板"]] },
     // ]);
