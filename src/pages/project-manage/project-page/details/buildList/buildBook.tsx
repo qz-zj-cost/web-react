@@ -29,6 +29,11 @@ const BuildBook = () => {
       search: false,
     },
     {
+      title: "匹配状态",
+      dataIndex: "mateStatus",
+      search: false,
+    },
+    {
       title: "构件编号",
       dataIndex: "memberCode",
       search: false,

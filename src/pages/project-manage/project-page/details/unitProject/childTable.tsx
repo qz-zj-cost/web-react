@@ -25,6 +25,20 @@ const ChildTable = ({ record }: { record: any }) => {
         );
       },
     },
+    {
+      title: "项目来源",
+      render(_, record) {
+        return (
+          <div>
+            {record.unitProjectName} / {record.unitSectionName}
+          </div>
+        );
+      },
+    },
+    {
+      title: "定额编号",
+      dataIndex: "number",
+    },
     // {
     //   title: "项目特征",
     //   dataIndex: "feature",

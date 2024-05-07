@@ -1,5 +1,6 @@
 import { Space, Tabs } from "antd";
 import { useState } from "react";
+import UnBureau from "../unBureau";
 import FbTable from "./fbTable";
 import GfTable from "./gfTable";
 import ImportProjectBtn from "./importProjectBtn";
@@ -57,6 +58,11 @@ const ContractListImport = () => {
             label: "规费、税金项目",
             key: "4",
             children: <GfTable />,
+          },
+          {
+            label: "未归类局清单",
+            key: "PROJECT_DETAIL_6",
+            children: <UnBureau />,
           },
         ]}
       ></Tabs>

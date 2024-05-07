@@ -1,5 +1,6 @@
 import BuildApi from "@/apis/buildApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Space, Tag } from "antd";
 import { Key, useRef } from "react";
 
 const BuildChildTable = ({
@@ -29,6 +30,29 @@ const BuildChildTable = ({
     {
       title: "计算值",
       dataIndex: "computeValue",
+    },
+    {
+      title: "匹配的局清单",
+      dataIndex: "groupBillDtos",
+      width: 200,
+      render: (_, entity) => {
+        return (
+          <Space direction="vertical">
+            {entity["groupBillDtos"]?.map((item: any) => (
+              <div
+                key={item.groupBillCode}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <Tag color="processing">
+                  名称：{item?.groupBillName ?? "-"}
+                  <br />
+                  编码：{item?.groupBillCode ?? "-"}
+                </Tag>
+              </div>
+            )) ?? "-"}
+          </Space>
+        );
+      },
     },
   ];
   return (

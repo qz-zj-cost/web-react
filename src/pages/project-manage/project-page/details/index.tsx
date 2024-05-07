@@ -23,7 +23,6 @@ import InstallmentCost from "./installmentCost";
 import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
 import TargetCost from "./targetCost";
-import UnBureau from "./unBureau";
 import UnitProject from "./unitProject";
 
 interface IContextProps {
@@ -92,11 +91,11 @@ const ProjectDetails = () => {
         key: "PROJECT_DETAIL_5",
         children: <MeasuresFee />,
       },
-      {
-        label: "未归类局清单",
-        key: "PROJECT_DETAIL_6",
-        children: <UnBureau />,
-      },
+      // {
+      //   label: "未归类局清单",
+      //   key: "PROJECT_DETAIL_6",
+      //   children: <UnBureau />,
+      // },
       {
         label: "目标成本归集",
         key: "PROJECT_DETAIL_7",
