@@ -62,6 +62,7 @@ const GfTable = () => {
                     ContractImportApi.delGfBureau({
                       groupBillUuid: item.groupBillUuid,
                       id: entity.id,
+                      mateId: item.mateId,
                     }).then(() => {
                       actionRef.current?.reload();
                     });

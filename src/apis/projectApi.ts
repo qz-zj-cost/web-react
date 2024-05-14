@@ -199,7 +199,11 @@ export class ContractImportServer extends BaseApi {
       .post("/unit/project/corp/num/extend", data)
       .then((v) => v.data);
   }
-  delChildBureau(data: { groupBillUuid: string; uuid: string }) {
+  delChildBureau(data: {
+    groupBillUuid: string;
+    uuid: string;
+    mateId: number;
+  }) {
     return this.axios
       .post("/unit/project/section/extend/mate/del", data)
       .then((v) => v.data);
@@ -211,7 +215,7 @@ export class ContractImportServer extends BaseApi {
       .then((v) => v.data);
   }
   //删除总价局清单
-  delZjBureau(data: { groupBillUuid: string; id: string }) {
+  delZjBureau(data: { groupBillUuid: string; id: string; mateId: number }) {
     return this.axios
       .post("/unit/project/price/measures/del", data)
       .then((v) => v.data);
@@ -223,7 +227,7 @@ export class ContractImportServer extends BaseApi {
       .then((v) => v.data);
   }
   //删除规费局清单
-  delGfBureau(data: { groupBillUuid: string; id: string }) {
+  delGfBureau(data: { groupBillUuid: string; id: string; mateId: number }) {
     return this.axios.post("/unit/project/taxes/del", data).then((v) => v.data);
   }
 }

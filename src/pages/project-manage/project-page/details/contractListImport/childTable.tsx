@@ -78,6 +78,7 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
                     ContractImportApi.delChildBureau({
                       groupBillUuid: item.groupBillUuid,
                       uuid: entity.uuid,
+                      mateId: item.mateId,
                     }).then(() => {
                       actionRef.current?.reload();
                     });

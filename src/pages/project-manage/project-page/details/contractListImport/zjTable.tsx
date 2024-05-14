@@ -61,6 +61,7 @@ const ZjTable = () => {
                     ContractImportApi.delZjBureau({
                       groupBillUuid: item.groupBillUuid,
                       id: entity.id,
+                      mateId: item.mateId,
                     }).then(() => {
                       actionRef.current?.reload();
                     });

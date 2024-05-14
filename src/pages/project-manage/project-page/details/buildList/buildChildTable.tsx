@@ -33,12 +33,12 @@ const BuildChildTable = ({
     },
     {
       title: "匹配的局清单",
-      dataIndex: "groupBillDtos",
+      dataIndex: "dtoList",
       width: 200,
       render: (_, entity) => {
         return (
           <Space direction="vertical">
-            {entity["groupBillDtos"]?.map((item: any) => (
+            {entity["dtoList"]?.map((item: any) => (
               <div
                 key={item.groupBillCode}
                 style={{ display: "flex", alignItems: "center" }}
