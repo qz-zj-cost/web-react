@@ -1,15 +1,28 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload, message } from "antd";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "..";
 
 type IImportBtnProps = {
   onSuccess: VoidFunction;
+  unitProjectUuid?: string;
 };
-const ImportBtn2 = ({ onSuccess }: IImportBtnProps) => {
+const ImportBtn2 = ({ onSuccess, unitProjectUuid }: IImportBtnProps) => {
   const { projectId } = useContext(ProjectContext);
   const [loading, setLoading] = useState(false);
+  const [channel, setChannel] = useState(1);
+
+  useEffect(() => {
+    if (unitProjectUuid) {
+      ContractImportApi.getProjectTypeDetails({ unitProjectUuid }).then(
+        (res) => {
+          setChannel(res.data.channel);
+        },
+      );
+    }
+  }, [unitProjectUuid]);
+
   const customRequest = (fileList: any) => {
     const data = new FormData();
     data.append("file", fileList.file);
@@ -29,6 +42,7 @@ const ImportBtn2 = ({ onSuccess }: IImportBtnProps) => {
         setLoading(false);
       });
   };
+  if (channel === 2) return null;
   return (
     <Upload multiple customRequest={customRequest} showUploadList={false}>
       <Button type="primary" loading={loading} icon={<UploadOutlined />}>

@@ -4,6 +4,7 @@ import UnBureau from "../unBureau";
 import FbTable from "./fbTable";
 import GfTable from "./gfTable";
 import ImportProjectBtn from "./importProjectBtn";
+import OtherTable from "./otherTable";
 import SgTable from "./sgTable";
 import ZjTable from "./zjTable";
 
@@ -58,6 +59,11 @@ const ContractListImport = () => {
             label: "规费、税金项目",
             key: "4",
             children: <GfTable />,
+          },
+          {
+            label: "其它费用",
+            key: "5",
+            children: <OtherTable />,
           },
           {
             label: "未归类局清单",

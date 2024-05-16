@@ -142,7 +142,11 @@ export class ContractImportServer extends BaseApi {
       .get<IBaseModel<IProjectTypeModel[]>>("/unit/project/list", { params })
       .then((v) => v.data);
   }
-
+  getProjectTypeDetails(params: { unitProjectUuid: string }) {
+    return this.axios
+      .get<IBaseModel<IProjectTypeModel>>("/unit/project/info", { params })
+      .then((v) => v.data);
+  }
   import(data: any) {
     return this.axios.post("/unit/project/import", data).then((v) => v.data);
   }
@@ -165,6 +169,11 @@ export class ContractImportServer extends BaseApi {
   getGfList(params: { unitProjectUuid: string; projectId: string }) {
     return this.axios
       .get<IListBaseModel>("/unit/project/taxes/list", { params })
+      .then((v) => v.data);
+  }
+  getOtherList(params: { unitProjectUuid: string; projectId: string }) {
+    return this.axios
+      .get<IListBaseModel>("/unit/project/other/fee/list", { params })
       .then((v) => v.data);
   }
   import2(data: any) {

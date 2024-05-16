@@ -71,6 +71,7 @@ export interface IMatchItemModel {
 }
 
 export interface IProjectTypeModel {
+  channel: number;
   id: number;
   projectId: number;
   status: number;

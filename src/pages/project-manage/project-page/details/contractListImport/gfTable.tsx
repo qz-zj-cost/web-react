@@ -128,6 +128,7 @@ const GfTable = () => {
               actionRef.current?.reload();
             }),
             <ImportBtn2
+              unitProjectUuid={types?.typeId1}
               onSuccess={() => {
                 actionRef.current?.reload();
               }}
