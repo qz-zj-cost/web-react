@@ -122,17 +122,19 @@ const ZjTable = () => {
           };
         }}
         toolbar={{
-          actions: [
-            selectProject(() => {
-              actionRef.current?.reload();
-            }),
-            <ImportBtn2
-              unitProjectUuid={types?.typeId1}
-              onSuccess={() => {
+          title: (
+            <Space>
+              {selectProject(() => {
                 actionRef.current?.reload();
-              }}
-            />,
-          ],
+              })}
+              <ImportBtn2
+                unitProjectUuid={types?.typeId1}
+                onSuccess={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+            </Space>
+          ),
         }}
         rowSelection={{
           selectedRowKeys: selectKeys,

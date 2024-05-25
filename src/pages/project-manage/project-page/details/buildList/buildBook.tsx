@@ -31,7 +31,12 @@ const BuildBook = () => {
     {
       title: "匹配状态",
       dataIndex: "mateStatus",
-      search: false,
+      valueType: "select",
+      valueEnum: {
+        0: { text: "未匹配", status: "Error" },
+        1: { text: "部分匹配", status: "Warning" },
+        2: { text: "已匹配", status: "Success" },
+      },
     },
     {
       title: "构件编号",
@@ -76,16 +81,19 @@ const BuildBook = () => {
       rowKey={"id"}
       bordered
       actionRef={actionRef}
-      search={false}
+      search={{
+        filterType: "light",
+      }}
       cardProps={{
         bodyStyle: { padding: 0 },
       }}
-      request={async ({ pageSize, current: pageNum }) => {
+      request={async ({ pageSize, current: pageNum, ...params }) => {
         if (!unitUUid) return { data: [] };
         const res = await BuildApi.getBuildList({
           unitProjectUuid: unitUUid,
           pageSize,
           pageNum,
+          ...params,
         });
         return {
           data: res.data || [],

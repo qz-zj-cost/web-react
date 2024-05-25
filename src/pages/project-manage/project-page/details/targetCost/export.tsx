@@ -39,7 +39,7 @@ const typeOptions = [
     ],
   },
   {
-    label: "措施费",
+    label: "直接费和措施费",
     value: "3",
     children: [
       {

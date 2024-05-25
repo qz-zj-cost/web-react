@@ -62,6 +62,7 @@ const ImportProjectBtn = ({ onSuccess }: IImportProjectBtnProps) => {
           options={[
             { label: "未来计价", value: 1 },
             { label: "品茗", value: 2 },
+            { label: "杭州广联达", value: 3 },
           ]}
           onChange={(v: number) => {
             setChannel(v);

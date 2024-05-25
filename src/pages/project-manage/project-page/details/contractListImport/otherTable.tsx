@@ -6,6 +6,7 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Space } from "antd";
 import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
@@ -41,7 +42,7 @@ const OtherTable = () => {
         actionRef={actionRef}
         search={false}
         scroll={{ x: "max-content" }}
-        rowKey={"id"}
+        rowKey={"sort"}
         bordered
         columns={columns}
         cardProps={{
@@ -60,11 +61,13 @@ const OtherTable = () => {
           };
         }}
         toolbar={{
-          actions: [
-            selectProject(() => {
-              actionRef.current?.reload();
-            }),
-          ],
+          title: (
+            <Space>
+              {selectProject(() => {
+                actionRef.current?.reload();
+              })}
+            </Space>
+          ),
         }}
       />
     </>

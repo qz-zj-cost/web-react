@@ -6,7 +6,7 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Space, Typography } from "antd";
 import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
@@ -78,7 +78,7 @@ const SgTable = ({ num }: { num: number }) => {
       render(_, entity) {
         return (
           <Typography.Paragraph
-            style={{ width: 200, margin: 0 }}
+            style={{ maxWidth: 200, margin: 0 }}
             ellipsis={{ rows: 2, expandable: true }}
           >
             {entity["groupBillCodeList"]?.join("，") ?? "-"}
@@ -121,19 +121,20 @@ const SgTable = ({ num }: { num: number }) => {
         };
       }}
       toolbar={{
-        settings: [],
-        actions: [
-          selectProject(),
-          selectProjectType,
-          <ExportBtn
-            type={1}
-            fileName="施工技术清单"
-            pageNum={pageRef.current?.pageNum}
-            pageSize={pageRef.current?.pageSize}
-            unitProjectUuid={types?.typeId1}
-            unitSectionUuid={types?.typeId2}
-          />,
-        ],
+        title: (
+          <Space>
+            {selectProject()}
+            {selectProjectType}
+            <ExportBtn
+              type={1}
+              fileName="施工技术清单"
+              pageNum={pageRef.current?.pageNum}
+              pageSize={pageRef.current?.pageSize}
+              unitProjectUuid={types?.typeId1}
+              unitSectionUuid={types?.typeId2}
+            />
+          </Space>
+        ),
       }}
       expandable={{
         expandedRowRender: (record) => {
