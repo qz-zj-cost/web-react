@@ -49,7 +49,7 @@ const LoginPage = () => {
         <img src={getImageUrl("logo.png")} />
       </div> */}
       <div className={styles[`${PREFIX}-content`]}>
-        <h1>三局华东成本管控系统</h1>
+        <h1>华东公司BIM+成本管控系统</h1>
         <p>账户登录</p>
         <br />
         <Form<IUserData>

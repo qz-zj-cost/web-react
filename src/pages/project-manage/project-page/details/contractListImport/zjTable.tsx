@@ -11,6 +11,7 @@ import { Space, Tag, Typography } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
+import AddZjModal from "./addZjModal";
 import ImportBtn2 from "./importBtn2";
 import MatchModal, { IMatchModalRef } from "./matchModal";
 
@@ -129,6 +130,11 @@ const ZjTable = () => {
               })}
               <ImportBtn2
                 unitProjectUuid={types?.typeId1}
+                onSuccess={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+              <AddZjModal
                 onSuccess={() => {
                   actionRef.current?.reload();
                 }}

@@ -5,7 +5,7 @@ import Axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import queryString from "query-string";
 
 export abstract class BasicService {
-  axios = Axios.create({ baseURL: "", timeout: 50000 });
+  axios = Axios.create({ baseURL: "", timeout: 500000 });
   abstract _baseUrl: string;
 
   abstract requestFun(

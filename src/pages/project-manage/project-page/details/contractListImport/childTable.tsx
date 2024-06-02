@@ -37,6 +37,18 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
     //   },
     // },
     {
+      title: "人工费",
+      dataIndex: "laborCosts",
+    },
+    {
+      title: "材料费",
+      dataIndex: "materialCosts",
+    },
+    {
+      title: "机械费",
+      dataIndex: "machineryCosts",
+    },
+    {
       title: "单位",
       dataIndex: "unit",
     },

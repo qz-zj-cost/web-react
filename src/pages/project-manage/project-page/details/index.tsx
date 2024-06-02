@@ -18,7 +18,6 @@ import Bim from "./bim";
 import BuildBureauList from "./buildBureauList";
 import BuildList from "./buildList";
 import ContractListImport from "./contractListImport";
-import StatisticsList from "./contractListImport/statisticsList";
 import InstallmentCost from "./installmentCost";
 import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
@@ -71,11 +70,11 @@ const ProjectDetails = () => {
         key: "PROJECT_DETAIL_1",
         children: <ContractListImport />,
       },
-      {
-        label: "合同清单统计",
-        key: "PROJECT_DETAIL_2",
-        children: <StatisticsList />,
-      },
+      // {
+      //   label: "合同清单统计",
+      //   key: "PROJECT_DETAIL_2",
+      //   children: <StatisticsList />,
+      // },
       {
         label: "项目成本拆分",
         key: "PROJECT_DETAIL_3",

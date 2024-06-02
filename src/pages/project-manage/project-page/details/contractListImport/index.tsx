@@ -6,6 +6,7 @@ import GfTable from "./gfTable";
 import ImportProjectBtn from "./importProjectBtn";
 import OtherTable from "./otherTable";
 import SgTable from "./sgTable";
+import StatisticsList from "./statisticsList";
 import ZjTable from "./zjTable";
 
 /**
@@ -69,6 +70,11 @@ const ContractListImport = () => {
             label: "未归类局清单",
             key: "PROJECT_DETAIL_6",
             children: <UnBureau />,
+          },
+          {
+            label: "合同清单统计",
+            key: "PROJECT_DETAIL_2",
+            children: <StatisticsList />,
           },
         ]}
       ></Tabs>

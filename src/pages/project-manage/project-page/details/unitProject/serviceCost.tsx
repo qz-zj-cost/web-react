@@ -6,14 +6,17 @@
 
 import ProjectApi from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Popconfirm, Space, Typography, message } from "antd";
+import _ from "lodash";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
-import AddCostModal from "./modal/addCostModal";
+import AddCostModal, { IAddCostModalRef } from "./modal/addCostModal";
 
 const ServiceCost = () => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
+  const addCostRef = useRef<IAddCostModalRef>(null);
   const columns: ProColumns[] = [
     {
       title: "序号",
@@ -42,6 +45,37 @@ const ServiceCost = () => {
       title: "备注",
       dataIndex: "remark",
     },
+    {
+      title: "操作",
+      width: "auto",
+      fixed: "right",
+      align: "center",
+      render: (_, val) => {
+        if (!val.id) return null;
+        return (
+          <Space>
+            <Typography.Link
+              onClick={() => {
+                addCostRef.current?.onEdit(val);
+              }}
+            >
+              编辑
+            </Typography.Link>
+            <Popconfirm
+              title="确认删除此项目？"
+              onConfirm={() => {
+                return ProjectApi.deleteServiceCost({ id: val.id }).then(() => {
+                  actionRef.current?.reload();
+                  message.success("删除成功");
+                });
+              }}
+            >
+              <Typography.Link type="danger">删除</Typography.Link>
+            </Popconfirm>
+          </Space>
+        );
+      },
+    },
   ];
 
   return (
@@ -49,7 +83,7 @@ const ServiceCost = () => {
       actionRef={actionRef}
       search={false}
       scroll={{ x: "max-content" }}
-      rowKey={"groupBillCode"}
+      rowKey={() => _.uniqueId()}
       bordered
       columns={columns}
       cardProps={{
@@ -68,6 +102,7 @@ const ServiceCost = () => {
       toolbar={{
         actions: [
           <AddCostModal
+            ref={addCostRef}
             onSuccess={() => {
               actionRef.current?.reload();
             }}

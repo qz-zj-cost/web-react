@@ -11,6 +11,7 @@ import { Space, Tag, Typography } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
+import AddGfModal from "./addGfModal";
 import ImportBtn2 from "./importBtn2";
 import MatchModal, { IMatchModalRef } from "./matchModal";
 
@@ -130,6 +131,11 @@ const GfTable = () => {
               })}
               <ImportBtn2
                 unitProjectUuid={types?.typeId1}
+                onSuccess={() => {
+                  actionRef.current?.reload();
+                }}
+              />
+              <AddGfModal
                 onSuccess={() => {
                   actionRef.current?.reload();
                 }}

@@ -10,6 +10,7 @@ import { Space } from "antd";
 import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
+import AddOtherModal from "./addOtherModal";
 
 const OtherTable = () => {
   const actionRef = useRef<ActionType>();
@@ -66,6 +67,11 @@ const OtherTable = () => {
               {selectProject(() => {
                 actionRef.current?.reload();
               })}
+              <AddOtherModal
+                onSuccess={() => {
+                  actionRef.current?.reload();
+                }}
+              />
             </Space>
           ),
         }}

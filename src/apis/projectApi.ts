@@ -43,6 +43,16 @@ class ProjectServer extends ListApi {
       .post("/project/general/contracting/add", data)
       .then((v) => v.data);
   }
+  editServiceCost(data: any) {
+    return this.axios
+      .post("/project/general/contracting/update", data)
+      .then((v) => v.data);
+  }
+  deleteServiceCost(data: { id: number }) {
+    return this.axios
+      .post("/project/general/contracting/del", data)
+      .then((v) => v.data);
+  }
   getServiceCost(params: { projectId: string; stageType?: string }) {
     return this.axios
       .get<IListBaseModel>("/project/general/contracting/list", {
@@ -238,6 +248,19 @@ export class ContractImportServer extends BaseApi {
   //删除规费局清单
   delGfBureau(data: { groupBillUuid: string; id: string; mateId: number }) {
     return this.axios.post("/unit/project/taxes/del", data).then((v) => v.data);
+  }
+  addZj(data: any) {
+    return this.axios
+      .post("/unit/project/price/measures/add", data)
+      .then((v) => v.data);
+  }
+  addOther(data: any) {
+    return this.axios
+      .post("/unit/project/other/fee/add", data)
+      .then((v) => v.data);
+  }
+  addGf(data: any) {
+    return this.axios.post("/unit/project/taxes/add", data).then((v) => v.data);
   }
 }
 export class OverheadServer extends BaseApi {
