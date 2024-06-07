@@ -9,6 +9,7 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
+import AmountView from "../components/AmountView";
 import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
 import ChildTable from "./childTable";
 
@@ -123,6 +124,7 @@ const MTable5 = () => {
             total: res.totalRow,
           };
         }}
+        summary={() => <AmountView priceType={8} stageType={tabKey} />}
         toolbar={{
           multipleLine: true,
           menu: {

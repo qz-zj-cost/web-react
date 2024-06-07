@@ -9,6 +9,7 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
+import AmountView from "../components/AmountView";
 import ChildTable from "./childTable";
 import MatchModal, { IMatchModalRef } from "./modal/matchModal";
 
@@ -133,6 +134,7 @@ const MaterialFee = () => {
             total: res.totalRow,
           };
         }}
+        summary={() => <AmountView priceType={2} stageType={tabKey} />}
         expandable={{
           expandedRowRender: (record) => {
             return <ChildTable record={record} key={reloadNum} />;

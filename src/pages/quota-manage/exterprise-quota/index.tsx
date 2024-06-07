@@ -63,9 +63,13 @@ const ExterpriseQuotaPage = () => {
       search: false,
     },
     {
+      title: "定额编号",
+      dataIndex: "corpQuotaCode",
+      hideInTable: true,
+    },
+    {
       title: "名称",
       dataIndex: "name",
-      search: false,
     },
     {
       title: "匹配局清单",

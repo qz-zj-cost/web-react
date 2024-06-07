@@ -9,6 +9,7 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import AdModal from "../components/AdModal";
+import AmountView from "../components/AmountView";
 import ChildTable from "../unitProject/childTable";
 
 const UnBureau = () => {
@@ -95,6 +96,7 @@ const UnBureau = () => {
           total: res.totalRow,
         };
       }}
+      summary={() => <AmountView priceType={0} stageType={tabKey} />}
       toolbar={{
         multipleLine: true,
         menu: {

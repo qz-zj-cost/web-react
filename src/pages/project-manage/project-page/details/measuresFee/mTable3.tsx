@@ -14,6 +14,7 @@ import {
 import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "..";
+import AmountView from "../components/AmountView";
 import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
 import ChildTable from "./childTable";
 import EditModal from "./editModal";
@@ -153,6 +154,9 @@ const MTable3 = () => {
             total: res.totalRow,
           };
         }}
+        summary={() => (
+          <AmountView priceType={6} stageType={tabKey} colSpan={5} />
+        )}
         toolbar={{
           multipleLine: true,
           menu: {

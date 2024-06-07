@@ -1,6 +1,7 @@
 import { IBaseModel, IListBaseModel } from "@/models/baseModel";
 import store from "@/store";
-import { notification } from "antd";
+import { signOut } from "@/store/user";
+import { Modal, notification } from "antd";
 import Axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import queryString from "query-string";
 
@@ -37,6 +38,7 @@ export abstract class BasicService {
 
 export class BaseApi extends BasicService {
   _baseUrl = import.meta.env.VITE_HTTP_URL;
+  showLogOutModal = true;
   constructor() {
     super();
     this.initAxios();
@@ -62,13 +64,26 @@ export class BaseApi extends BasicService {
     if (data.status === 200) {
       if (data.data?.code === "200") {
         return data;
-      } else if (data.data?.code) {
+      } else if (
+        data.data.code &&
+        data.data.code === "401" &&
+        this.showLogOutModal
+      ) {
+        this.showLogOutModal = false;
+        Modal.error({
+          title: "登录已过期",
+          content: "当前登录已过期，请重新登录",
+          onOk: () => {
+            this.showLogOutModal = true;
+            store.dispatch(signOut());
+          },
+        });
+        throw data;
+      } else {
         notification.error({
           message: "请求失败",
           description: data.data?.message ?? "接口错误",
         });
-        throw data;
-      } else {
         return data;
       }
     } else {

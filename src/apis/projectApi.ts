@@ -141,7 +141,21 @@ export class ContractImportServer extends BaseApi {
       .get<IListBaseModel>("/unit/project/by/finance/list", { params })
       .then((v) => v.data);
   }
-
+  //获取成本拆分合计
+  getUnitProjectAmount(params: {
+    projectId: string;
+    stageType?: string;
+    priceType?: number; // 0.未分类 1.直接人工费 2.直接材料费 3.分包工程支出 4.机械使用费 5.周转材料费（采购类）6.周转材料费（租赁类）7.安全文明施工费 8.其他措施费
+  }) {
+    return this.axios
+      .get<
+        IBaseModel<{
+          incomeSumPrice: number;
+          sumPrice: number;
+        }>
+      >("/unit/project/by/finance/sum/amount", { params })
+      .then((v) => v.data);
+  }
   getUnitChildList(params: { id: number; groupBillCode: string }) {
     return this.axios
       .get("/unit/project/by/finance/extend", { params })
