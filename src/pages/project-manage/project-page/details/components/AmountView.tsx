@@ -5,7 +5,8 @@ import { ProjectContext } from "..";
 
 const AmountView = ({
   colSpan = 4,
-  ...props
+  priceType,
+  stageType,
 }: {
   priceType: number;
   stageType: string;
@@ -20,11 +21,12 @@ const AmountView = ({
     if (!projectId) return;
     ContractImportApi.getUnitProjectAmount({
       projectId: projectId,
-      ...props,
+      priceType,
+      stageType,
     }).then((e) => {
       setData(e.data);
     });
-  }, [projectId, props]);
+  }, [priceType, projectId, stageType]);
 
   return (
     <Table.Summary fixed>

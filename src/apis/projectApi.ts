@@ -276,6 +276,11 @@ export class ContractImportServer extends BaseApi {
   addGf(data: any) {
     return this.axios.post("/unit/project/taxes/add", data).then((v) => v.data);
   }
+  modifyGcl(data: any) {
+    return this.axios
+      .post("/unit/project/corp/num/extend", data)
+      .then((v) => v.data);
+  }
 }
 export class OverheadServer extends BaseApi {
   getProjectPayList(params: {

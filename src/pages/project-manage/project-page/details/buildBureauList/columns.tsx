@@ -14,11 +14,23 @@ export const columns: ProColumns[] = [
     dataIndex: "unit",
   },
   {
-    title: "局清单量",
+    title: "目标成本工程量",
     dataIndex: "groupBillEngineeringNum",
   },
   {
     title: "构件工程量",
     dataIndex: "memberNum",
+  },
+  {
+    title: "量差",
+    dataIndex: "quantityDifference",
+  },
+  {
+    title: "价差",
+    dataIndex: "priceDifference",
+  },
+  {
+    title: "目标成本单价",
+    dataIndex: "price",
   },
 ];

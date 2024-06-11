@@ -40,6 +40,7 @@ const AddModal = ({
       formRef={formRef}
       trigger={<Button type="primary">新增</Button>}
       title="新增构件"
+      width={1000}
       onFinish={async (values) => {
         try {
           await BuildApi.addGjAndRebar({
@@ -175,12 +176,18 @@ const AddModal = ({
 };
 type ITableProps = {
   unitUUid?: string;
-  value?: Key;
-  onChange?: (value: Key) => void;
-  storeyName?: string;
-  type?: number;
+  value?: Key[];
+  onChange?: (value: Key[]) => void;
+  childValue?: Key;
+  childOnChange?: (value: Key) => void;
 };
-const GJTable = ({ unitUUid, onChange, value }: ITableProps) => {
+const GJTable = ({
+  unitUUid,
+  onChange,
+  value,
+  childOnChange,
+  childValue,
+}: ITableProps) => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {
@@ -249,12 +256,30 @@ const GJTable = ({ unitUUid, onChange, value }: ITableProps) => {
       expandable={{
         expandedRowRender: (record) => {
           return (
-            <BuildChildTable id={record.id} value={value} onChange={onChange} />
+            <BuildChildTable
+              id={record.id}
+              value={childValue}
+              onChange={childOnChange}
+            />
           );
+        },
+      }}
+      rowSelection={{
+        type: "checkbox",
+        selectedRowKeys: value,
+        onChange: (selectedRowKeys) => {
+          onChange?.(selectedRowKeys);
         },
       }}
     />
   );
+};
+type IRebarTableProps = {
+  unitUUid?: string;
+  value?: Key;
+  onChange?: (value: Key) => void;
+  storeyName?: string;
+  type?: number;
 };
 const RebarTable = ({
   unitUUid,
@@ -262,7 +287,7 @@ const RebarTable = ({
   value,
   type,
   storeyName,
-}: ITableProps) => {
+}: IRebarTableProps) => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {

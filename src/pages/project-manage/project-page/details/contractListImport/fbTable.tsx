@@ -6,12 +6,13 @@
 
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Space, Typography } from "antd";
-import { useContext, useEffect, useRef } from "react";
+import { Button, Space, Typography } from "antd";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
 import ChildTable from "./childTable";
 import ExportBtn from "./exportBtn";
+import MatchModal, { IMatchModalRef } from "./matchModal";
 
 const FbTable = ({ num }: { num: number }) => {
   const actionRef = useRef<ActionType>();
@@ -21,6 +22,9 @@ const FbTable = ({ num }: { num: number }) => {
     type: 1,
   });
   const pageRef = useRef<{ pageSize?: number; pageNum?: number }>();
+  const [selectKeys, setSelectKeys] = useState<Record<string, string[]>>();
+  const matchRef = useRef<IMatchModalRef>(null);
+
   const columns: ProColumns[] = [
     {
       title: "项目编码",
@@ -91,6 +95,18 @@ const FbTable = ({ num }: { num: number }) => {
   useEffect(() => {
     getTypeList();
   }, [getTypeList, num]);
+
+  const getSelectKeys = useMemo(() => {
+    if (!selectKeys) return [];
+    const keys = Object.entries(selectKeys).reduce((pre: string[], cur) => {
+      const value = cur[1];
+      if (value.length) {
+        pre = pre.concat(value);
+      }
+      return pre;
+    }, []);
+    return keys;
+  }, [selectKeys]);
   return (
     <>
       <ProTable
@@ -133,15 +149,49 @@ const FbTable = ({ num }: { num: number }) => {
                 unitProjectUuid={types?.typeId1}
                 unitSectionUuid={types?.typeId2}
               />
+              <Button
+                type="primary"
+                disabled={!selectKeys}
+                onClick={() => {
+                  if (!selectKeys) return;
+                  matchRef.current?.show(getSelectKeys);
+                }}
+              >
+                批量匹配局清单
+              </Button>
+              {selectKeys && (
+                <Typography.Link onClick={() => setSelectKeys(void 0)}>
+                  取消选择
+                </Typography.Link>
+              )}
             </Space>
           ),
         }}
         expandable={{
           expandedRowRender: (record) => {
             return (
-              <ChildTable unitProjectUuid={types?.typeId1} uuid={record.uuid} />
+              <ChildTable
+                unitProjectUuid={types?.typeId1}
+                uuid={record.uuid}
+                selectKeys={selectKeys?.[record.uuid] ?? []}
+                setSelectKeys={(keys) => {
+                  setSelectKeys((prev) => {
+                    return { ...prev, [record.uuid]: keys };
+                  });
+                }}
+              />
             );
           },
+        }}
+      />
+      <MatchModal
+        ref={matchRef}
+        api={(data) => {
+          return ContractImportApi.match(data);
+        }}
+        onSuccess={() => {
+          actionRef.current?.reload?.();
+          setSelectKeys(void 0);
         }}
       />
     </>

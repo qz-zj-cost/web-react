@@ -119,6 +119,11 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
               ),
             },
             {
+              title: "定额编号",
+              dataIndex: "corpQuotaCode",
+              hideInTable: true,
+            },
+            {
               title: "编号",
               dataIndex: "code",
               search: false,
@@ -126,7 +131,6 @@ const MatchModal = forwardRef<IMatchModalRef, { onSuccess?: VoidFunction }>(
             {
               title: "名称",
               dataIndex: "name",
-              search: false,
               render(dom) {
                 return (
                   <Typography.Paragraph

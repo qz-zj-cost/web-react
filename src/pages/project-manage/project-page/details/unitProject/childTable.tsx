@@ -1,9 +1,15 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { EditOutlined } from "@ant-design/icons";
-import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import {
+  ActionType,
+  ProColumns,
+  ProFormDigit,
+  ProTable,
+} from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useRef, useState } from "react";
 import AdModal from "../components/AdModal";
+import EditItemModal from "../components/EditItemMoal";
 import UnitPriceModal, { IUnitPriceModalRef } from "./modal/unitPriceModal";
 
 const ChildTable = ({ record }: { record: any }) => {
@@ -97,6 +103,31 @@ const ChildTable = ({ record }: { record: any }) => {
         {
           title: "工程量",
           dataIndex: "groupBillEngineeringNum",
+          render(dom, record) {
+            return (
+              <Space>
+                {dom ?? "-"}
+                <EditItemModal
+                  title="工程量"
+                  api={(val) => {
+                    return ContractImportApi.modifyGcl({
+                      ...val,
+                      extendId: record.id,
+                    });
+                  }}
+                  onSuccess={() => {
+                    actionRef.current?.reload();
+                  }}
+                >
+                  <ProFormDigit
+                    name={"num"}
+                    label={"工程量"}
+                    rules={[{ required: true }]}
+                  />
+                </EditItemModal>
+              </Space>
+            );
+          },
         },
         {
           title: "单价",

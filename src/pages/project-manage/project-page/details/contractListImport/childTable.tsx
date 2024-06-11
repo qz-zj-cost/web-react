@@ -2,17 +2,23 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Tag, Typography } from "antd";
-import { useRef, useState } from "react";
-import MatchModal, { IMatchModalRef } from "./matchModal";
+import { useRef } from "react";
+import { IMatchModalRef } from "./matchModal";
 
 type IChildTableProp = {
   unitProjectUuid?: string;
   uuid?: string;
+  selectKeys?: string[];
+  setSelectKeys?: (keys: string[]) => void;
 };
-const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
+const ChildTable = ({
+  unitProjectUuid,
+  uuid,
+  selectKeys,
+  setSelectKeys,
+}: IChildTableProp) => {
   const matchRef = useRef<IMatchModalRef>(null);
   const actionRef = useRef<ActionType>();
-  const [selectKeys, setSelectKeys] = useState<string[]>();
   const columns: ProColumns[] = [
     {
       title: "项目编码",
@@ -72,9 +78,9 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
       render: (_, entity) => {
         return (
           <Space direction="vertical">
-            {entity["groupBillDtos"]?.map((item: any) => (
+            {entity["groupBillDtos"]?.map((item: any, index: number) => (
               <div
-                key={item.groupBillCode}
+                key={`${item.groupBillCode}${index}`}
                 style={{ display: "flex", alignItems: "center" }}
               >
                 <Tag color="processing">
@@ -157,36 +163,10 @@ const ChildTable = ({ unitProjectUuid, uuid }: IChildTableProp) => {
         rowSelection={{
           selectedRowKeys: selectKeys,
           onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as string[]);
+            setSelectKeys?.(selectedRowKeys as string[]);
           },
         }}
-        tableAlertOptionRender={({ onCleanSelected }) => {
-          return (
-            <Space size={16}>
-              <Typography.Link
-                onClick={() => {
-                  if (!selectKeys) return;
-                  matchRef.current?.show(selectKeys);
-                }}
-              >
-                批量匹配局清单
-              </Typography.Link>
-              <Typography.Link onClick={onCleanSelected}>
-                取消选择
-              </Typography.Link>
-            </Space>
-          );
-        }}
-      />
-      <MatchModal
-        ref={matchRef}
-        api={(data) => {
-          return ContractImportApi.match(data);
-        }}
-        onSuccess={() => {
-          actionRef.current?.reload?.();
-          setSelectKeys(void 0);
-        }}
+        tableAlertRender={false}
       />
     </>
   );
