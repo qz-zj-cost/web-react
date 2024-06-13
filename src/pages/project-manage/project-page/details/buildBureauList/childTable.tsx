@@ -6,7 +6,7 @@ import {
   ProTable,
 } from "@ant-design/pro-components";
 import { Popconfirm, Space, Typography, message } from "antd";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import AddModal from "./addModal";
 import EditModal from "./editModal";
 
@@ -24,6 +24,7 @@ const ChildTable = ({
   groupBillUuid: string;
 }) => {
   const actionRef = useRef<ActionType>();
+  const [selectKeys, setSelectKeys] = useState<string[]>();
   const columns: ProColumns[] = [
     {
       title: "构件区域",
@@ -76,7 +77,7 @@ const ChildTable = ({
             <Popconfirm
               title="确认删除此数据吗？"
               onConfirm={() => {
-                return BuildApi.deleteBill({ id: val.id }).then(() => {
+                return BuildApi.deleteBill({ ids: [val.id] }).then(() => {
                   actionRef.current?.reload();
                   message.success("操作成功");
                 });
@@ -113,6 +114,13 @@ const ChildTable = ({
       pagination={{
         defaultPageSize: 10,
       }}
+      rowSelection={{
+        type: "checkbox",
+        selectedRowKeys: selectKeys,
+        onChange: (selectedRowKeys) => {
+          setSelectKeys(selectedRowKeys as string[]);
+        },
+      }}
       toolbar={{
         actions: [
           <AddModal
@@ -125,6 +133,27 @@ const ChildTable = ({
             groupBillUuid={groupBillUuid}
           />,
         ],
+      }}
+      tableAlertOptionRender={({ onCleanSelected }) => {
+        return (
+          <Space size={16}>
+            <Popconfirm
+              title="确认删除此数据吗？"
+              onConfirm={() => {
+                return BuildApi.deleteBill({ ids: selectKeys! }).then(() => {
+                  actionRef.current?.reload();
+                  message.success("删除成功");
+                  setSelectKeys(void 0);
+                });
+              }}
+            >
+              <Typography.Link type="danger">删除</Typography.Link>
+            </Popconfirm>
+            <Typography.Link onClick={onCleanSelected}>
+              取消选择
+            </Typography.Link>
+          </Space>
+        );
       }}
     />
   );

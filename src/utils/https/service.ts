@@ -3,10 +3,16 @@ import store from "@/store";
 import { signOut } from "@/store/user";
 import { Modal, notification } from "antd";
 import Axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import queryString from "query-string";
+import qs from "query-string";
 
 export abstract class BasicService {
-  axios = Axios.create({ baseURL: "", timeout: 500000 });
+  axios = Axios.create({
+    baseURL: "",
+    timeout: 500000,
+    paramsSerializer: (params) => {
+      return qs.stringify(params, { arrayFormat: "comma" });
+    },
+  });
   abstract _baseUrl: string;
 
   abstract requestFun(
@@ -53,11 +59,7 @@ export class BaseApi extends BasicService {
     if (isLogin) {
       config.headers["token"] = token;
     }
-    if (config.method === "get") {
-      config.paramsSerializer = (params) => {
-        return queryString.stringify(params, { arrayFormat: "comma" });
-      };
-    }
+
     return config;
   }
   responseFun(data: AxiosResponse<any, any>): AxiosResponse<any, any> {

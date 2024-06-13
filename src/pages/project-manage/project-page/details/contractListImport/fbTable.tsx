@@ -149,23 +149,25 @@ const FbTable = ({ num }: { num: number }) => {
                 unitProjectUuid={types?.typeId1}
                 unitSectionUuid={types?.typeId2}
               />
-              <Button
-                type="primary"
-                disabled={!selectKeys}
-                onClick={() => {
-                  if (!selectKeys) return;
-                  matchRef.current?.show(getSelectKeys);
-                }}
-              >
-                批量匹配局清单
-              </Button>
-              {selectKeys && (
-                <Typography.Link onClick={() => setSelectKeys(void 0)}>
-                  取消选择
-                </Typography.Link>
-              )}
             </Space>
           ),
+          actions: [
+            <Button
+              type="primary"
+              disabled={getSelectKeys.length === 0}
+              onClick={() => {
+                if (!selectKeys) return;
+                matchRef.current?.show(getSelectKeys);
+              }}
+            >
+              批量匹配局清单
+            </Button>,
+            getSelectKeys.length > 0 && (
+              <Typography.Link onClick={() => setSelectKeys(void 0)}>
+                取消选择
+              </Typography.Link>
+            ),
+          ],
         }}
         expandable={{
           expandedRowRender: (record) => {

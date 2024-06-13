@@ -14,7 +14,7 @@ import {
   ProFormText,
   ProTable,
 } from "@ant-design/pro-components";
-import { Button, Radio, message } from "antd";
+import { Button, Modal, Radio, Space, Typography, message } from "antd";
 import { Key, useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import BuildChildTable from "../buildList/buildChildTable";
@@ -35,16 +35,18 @@ const AddModal = ({
   const { projectId } = useContext(ProjectContext);
   const [selectType, setSelectType] = useState(1);
   const formRef = useRef<ProFormInstance>();
+  const uuidRef = useRef<Key[]>();
   return (
     <ModalForm
       formRef={formRef}
       trigger={<Button type="primary">新增</Button>}
       title="新增构件"
       width={1000}
-      onFinish={async (values) => {
+      onFinish={async ({ ...values }) => {
         try {
           await BuildApi.addGjAndRebar({
             ...values,
+            uuidList: uuidRef.current,
             projectId,
             stageType,
             priceType,
@@ -139,7 +141,13 @@ const AddModal = ({
                 if (type === 1) {
                   return (
                     <ProForm.Item name="id">
-                      <GJTable unitUUid={unitProjectUuid} />
+                      <GJTable
+                        unitUUid={unitProjectUuid}
+                        onSelect={(uuids, s) => {
+                          uuidRef.current = uuids;
+                          formRef.current?.setFieldValue("computeProject", s);
+                        }}
+                      />
                     </ProForm.Item>
                   );
                 } else {
@@ -176,19 +184,13 @@ const AddModal = ({
 };
 type ITableProps = {
   unitUUid?: string;
-  value?: Key[];
-  onChange?: (value: Key[]) => void;
-  childValue?: Key;
-  childOnChange?: (value: Key) => void;
+  value?: Key;
+  onChange?: (value: Key) => void;
+  onSelect?: (uuids: Key[], v: string) => void;
 };
-const GJTable = ({
-  unitUUid,
-  onChange,
-  value,
-  childOnChange,
-  childValue,
-}: ITableProps) => {
+const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
   const actionRef = useRef<ActionType>();
+  const [selectKeys, setSelectKeys] = useState<Key[]>();
   const columns: ProColumns[] = [
     {
       title: "层数",
@@ -225,9 +227,9 @@ const GJTable = ({
   return (
     <ProTable
       search={false}
-      rowKey={"id"}
+      rowKey={"uuid"}
       actionRef={actionRef}
-      scroll={{ x: "max-content", y: 500 }}
+      scroll={{ x: "max-content", y: 300 }}
       bordered
       size="small"
       cardProps={{
@@ -252,24 +254,34 @@ const GJTable = ({
       toolbar={{
         title: "构件列表",
       }}
-      tableAlertRender={false}
       expandable={{
         expandedRowRender: (record) => {
           return (
-            <BuildChildTable
-              id={record.id}
-              value={childValue}
-              onChange={childOnChange}
-            />
+            <BuildChildTable id={record.id} value={value} onChange={onChange} />
           );
         },
       }}
       rowSelection={{
         type: "checkbox",
-        selectedRowKeys: value,
+        selectedRowKeys: selectKeys,
         onChange: (selectedRowKeys) => {
-          onChange?.(selectedRowKeys);
+          setSelectKeys(selectedRowKeys);
         },
+      }}
+      tableAlertOptionRender={({ onCleanSelected }) => {
+        return (
+          <Space size={16}>
+            <GroupModal
+              ids={selectKeys}
+              onSuccess={(e) => {
+                onSelect?.(selectKeys!, e);
+              }}
+            />
+            <Typography.Link onClick={onCleanSelected}>
+              取消选择
+            </Typography.Link>
+          </Space>
+        );
       }}
     />
   );
@@ -362,6 +374,51 @@ const RebarTable = ({
         },
       }}
     />
+  );
+};
+const GroupModal = ({
+  ids,
+  onSuccess,
+}: {
+  ids?: Key[];
+  onSuccess: (e: string) => void;
+}) => {
+  const [visible, setVisible] = useState(false);
+  const [opt, setopt] = useState<{ computeProject: string; id: number }[]>();
+  const [value, setValue] = useState<string>();
+  const handleShow = () => {
+    setVisible(true);
+    if (ids) {
+      BuildApi.getGjGroup({ uuidList: ids as number[] }).then((res) => {
+        setopt(res.data);
+      });
+    }
+  };
+
+  return (
+    <>
+      <Button onClick={handleShow}>选择计算项目</Button>
+      <Modal
+        title="选择计算项目"
+        open={visible}
+        onCancel={() => setVisible(false)}
+        onOk={() => {
+          if (value) onSuccess(value);
+          setVisible(false);
+        }}
+      >
+        <Radio.Group
+          value={value}
+          onChange={(v) => {
+            setValue(v.target.value);
+          }}
+          options={opt?.map((v) => ({
+            label: v.computeProject,
+            value: v.computeProject,
+          }))}
+        ></Radio.Group>
+      </Modal>
+    </>
   );
 };
 export default AddModal;

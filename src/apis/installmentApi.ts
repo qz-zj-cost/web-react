@@ -1,4 +1,4 @@
-import { IListBaseModel } from "@/models/baseModel";
+import { IBaseModel, IListBaseModel } from "@/models/baseModel";
 import { BaseApi } from "@/utils/https/service";
 
 export class InstallmentServer extends BaseApi {
@@ -9,6 +9,27 @@ export class InstallmentServer extends BaseApi {
   }) {
     return this.axios
       .get<IListBaseModel>("/member/mortgage/quantities/page", { params })
+      .then((e) => e.data);
+  }
+  getMemberSum(params: {
+    projectId: string;
+    monthDate: string;
+    priceType: number;
+    stageType: string;
+  }) {
+    return this.axios
+      .get<
+        IBaseModel<{
+          actualIncome: number;
+          incomeSumPrice: number;
+          mortgageIncomeSumPrice: number;
+          mortgageSumPrice: number;
+          overshootRate: number;
+          profitMargin: number;
+          sumActualIncome: number;
+          sumPrice: number;
+        }>
+      >("/member/mortgage/quantities/member/sum", { params })
       .then((e) => e.data);
   }
   getCostList(params: {

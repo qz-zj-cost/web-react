@@ -95,13 +95,21 @@ export class BuildServer extends BaseApi {
       .get<IListBaseModel>("/member/and/rebar/list", { params })
       .then((v) => v.data);
   }
+  getGjGroup(data: { uuidList: number[] }) {
+    return this.axios
+      .post<IBaseModel<{ computeProject: string; id: number }[]>>(
+        "/member/compute/project/group",
+        data,
+      )
+      .then((v) => v.data);
+  }
   addGjAndRebar(data: any) {
     return this.axios.post("/member/rebar/add", data).then((v) => v.data);
   }
   editGjAndRebar(data: any) {
     return this.axios.post("/member/rebar/update", data).then((v) => v.data);
   }
-  deleteBill(data: { id: number }) {
+  deleteBill(data: { ids: string[] }) {
     return this.axios
       .post("/member/group/bill/member/del", data)
       .then((v) => v.data);

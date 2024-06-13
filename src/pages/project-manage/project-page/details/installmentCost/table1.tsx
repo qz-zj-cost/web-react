@@ -3,13 +3,19 @@ import { ActionType, ProTable } from "@ant-design/pro-components";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "..";
 import ChildTable from "./childTable";
-import { columns } from "./columns";
+import useColumns from "./columns";
 import ExportBtn from "./exportBtn";
 
 const Table1 = ({ monthDate }: { monthDate?: string }) => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
+  const { columns } = useColumns({
+    projectId: projectId,
+    priceType: 1,
+    stageType: tabKey,
+    monthDate: monthDate!,
+  });
 
   const pageRef = useRef<{ pageSize?: number; pageNum?: number }>();
   useEffect(() => {
@@ -23,7 +29,7 @@ const Table1 = ({ monthDate }: { monthDate?: string }) => {
       actionRef={actionRef}
       search={false}
       scroll={{ x: "max-content" }}
-      rowKey={"groupBillCode"}
+      rowKey={"id"}
       bordered
       columns={columns}
       cardProps={{

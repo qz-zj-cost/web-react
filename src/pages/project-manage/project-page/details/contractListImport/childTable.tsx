@@ -3,7 +3,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Tag, Typography } from "antd";
 import { useRef } from "react";
-import { IMatchModalRef } from "./matchModal";
+import MatchModal, { IMatchModalRef } from "./matchModal";
 
 type IChildTableProp = {
   unitProjectUuid?: string;
@@ -167,6 +167,15 @@ const ChildTable = ({
           },
         }}
         tableAlertRender={false}
+      />
+      <MatchModal
+        ref={matchRef}
+        api={(data) => {
+          return ContractImportApi.match(data);
+        }}
+        onSuccess={() => {
+          actionRef.current?.reload?.();
+        }}
       />
     </>
   );
