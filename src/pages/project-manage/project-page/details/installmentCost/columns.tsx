@@ -24,6 +24,7 @@ const useColumns = ({
     sumPrice: number;
   }>();
   useEffect(() => {
+    if (!monthDate) return;
     InstallmentApi.getMemberSum({
       monthDate,
       priceType,
