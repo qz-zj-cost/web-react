@@ -191,6 +191,7 @@ type ITableProps = {
 const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
   const actionRef = useRef<ActionType>();
   const [selectKeys, setSelectKeys] = useState<Key[]>();
+  const { projectId } = useContext(ProjectContext);
   const columns: ProColumns[] = [
     {
       title: "层数",
@@ -200,7 +201,18 @@ const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
     {
       title: "构件类型",
       dataIndex: "memberType",
-      search: false,
+      valueType: "select",
+      request: async () => {
+        if (!unitUUid) return [];
+        const res = await BuildApi.getMemberType({
+          id: projectId,
+          uuid: unitUUid,
+        });
+        return res.data.map((e) => ({
+          label: e.memberType,
+          value: e.memberType,
+        }));
+      },
     },
     {
       title: "构件编号",
@@ -215,7 +227,6 @@ const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
     {
       title: "砼等级",
       dataIndex: "concreteLevel",
-      search: false,
     },
   ];
   useEffect(() => {
@@ -226,7 +237,9 @@ const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
 
   return (
     <ProTable
-      search={false}
+      search={{
+        filterType: "light",
+      }}
       rowKey={"uuid"}
       actionRef={actionRef}
       scroll={{ x: "max-content", y: 300 }}
@@ -238,10 +251,11 @@ const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
         },
       }}
       columns={[...columns]}
-      request={async ({ pageSize, current: pageNum }) => {
+      request={async ({ pageSize, current: pageNum, ...params }) => {
         if (!unitUUid) return { data: [] };
         const res = await BuildApi.getBuildList({
           unitProjectUuid: unitUUid,
+          ...params,
           pageSize,
           pageNum,
         });

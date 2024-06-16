@@ -47,6 +47,15 @@ const SgTable = ({ num }: { num: number }) => {
     {
       title: "单位",
       dataIndex: "unit",
+      render(dom, entity) {
+        return (
+          <Typography.Text
+            type={entity.unitStatus === 0 ? "danger" : "success"}
+          >
+            {dom}
+          </Typography.Text>
+        );
+      },
     },
     {
       title: "数量",

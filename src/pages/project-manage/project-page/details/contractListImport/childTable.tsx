@@ -44,27 +44,27 @@ const ChildTable = ({
     // },
     {
       title: "人工费",
-      dataIndex: "laborCosts",
+      dataIndex: "showLaborCosts",
     },
     {
       title: "材料费",
-      dataIndex: "materialCosts",
+      dataIndex: "showMaterialCosts",
     },
     {
       title: "机械费",
-      dataIndex: "machineryCosts",
+      dataIndex: "showMachineryCosts",
     },
     {
       title: "单位",
-      dataIndex: "unit",
+      dataIndex: "showUnit",
     },
     {
       title: "清单工程量",
-      dataIndex: "num",
+      dataIndex: "showNum",
     },
     {
       title: "综合单价",
-      dataIndex: "subtotal",
+      dataIndex: "showSubtotal",
     },
     {
       title: "合价",
