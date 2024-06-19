@@ -3,7 +3,7 @@ import { EditOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useRef, useState } from "react";
-import AdModal from "../components/AdModal";
+import AdModal, { IAdModalRef } from "../components/AdModal";
 import UnitPriceModal, {
   IUnitPriceModalRef,
 } from "../unitProject/modal/unitPriceModal";
@@ -21,6 +21,7 @@ const ChildTable = ({
   const actionRef = useRef<ActionType>();
   const [selectKeys, setSelectKeys] = useState<number[]>();
   const priceRef = useRef<IUnitPriceModalRef>(null);
+  const adRef = useRef<IAdModalRef>(null);
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -183,12 +184,13 @@ const ChildTable = ({
             align: "center",
             render: (_, val) => {
               return (
-                <AdModal
-                  id={val.id}
-                  onSuccess={() => {
-                    actionRef.current?.reload();
+                <Typography.Link
+                  onClick={() => {
+                    adRef.current?.show([val.id]);
                   }}
-                />
+                >
+                  调整分类
+                </Typography.Link>
               );
             },
           },
@@ -227,6 +229,14 @@ const ChildTable = ({
               >
                 批量修改单价
               </Typography.Link>
+              <Typography.Link
+                onClick={() => {
+                  if (!selectKeys) return;
+                  adRef.current?.show(selectKeys);
+                }}
+              >
+                批量调整分类
+              </Typography.Link>
               <Typography.Link onClick={onCleanSelected}>
                 取消选择
               </Typography.Link>
@@ -237,6 +247,12 @@ const ChildTable = ({
       />
       <UnitPriceModal
         ref={priceRef}
+        onSuccess={() => {
+          actionRef.current?.reload();
+        }}
+      />
+      <AdModal
+        ref={adRef}
         onSuccess={() => {
           actionRef.current?.reload();
         }}

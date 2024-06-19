@@ -155,7 +155,11 @@ const MTable2 = () => {
           };
         }}
         summary={() => (
-          <AmountView priceType={5} stageType={tabKey} colSpan={5} />
+          <AmountView
+            priceType={5}
+            stageType={tabKey}
+            colSpan={[1, 4, 4, 5, 1]}
+          />
         )}
         toolbar={{
           multipleLine: true,

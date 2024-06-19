@@ -82,7 +82,7 @@ class ProjectServer extends ListApi {
     });
   }
   //调整分段和分类
-  updateStage(data: { id: number; priceType: number; stageType: number }) {
+  updateStage(data: { ids: number[]; priceType: number; stageType: number }) {
     return this.axios
       .post("/unit/project/by/finance/update", data)
       .then((v) => v.data);
