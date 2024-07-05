@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode dev",
+    "start:pro": "vite --mode pro",
     "build:dev": "tsc && vite build --mode dev",
     "build:xp": "tsc && vite build --mode xp",
     "build:pro": "tsc && vite build --mode pro",

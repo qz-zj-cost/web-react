@@ -69,6 +69,9 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
             {
               title: "单位工程",
               dataIndex: "unitProjectUuid",
+              fieldProps: {
+                popupMatchSelectWidth: false,
+              },
               request: async ({ unitProjectUuid }) => {
                 if (unitProjectUuid) return [];
                 const res = await BuildApi.getBuildProject({

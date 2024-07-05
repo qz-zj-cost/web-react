@@ -17,7 +17,6 @@ function App() {
   const { menus, isLogin } = useSelector((state: RootState) => state.user);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
   const getQueryVariable = useCallback((variable: string) => {
     const query = window.location.search.substring(1);
     const vars = query.split("&");

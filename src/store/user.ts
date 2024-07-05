@@ -128,6 +128,18 @@ const userSlice = createSlice({
         isLogin: true,
       });
     });
+    builder.addCase(getDopUserInfo.fulfilled, (state, action) => {
+      const { userInfo, menus } = action.payload;
+      const obj = filterFeatures(menus);
+      Object.assign(state, {
+        info: userInfo,
+        token: userInfo?.token,
+        menus: obj.menus,
+        auths: obj.features,
+        attributes: obj.attributes,
+        isLogin: true,
+      });
+    });
   },
 });
 export const { setUserInfo, signOut, setInfoNum, setToken, setCorpId } =
