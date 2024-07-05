@@ -100,7 +100,7 @@ const Table11 = ({ monthDate }: { monthDate?: string }) => {
           stageType: tabKey,
           pageNum,
           pageSize,
-          monthDate,
+          dateQuantitiesId: monthDate,
           type: 3,
         });
         pageRef.current = { pageSize, pageNum };

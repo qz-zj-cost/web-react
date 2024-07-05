@@ -4,7 +4,9 @@ import {
   EditableProTable,
   ModalForm,
   ProForm,
-  ProFormDatePicker,
+  ProFormDateRangePicker,
+  ProFormGroup,
+  ProFormText,
 } from "@ant-design/pro-components";
 import { Button, message } from "antd";
 import { useContext, useState } from "react";
@@ -18,6 +20,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
     <ModalForm
       trigger={<Button type="primary">新建分期</Button>}
       title="新建分期"
+      width={900}
       onFinish={async (val) => {
         try {
           await InstallmentApi.addInstallment({ ...val, projectId });
@@ -32,11 +35,20 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
         destroyOnClose: true,
       }}
     >
-      <ProFormDatePicker.Month
-        label="分期月份"
-        name="monthDate"
-        rules={[{ required: true }]}
-      />
+      <ProFormGroup>
+        <ProFormText
+          label="分期名称"
+          name="name"
+          width={"md"}
+          rules={[{ required: true }]}
+        />
+        <ProFormDateRangePicker
+          label="分期时间"
+          name="monthDate"
+          width={"md"}
+          rules={[{ required: true }]}
+        />
+      </ProFormGroup>
       <ProForm.Item
         label="分期工程量"
         name="quantitiesQueries"

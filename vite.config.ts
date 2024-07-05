@@ -19,6 +19,7 @@ export default defineConfig({
     __VITE_ENV_VERSION__: JSON.stringify(process.env.npm_package_version),
   },
   server: {
+    port: 8989,
     proxy: {
       "/*": {
         target: "http://42.192.80.181:9071",

@@ -25,12 +25,14 @@ const AddModal = ({
   onCreate,
   groupBillCode,
   groupBillUuid,
+  parentId,
 }: {
   stageType: string;
   priceType: number;
   onCreate: VoidFunction;
   groupBillCode: string;
   groupBillUuid: string;
+  parentId: number;
 }) => {
   const { projectId } = useContext(ProjectContext);
   const [selectType, setSelectType] = useState(1);
@@ -52,9 +54,11 @@ const AddModal = ({
             priceType,
             groupBillCode,
             groupBillUuid,
+            parentId,
           });
           formRef.current?.resetFields();
           message.success("新建成功");
+          uuidRef.current = void 0;
           onCreate();
           return true;
         } catch (error) {
@@ -111,6 +115,7 @@ const AddModal = ({
                       value: e.name,
                       label: e.name,
                     })) ?? [];
+
                   return opts;
                 }}
                 label="选择楼层"
@@ -122,7 +127,12 @@ const AddModal = ({
         </ProFormDependency>
 
         <ProFormText label="单位" name="unit" width={"md"} />
-        <ProFormText label="计算项目" name="computeProject" width={"md"} />
+        <ProFormText
+          label="计算项目"
+          name="computeProject"
+          width={"md"}
+          rules={[{ required: true }]}
+        />
         <ProFormDigit label="工程量" name="computeValue" width={"md"} />
         <ProCard title="清单" bodyStyle={{ padding: 10 }} bordered>
           <ProForm.Item>
@@ -146,6 +156,9 @@ const AddModal = ({
                         onSelect={(uuids, s) => {
                           uuidRef.current = uuids;
                           formRef.current?.setFieldValue("computeProject", s);
+                        }}
+                        onChildSelect={(v) => {
+                          formRef.current?.setFieldValue("computeProject", v);
                         }}
                       />
                     </ProForm.Item>
@@ -187,8 +200,15 @@ type ITableProps = {
   value?: Key;
   onChange?: (value: Key) => void;
   onSelect?: (uuids: Key[], v: string) => void;
+  onChildSelect?: (value: string) => void;
 };
-const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
+const GJTable = ({
+  unitUUid,
+  onChange,
+  value,
+  onSelect,
+  onChildSelect,
+}: ITableProps) => {
   const actionRef = useRef<ActionType>();
   const [selectKeys, setSelectKeys] = useState<Key[]>();
   const { projectId } = useContext(ProjectContext);
@@ -202,6 +222,7 @@ const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
       title: "构件类型",
       dataIndex: "memberType",
       valueType: "select",
+      initialValue: void 0,
       request: async () => {
         if (!unitUUid) return [];
         const res = await BuildApi.getMemberType({
@@ -271,7 +292,14 @@ const GJTable = ({ unitUUid, onChange, value, onSelect }: ITableProps) => {
       expandable={{
         expandedRowRender: (record) => {
           return (
-            <BuildChildTable id={record.id} value={value} onChange={onChange} />
+            <BuildChildTable
+              id={record.id}
+              value={value}
+              onChange={(e, l) => {
+                onChange?.(e);
+                onChildSelect?.(l);
+              }}
+            />
           );
         },
       }}
@@ -411,7 +439,9 @@ const GroupModal = ({
 
   return (
     <>
-      <Button onClick={handleShow}>选择计算项目</Button>
+      <Button onClick={handleShow} type="primary">
+        选择计算项目
+      </Button>
       <Modal
         title="选择计算项目"
         open={visible}

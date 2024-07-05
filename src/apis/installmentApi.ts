@@ -13,7 +13,7 @@ export class InstallmentServer extends BaseApi {
   }
   getMemberSum(params: {
     projectId: string;
-    monthDate: string;
+    dateQuantitiesId: string;
     priceType: number;
     stageType: string;
   }) {
@@ -36,7 +36,7 @@ export class InstallmentServer extends BaseApi {
     pageNum?: number;
     pageSize?: number;
     projectId: string;
-    monthDate: string;
+    dateQuantitiesId: string;
     priceType: number;
     stageType: string;
   }) {
@@ -60,7 +60,7 @@ export class InstallmentServer extends BaseApi {
     pageNum?: number;
     pageSize?: number;
     projectId: string;
-    monthDate: string;
+    dateQuantitiesId: string;
     priceType: number;
     stageType: string;
     type: number;
@@ -116,6 +116,17 @@ export class InstallmentServer extends BaseApi {
         responseType: "arraybuffer",
       },
     );
+  }
+  deleteInstallMent(data: { id: number }) {
+    return this.axios.post("/member/mortgage/quantities/del", data);
+  }
+  approval(data: { id: number }) {
+    return this.axios.post("/member/mortgage/quantities/status", data);
+  }
+  getPricePage(params: any) {
+    return this.axios
+      .get("/member/settlement/price/page", { params })
+      .then((e) => e.data);
   }
 }
 

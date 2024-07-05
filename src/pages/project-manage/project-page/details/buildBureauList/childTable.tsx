@@ -16,12 +16,14 @@ const ChildTable = ({
   priceType,
   groupBillCode,
   groupBillUuid,
+  parentId,
 }: {
   id: number;
   stageType: string;
   priceType: number;
   groupBillCode: string;
   groupBillUuid: string;
+  parentId: number;
 }) => {
   const actionRef = useRef<ActionType>();
   const [selectKeys, setSelectKeys] = useState<string[]>();
@@ -129,6 +131,7 @@ const ChildTable = ({
             onCreate={() => {
               actionRef.current?.reload();
             }}
+            parentId={parentId}
             groupBillCode={groupBillCode}
             groupBillUuid={groupBillUuid}
           />,

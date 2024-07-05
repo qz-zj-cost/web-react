@@ -19,7 +19,7 @@ const Table1 = () => {
         actionRef={actionRef}
         search={false}
         scroll={{ x: "max-content" }}
-        rowKey={"groupBillCode"}
+        rowKey={"id"}
         bordered
         columns={[
           ...columns,
@@ -78,6 +78,7 @@ const Table1 = () => {
                 stageType={tabKey}
                 groupBillCode={record.groupBillCode}
                 groupBillUuid={record.groupBillUuid}
+                parentId={record.id}
               />
             );
           },

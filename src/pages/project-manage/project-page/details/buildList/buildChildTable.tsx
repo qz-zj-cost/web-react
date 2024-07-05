@@ -10,7 +10,7 @@ const BuildChildTable = ({
 }: {
   id: number;
   value?: Key;
-  onChange?: (value: Key) => void;
+  onChange?: (value: Key, label: string) => void;
 }) => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
@@ -91,7 +91,7 @@ const BuildChildTable = ({
               selectedRowKeys: value ? [value] : void 0,
               onChange: (_, selectedRows) => {
                 if (selectedRows.length > 0) {
-                  onChange?.(_[0]);
+                  onChange?.(_[0], selectedRows[0].computeProject);
                 }
               },
             }

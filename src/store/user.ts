@@ -61,6 +61,18 @@ export const getUserInfo = createAsyncThunk(
     }
   },
 );
+export const getDopUserInfo = createAsyncThunk(
+  "users/getInfo",
+  async ({ code }: { code: string }) => {
+    try {
+      const user = await UserApi.dopLogin({ code });
+      const menu = await UserApi.getMenu(user.data.token);
+      return { userInfo: user.data, menus: data2MenuModal(menu.data) };
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+);
 const initState: IUserReducer = {
   info: null,
   token: null,

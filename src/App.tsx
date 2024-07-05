@@ -1,21 +1,20 @@
+import { AnyAction } from "@reduxjs/toolkit";
 import { App as AntdApp, ConfigProvider, Spin } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import UserApi from "./apis/userApi";
 import BasicLayout from "./layouts/basic-layout";
 import LoginPage from "./pages/login";
 import NotFound from "./pages/not-found";
 import { RequireAuth } from "./router/auth";
-import menuConfigs from "./router/menu-config";
 import { generatorDynamicRouter } from "./router/route-tool";
 import { RootState } from "./store";
-import { setUserInfo } from "./store/user";
+import { getDopUserInfo } from "./store/user";
 
 function App() {
-  const { menus } = useSelector((state: RootState) => state.user);
+  const { menus, isLogin } = useSelector((state: RootState) => state.user);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -34,29 +33,27 @@ function App() {
   useEffect(() => {
     const code = getQueryVariable("code");
     if (code) {
-      UserApi.dopLogin({ code })
-        .then((res) => {
-          dispatch(
-            setUserInfo({
-              info: res.data,
-              menus: menuConfigs,
-            }),
-          );
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      dispatch(getDopUserInfo({ code }) as unknown as AnyAction);
     } else {
       setLoading(false);
     }
   }, [dispatch, getQueryVariable]);
+
+  useEffect(() => {
+    if (isLogin && loading) {
+      setLoading(false);
+    }
+  }, [isLogin, loading]);
 
   const routes = useMemo(() => {
     return generatorDynamicRouter(menus);
   }, [menus]);
   if (loading)
     return (
-      <Spin spinning={loading}>
+      <Spin
+        spinning={loading}
+        tip={getQueryVariable("code") ? "登录中..." : "请稍后..."}
+      >
         <div style={{ width: "100vw", height: "100vh" }}></div>
       </Spin>
     );
