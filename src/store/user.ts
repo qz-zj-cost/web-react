@@ -62,7 +62,7 @@ export const getUserInfo = createAsyncThunk(
   },
 );
 export const getDopUserInfo = createAsyncThunk(
-  "users/getInfo",
+  "users/dopGetInfo",
   async ({ code }: { code: string }) => {
     try {
       const user = await UserApi.dopLogin({ code });
