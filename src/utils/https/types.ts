@@ -12,6 +12,7 @@ export type IResponseType<T = any> = {
 
 export interface IConfig extends AxiosRequestConfig {
   authError?: boolean;
+  addToken?: boolean;
 }
 
 export interface IHttpModel {}

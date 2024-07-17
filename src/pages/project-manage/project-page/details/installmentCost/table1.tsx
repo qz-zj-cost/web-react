@@ -1,7 +1,8 @@
 import InstallmentApi from "@/apis/installmentApi";
 import { ActionType, ProTable } from "@ant-design/pro-components";
 import { useContext, useEffect, useRef, useState } from "react";
-import { ProjectContext } from "..";
+
+import { ProjectContext } from "../detailContext";
 import ChildTable from "./childTable";
 import useColumns from "./columns";
 import ExportBtn from "./exportBtn";

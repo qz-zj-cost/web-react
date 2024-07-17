@@ -1,7 +1,7 @@
 import BimApi from "@/apis/bimApi";
 import { Button, message } from "antd";
 import { useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const AutoMatchBtn = ({
   unitProjectUuid,

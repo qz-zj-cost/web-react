@@ -8,7 +8,7 @@ import ProjectApi, { OverheadApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Popconfirm, Space, Typography, message } from "antd";
 import { useContext, useRef, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import AddModal from "./addModal";
 import EditModal from "./editModal";
 

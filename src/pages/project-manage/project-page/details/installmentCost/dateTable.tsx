@@ -2,7 +2,7 @@ import InstallmentApi from "@/apis/installmentApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Popconfirm, Space, Typography, message } from "antd";
 import { useContext, useRef } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import AddDateModal from "./addDateModal";
 import EditDateDrawer, { IEditDateDrawerRef } from "./editDateDrawer";
 import ExportActualCost from "./exportActualCost";

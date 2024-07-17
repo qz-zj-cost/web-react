@@ -7,7 +7,7 @@
 import ProjectApi from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import ExportModal from "./export";
 
 const TargetCost = () => {

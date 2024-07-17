@@ -7,7 +7,7 @@
 import BimApi from "@/apis/bimApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useRef } from "react";
-import { ProjectContext } from "../..";
+import { ProjectContext } from "../../detailContext";
 
 const BuildTable = ({ pathList }: { pathList?: string[] }) => {
   const { projectId } = useContext(ProjectContext);

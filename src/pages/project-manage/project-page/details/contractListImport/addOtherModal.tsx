@@ -9,7 +9,7 @@ import {
 } from "@ant-design/pro-components";
 import { Button } from "antd";
 import { forwardRef, useContext, useImperativeHandle, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 type IAddOtherModalRef = {
   show: (e: any) => void;

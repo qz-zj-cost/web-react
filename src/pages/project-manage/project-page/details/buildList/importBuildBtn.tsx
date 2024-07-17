@@ -3,7 +3,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { ProFormSelect } from "@ant-design/pro-components";
 import { Button, Form, Modal, Upload, message } from "antd";
 import { useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 //导入构件计算书
 type IImportBuildBtnProps = {
   onSuccess: VoidFunction;

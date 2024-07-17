@@ -7,8 +7,8 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { useContext, useEffect, useRef } from "react";
-import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
+import { ProjectContext } from "../detailContext";
 
 const SummaryTable = ({ num }: { num: number }) => {
   const { projectId } = useContext(ProjectContext);

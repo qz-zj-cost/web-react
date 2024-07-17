@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite --mode dev",
+    "dev": "vite --mode dev --debug hmr ",
     "start:pro": "vite --mode pro",
     "build:dev": "tsc && vite build --mode dev",
     "build:xp": "tsc && vite build --mode xp",

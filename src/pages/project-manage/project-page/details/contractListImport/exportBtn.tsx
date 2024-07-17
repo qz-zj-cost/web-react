@@ -2,7 +2,7 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { Button } from "antd";
 import fileDownload from "js-file-download";
 import { useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const ExportBtn = ({
   fileName,

@@ -23,7 +23,6 @@ import Table9 from "./table9";
 
 const InstallmentCost = () => {
   const [date, setDate] = useState<string>();
-
   return (
     <div
       style={{

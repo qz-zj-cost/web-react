@@ -15,8 +15,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
+import { ProjectContext } from "../detailContext";
 
 export interface IMatchMemberRef {
   show: (e: any) => void;

@@ -9,7 +9,7 @@ import {
 } from "@ant-design/pro-components";
 import { message } from "antd";
 import { useContext, useEffect, useRef } from "react";
-import { ProjectContext } from ".";
+import { ProjectContext } from "./detailContext";
 
 type IBaseInfoProps = {
   disabled?: boolean;

@@ -10,8 +10,8 @@ import {
 } from "@ant-design/pro-components";
 import { Form, Typography, message } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { ProjectContext } from "..";
 import BureauSelect from "../components/BureauSelect";
+import { ProjectContext } from "../detailContext";
 
 type IEditModalProps = {
   onSuccess?: VoidFunction;

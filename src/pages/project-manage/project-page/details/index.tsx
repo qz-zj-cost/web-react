@@ -1,16 +1,10 @@
 import ProjectApi from "@/apis/projectApi";
 import { FPage } from "@/components";
+import { updateOtherTitle } from "@/components/FBreadcrumb/otherTitle";
 import { IProjectModel } from "@/models/projectModel";
 import { RootState } from "@/store";
 import { Spin, Tabs } from "antd";
-import {
-  createContext,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import BaseInfo from "./baseInfo";
@@ -18,18 +12,13 @@ import Bim from "./bim";
 import BuildBureauList from "./buildBureauList";
 import BuildList from "./buildList";
 import ContractListImport from "./contractListImport";
+import { ProjectContext } from "./detailContext";
 import InstallmentCost from "./installmentCost";
 import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
 import TargetCost from "./targetCost";
 import UnitProject from "./unitProject";
 
-interface IContextProps {
-  projectId: string;
-  projectInfo?: IProjectModel;
-  getProjectInfo: () => void;
-}
-export const ProjectContext = createContext<IContextProps>(null as any);
 const ProjectDetails = () => {
   const [info, setInfo] = useState<IProjectModel>();
   const [searchParams] = useSearchParams();
@@ -41,6 +30,7 @@ const ProjectDetails = () => {
     ProjectApi.getDetails<IProjectModel>({ id: projectIdRef.current })
       .then((res) => {
         setInfo(res.data);
+        updateOtherTitle(res.data?.projectName);
       })
       .finally(() => {
         setLoading(false);
@@ -137,7 +127,6 @@ const ProjectDetails = () => {
     >
       <Spin spinning={loading}>
         <FPage style={{ padding: "15px" }}>
-          <h4 style={{ margin: "0 0 10px 0" }}>{info?.projectName}</h4>
           <Tabs type="card" items={tabView}></Tabs>
         </FPage>
       </Spin>

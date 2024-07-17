@@ -11,8 +11,8 @@ import {
 } from "@ant-design/pro-components";
 import { Button, message } from "antd";
 import { useContext, useRef } from "react";
-import { ProjectContext } from "..";
 import BureauSelect from "../components/BureauSelect";
+import { ProjectContext } from "../detailContext";
 
 type IAddModalProps = {
   onSuccess?: VoidFunction;

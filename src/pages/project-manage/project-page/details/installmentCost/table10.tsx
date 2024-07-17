@@ -2,7 +2,7 @@ import InstallmentApi from "@/apis/installmentApi";
 import { ActionType, ProFormDigit, ProTable } from "@ant-design/pro-components";
 import { Space } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import EditModal from "./editModal";
 import ExportBtn from "./exportBtn";
 //周转材料费

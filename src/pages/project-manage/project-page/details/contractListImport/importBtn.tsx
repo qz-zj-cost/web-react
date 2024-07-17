@@ -2,7 +2,7 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload, message } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 type IImportBtnProps = {
   onSuccess: VoidFunction;

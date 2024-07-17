@@ -8,7 +8,7 @@ import {
 import { Button, message } from "antd";
 import fileDownload from "js-file-download";
 import { useContext } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const typeOptions = [
   {

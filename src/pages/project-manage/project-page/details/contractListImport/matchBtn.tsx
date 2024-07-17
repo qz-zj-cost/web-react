@@ -1,7 +1,7 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { Button, message } from "antd";
 import { useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const MatchBtn = () => {
   const [loading, setloading] = useState(false);

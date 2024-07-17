@@ -9,7 +9,7 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Select, Space } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import ImportRebarBtn from "./importRebarBtn";
 
 const RebarList = () => {

@@ -2,7 +2,7 @@ import InstallmentApi from "@/apis/installmentApi";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload, message } from "antd";
 import { useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const ImportPriceBtn = ({ date }: { date?: string }) => {
   const { projectId } = useContext(ProjectContext);

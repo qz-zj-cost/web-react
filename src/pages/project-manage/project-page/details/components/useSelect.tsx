@@ -3,7 +3,7 @@ import { ActionType } from "@ant-design/pro-components";
 import { Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const useSelect = ({
   actionRef,

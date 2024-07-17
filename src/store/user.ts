@@ -109,7 +109,15 @@ const userSlice = createSlice({
       state.infoNum = action.payload.num;
     },
     signOut: (state) => {
-      Object.assign(state, { isLogin: false });
+      Object.assign(state, {
+        isLogin: false,
+        token: null,
+        menus: [],
+        auths: [],
+        attributes: [],
+        infoNum: 0,
+        corpId: null,
+      });
     },
     setCorpId: (state, action: PayloadAction<{ corpId: string }>) => {
       state.corpId = action.payload.corpId;

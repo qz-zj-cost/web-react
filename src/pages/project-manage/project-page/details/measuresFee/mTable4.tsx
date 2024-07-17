@@ -8,8 +8,8 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
-import { ProjectContext } from "..";
 import AmountView from "../components/AmountView";
+import { ProjectContext } from "../detailContext";
 import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
 import ChildTable from "./childTable";
 

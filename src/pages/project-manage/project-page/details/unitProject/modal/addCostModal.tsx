@@ -18,7 +18,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ProjectContext } from "../..";
+import { ProjectContext } from "../../detailContext";
 
 type IAddCostModalProps = {
   onSuccess: VoidFunction;

@@ -9,7 +9,7 @@ import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Popconfirm, Space, Typography, message } from "antd";
 import _ from "lodash";
 import { useContext, useRef, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import AddCostModal, { IAddCostModalRef } from "./modal/addCostModal";
 
 const ServiceCost = () => {

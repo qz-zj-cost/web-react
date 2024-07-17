@@ -2,7 +2,7 @@ import BuildApi from "@/apis/buildApi";
 import { ActionType, ProTable } from "@ant-design/pro-components";
 import { Typography } from "antd";
 import { useContext, useRef, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import ChildTable from "./childTable";
 import { columns } from "./columns";
 import MatchMemberModal, { IMatchMemberRef } from "./matchMemberModal";

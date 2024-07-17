@@ -10,8 +10,8 @@ import {
 } from "@ant-design/pro-components";
 import { Button } from "antd";
 import { forwardRef, useContext, useImperativeHandle, useState } from "react";
-import { ProjectContext } from "..";
 import FormItemMatchBureauList from "../components/FormItemMatchBureauList";
+import { ProjectContext } from "../detailContext";
 
 type IAddZjModalRef = {
   show: (e: any) => void;

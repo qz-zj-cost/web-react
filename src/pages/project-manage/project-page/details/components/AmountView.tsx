@@ -1,7 +1,7 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { Table } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const AmountView = ({
   colSpan = [1, 4, 4, 4, 1],

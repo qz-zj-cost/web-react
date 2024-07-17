@@ -2,7 +2,7 @@ import InstallmentApi from "@/apis/installmentApi";
 import { Button } from "antd";
 import fileDownload from "js-file-download";
 import { useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const ExportActualCost = ({ monthDate }: { monthDate?: string }) => {
   const { projectId } = useContext(ProjectContext);

@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import BimModal from "./bimModal";
 import BindModel from "./bindModel";
 import MatchBuildModel from "./matchBuildModel";

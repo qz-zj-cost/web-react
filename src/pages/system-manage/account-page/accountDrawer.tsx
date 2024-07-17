@@ -17,7 +17,7 @@ export type IAccountDarwerRef = {
   onEdit: (v: any) => void;
 };
 
-const reg = /^[a-zA-Z][a-zA-Z0-9]{7,15}$/;
+const reg = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[.@$!%*#_~?&^]).{8,16}$/;
 const AccountDarwer = forwardRef<IAccountDarwerRef, IAccountDarwerProps>(
   ({ onCreate }, ref) => {
     const [visible, setVisible] = useState(false);

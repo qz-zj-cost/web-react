@@ -8,8 +8,8 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
 import { useContext, useEffect, useRef } from "react";
-import { ProjectContext } from "..";
 import useSelect from "../components/useSelect";
+import { ProjectContext } from "../detailContext";
 import ChildTable from "./childTable";
 import ExportBtn from "./exportBtn";
 

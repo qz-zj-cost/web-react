@@ -16,8 +16,8 @@ import {
 } from "@ant-design/pro-components";
 import { Button, Modal, Radio, Space, Typography, message } from "antd";
 import { Key, useContext, useEffect, useRef, useState } from "react";
-import { ProjectContext } from "..";
 import BuildChildTable from "../buildList/buildChildTable";
+import { ProjectContext } from "../detailContext";
 
 const AddModal = ({
   stageType,

@@ -1,7 +1,7 @@
 import BuildApi from "@/apis/buildApi";
 import { Button, Tabs } from "antd";
 import { useCallback, useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 import Table1 from "./table1";
 import Table2 from "./table2";
 import Table3 from "./table3";

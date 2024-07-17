@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ProjectContext } from "../..";
+import { ProjectContext } from "../../detailContext";
 
 // type IRecord = { uuid: string; groupBillCode: string }[];
 //匹配企业定额

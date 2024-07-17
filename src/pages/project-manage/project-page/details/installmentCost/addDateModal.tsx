@@ -10,7 +10,7 @@ import {
 } from "@ant-design/pro-components";
 import { Button, message } from "antd";
 import { useContext, useState } from "react";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>();

@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 import { BimContext } from ".";
-import { ProjectContext } from "..";
+import { ProjectContext } from "../detailContext";
 
 export type IBimTreeModalRef = {
   show: (uuid: string) => void;

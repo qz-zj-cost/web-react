@@ -6,7 +6,12 @@
   overflow: hidden;
   background-color: #fff;
   border-bottom: 1px solid #f0f0f0;
-
+  &-other {
+    color: rgba(0, 0, 0, 0.45);
+    &-gt {
+      margin: 0 8px;
+    }
+  }
   /* background: #1c1c50;
   border-bottom: 1px solid rgb(45 80 160 / 36%); */
 }

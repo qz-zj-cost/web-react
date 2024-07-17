@@ -120,9 +120,9 @@ export abstract class ListApi extends BaseApi {
       this.axios.post<IBaseModel<T>>(`${this.url}/update`, data),
     );
   }
-  delete<T = any, D = any>(params: D) {
+  delete<T = any, D = any>(data: D) {
     return this.getData<IBaseModel<T>>(
-      this.axios.get<IBaseModel<T>>(`${this.url}/del`, { params }),
+      this.axios.post<IBaseModel<T>>(`${this.url}/del`, data),
     );
   }
 }
