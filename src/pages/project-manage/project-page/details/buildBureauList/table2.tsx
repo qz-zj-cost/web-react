@@ -1,6 +1,6 @@
 import BuildApi from "@/apis/buildApi";
 import { ActionType, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Space, Typography } from "antd";
 import { useContext, useRef, useState } from "react";
 import { ProjectContext } from "../detailContext";
 import ChildTable from "./childTable";
@@ -29,9 +29,18 @@ const Table2 = () => {
             align: "center",
             render: (_, record) => {
               return (
-                <Typography.Link onClick={() => matchRef.current?.show(record)}>
-                  匹配构件
-                </Typography.Link>
+                <Space>
+                  <Typography.Link
+                    onClick={() => matchRef.current?.show(record, 1)}
+                  >
+                    匹配构件
+                  </Typography.Link>
+                  <Typography.Link
+                    onClick={() => matchRef.current?.show(record, 2)}
+                  >
+                    匹配钢筋
+                  </Typography.Link>
+                </Space>
               );
             },
           },
