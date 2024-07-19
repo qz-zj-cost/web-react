@@ -128,6 +128,14 @@ export class InstallmentServer extends BaseApi {
       .get("/member/settlement/price/page", { params })
       .then((e) => e.data);
   }
+  updatePrice(data: {
+    dateQuantitiesId: number;
+    groupBillUuid?: string;
+    settlementPriceInfoId: string;
+    stockNum?: number;
+  }) {
+    return this.axios.post("/member/settlement/price/update", data);
+  }
 }
 
 const InstallmentApi = new InstallmentServer();

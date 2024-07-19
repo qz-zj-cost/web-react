@@ -3,7 +3,7 @@ import { FPage } from "@/components";
 import { updateOtherTitle } from "@/components/FBreadcrumb/otherTitle";
 import { IProjectModel } from "@/models/projectModel";
 import { RootState } from "@/store";
-import { Spin, Tabs } from "antd";
+import { Spin, Tabs, Typography } from "antd";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -127,6 +127,9 @@ const ProjectDetails = () => {
     >
       <Spin spinning={loading}>
         <FPage style={{ padding: "15px" }}>
+          <Typography.Title level={5} style={{ margin: "0 0 10px" }}>
+            {info?.projectName}
+          </Typography.Title>
           <Tabs type="card" items={tabView}></Tabs>
         </FPage>
       </Spin>

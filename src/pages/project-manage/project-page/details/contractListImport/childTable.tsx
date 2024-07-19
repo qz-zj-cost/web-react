@@ -3,7 +3,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Tag, Typography } from "antd";
 import { useRef } from "react";
-import MatchModal, { IMatchModalRef } from "./matchModal";
+import MatchModal, { IMatchModalRef } from "../components/matchModal";
 
 type IChildTableProp = {
   unitProjectUuid?: string;

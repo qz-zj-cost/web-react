@@ -65,9 +65,12 @@ const DateTable = ({
                 });
               }}
             >
-              <Typography.Link disabled>提交审批</Typography.Link>
+              <Typography.Link disabled={val.status === 1}>
+                提交审批
+              </Typography.Link>
             </Popconfirm>
             <Typography.Link
+              disabled={val.status === 1}
               onClick={() => {
                 editRef.current?.show(val);
               }}
@@ -85,7 +88,9 @@ const DateTable = ({
                 );
               }}
             >
-              <Typography.Link type="danger">删除</Typography.Link>
+              <Typography.Link type="danger" disabled={val.status === 1}>
+                删除
+              </Typography.Link>
             </Popconfirm>
           </Space>
         );

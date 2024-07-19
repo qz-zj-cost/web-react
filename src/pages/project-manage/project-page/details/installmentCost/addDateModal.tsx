@@ -8,8 +8,8 @@ import {
   ProFormGroup,
   ProFormText,
 } from "@ant-design/pro-components";
-import { Button, message } from "antd";
-import { useContext, useState } from "react";
+import { Button, Select, message } from "antd";
+import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../detailContext";
 
 const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
@@ -60,6 +60,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
           unitProjectUuid?: string;
           storeyRegionList?: string;
           completionDegree?: string;
+          type: number;
         }>
           rowKey="id"
           toolBarRender={false}
@@ -72,8 +73,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
               fieldProps: {
                 popupMatchSelectWidth: false,
               },
-              request: async ({ unitProjectUuid }) => {
-                if (unitProjectUuid) return [];
+              request: async () => {
                 const res = await BuildApi.getBuildProject({
                   id: projectId,
                 });
@@ -84,42 +84,58 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
               },
             },
             {
-              title: "楼层区域",
-              dataIndex: "storeyRegionList",
-              width: 250,
-              dependencies: ["unitProjectUuid"],
-              fieldProps: {
-                mode: "multiple",
+              title: "类型",
+              dataIndex: "type",
+              request: async () => {
+                return [
+                  {
+                    label: "构件",
+                    value: 1,
+                  },
+                  {
+                    label: "钢筋",
+                    value: 2,
+                  },
+                ];
               },
-              request: async ({ unitProjectUuid }) => {
-                if (!unitProjectUuid) return [];
-                const res = await BuildApi.getBuildstorey({
-                  uuid: unitProjectUuid,
-                });
-                return res.data.map((e) => ({
-                  label: e.name,
-                  value: e.name,
-                }));
+            },
+            {
+              title: "楼层",
+              dataIndex: "storeyRegionList",
+              renderFormItem(_, config) {
+                const { record } = config;
+                return (
+                  <LcSelect
+                    uuid={record?.unitProjectUuid}
+                    type={record?.type}
+                  />
+                );
+              },
+            },
+            {
+              title: "施工段",
+              dataIndex: "constructionSectionList",
+              renderFormItem(_, config) {
+                const { record } = config;
+                return (
+                  <SgSelect
+                    uuid={record?.unitProjectUuid}
+                    type={record?.type}
+                  />
+                );
               },
             },
             {
               title: "构件类型",
               dataIndex: "memberTypeList",
-              valueType: "select",
-              fieldProps: {
-                mode: "multiple",
-              },
-              dependencies: ["unitProjectUuid"],
-              request: async ({ unitProjectUuid }) => {
-                if (!unitProjectUuid) return [];
-                const res = await BuildApi.getMemberType({
-                  id: projectId,
-                  uuid: unitProjectUuid,
-                });
-                return res.data.map((e) => ({
-                  label: e.memberType,
-                  value: e.memberType,
-                }));
+              renderFormItem(_, config) {
+                const { record } = config;
+                return (
+                  <GjSelect
+                    uuid={record?.unitProjectUuid}
+                    type={record?.type}
+                  />
+                );
               },
             },
             {
@@ -142,6 +158,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
             position: "bottom",
             record: () => ({
               id: Date.now(),
+              type: 1,
             }),
           }}
           editable={{
@@ -158,4 +175,103 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
   );
 };
 
+type LcSelectProps = {
+  value?: string;
+  onChange?: (e: string) => void;
+  uuid?: string;
+  type?: number;
+};
+const LcSelect = ({ value, onChange, uuid, type }: LcSelectProps) => {
+  const [options, setOptions] = useState<{ label: string; value: string }[]>();
+  useEffect(() => {
+    if (!uuid || !type) return;
+    BuildApi.getBuildstorey({
+      uuid: uuid,
+      type,
+    }).then((res) => {
+      const arr = res.data.map((e) => ({ label: e.name, value: e.name }));
+      setOptions(arr);
+    });
+  }, [type, uuid]);
+
+  return (
+    <Select
+      value={value}
+      options={options}
+      mode="multiple"
+      onChange={(v) => {
+        onChange?.(v);
+      }}
+    />
+  );
+};
+
+type GjSelectProps = {
+  value?: string;
+  onChange?: (e: string) => void;
+  uuid?: string;
+  type?: number;
+};
+const GjSelect = ({ value, onChange, uuid, type }: GjSelectProps) => {
+  const [options, setOptions] = useState<{ label: string; value: string }[]>();
+  const { projectId } = useContext(ProjectContext);
+  useEffect(() => {
+    if (!uuid || !type) return;
+    BuildApi.getMemberType({
+      id: projectId,
+      uuid: uuid,
+      type,
+    }).then((res) => {
+      const arr = res.data.map((e) => ({
+        label: e.memberType,
+        value: e.memberType,
+      }));
+      setOptions(arr);
+    });
+  }, [projectId, type, uuid]);
+
+  return (
+    <Select
+      value={value}
+      mode="multiple"
+      options={options}
+      onChange={(v) => {
+        onChange?.(v);
+      }}
+    />
+  );
+};
+type SgSelectProps = {
+  value?: string;
+  onChange?: (e: string) => void;
+  uuid?: string;
+  type?: number;
+};
+const SgSelect = ({ value, onChange, uuid, type }: SgSelectProps) => {
+  const [options, setOptions] = useState<{ label: string; value: string }[]>();
+  useEffect(() => {
+    if (!uuid || !type) return;
+    BuildApi.getSectionList({
+      unitProjectUuid: uuid,
+      type,
+    }).then((res) => {
+      const arr = res.data.map((e) => ({
+        label: e.name,
+        value: e.name,
+      }));
+      setOptions(arr);
+    });
+  }, [type, uuid]);
+
+  return (
+    <Select
+      value={value}
+      options={options}
+      mode="multiple"
+      onChange={(v) => {
+        onChange?.(v);
+      }}
+    />
+  );
+};
 export default AddDateModal;

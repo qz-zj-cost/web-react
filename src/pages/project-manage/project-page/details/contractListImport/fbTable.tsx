@@ -8,11 +8,11 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Button, Space, Typography } from "antd";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import MatchModal, { IMatchModalRef } from "../components/matchModal";
 import useSelect from "../components/useSelect";
 import { ProjectContext } from "../detailContext";
 import ChildTable from "./childTable";
 import ExportBtn from "./exportBtn";
-import MatchModal, { IMatchModalRef } from "./matchModal";
 
 const FbTable = ({ num }: { num: number }) => {
   const actionRef = useRef<ActionType>();

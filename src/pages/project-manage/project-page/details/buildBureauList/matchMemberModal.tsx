@@ -19,7 +19,7 @@ import useSelect from "../components/useSelect";
 import { ProjectContext } from "../detailContext";
 
 export interface IMatchMemberRef {
-  show: (e: any) => void;
+  show: (e: any, type: number) => void;
 }
 const MatchMemberModal = forwardRef<IMatchMemberRef, { onSuccess: () => void }>(
   ({ onSuccess }, ref) => {
@@ -27,13 +27,17 @@ const MatchMemberModal = forwardRef<IMatchMemberRef, { onSuccess: () => void }>(
     const { types, selectProject, getTypeList } = useSelect({ type: 1 });
     const { projectId } = useContext(ProjectContext);
     const [options, setOptions] = useState<IMathchMemberConfig>();
+    const [gJoptions, setGjOptions] =
+      useState<{ value: string; label: string }[]>();
     const formRef = useRef<ProFormInstance>();
     const idRef = useRef<string>();
+    const [type, setType] = useState(1);
     useImperativeHandle(
       ref,
       () => ({
-        show: (e) => {
+        show: (e, t) => {
           setVisible(true);
+          setType(t);
           idRef.current = e.id;
         },
       }),
@@ -42,6 +46,7 @@ const MatchMemberModal = forwardRef<IMatchMemberRef, { onSuccess: () => void }>(
     useEffect(() => {
       getTypeList();
     }, [getTypeList]);
+
     useEffect(() => {
       if (types?.typeId1 && projectId) {
         BuildApi.getMatchMemberConfig({
@@ -51,11 +56,27 @@ const MatchMemberModal = forwardRef<IMatchMemberRef, { onSuccess: () => void }>(
           setOptions(res.data);
         });
       }
-    }, [projectId, types]);
+    }, [projectId, type, types?.typeId1]);
+
+    useEffect(() => {
+      if (types?.typeId1 && projectId && type === 2) {
+        BuildApi.getMemberType({
+          id: projectId,
+          uuid: types?.typeId1,
+          type: 2,
+        }).then((res) => {
+          const arr = res.data.map((e) => ({
+            label: e.memberType,
+            value: e.memberType,
+          }));
+          setGjOptions(arr);
+        });
+      }
+    }, [projectId, type, types?.typeId1]);
 
     return (
       <ModalForm
-        title="匹配构件"
+        title={type === 1 ? "匹配构件" : "匹配钢筋"}
         open={visible}
         formRef={formRef}
         onOpenChange={(v) => {
@@ -66,11 +87,19 @@ const MatchMemberModal = forwardRef<IMatchMemberRef, { onSuccess: () => void }>(
         }}
         onFinish={async (params) => {
           try {
-            await BuildApi.matchMember({
-              ...params,
-              id: idRef.current,
-              unitProjectUuid: types?.typeId1,
-            });
+            if (type === 1) {
+              await BuildApi.matchMember({
+                ...params,
+                id: idRef.current,
+                unitProjectUuid: types?.typeId1,
+              });
+            } else {
+              await BuildApi.matchGj({
+                ...params,
+                id: idRef.current,
+                unitProjectUuid: types?.typeId1,
+              });
+            }
             message.success("匹配成功");
             onSuccess();
             return true;
@@ -80,47 +109,62 @@ const MatchMemberModal = forwardRef<IMatchMemberRef, { onSuccess: () => void }>(
         }}
       >
         <ProForm.Item label="单位工程">{selectProject()}</ProForm.Item>
-        <ProFormSelect
-          label="构件选择"
-          name="memberType"
-          options={options?.memberTypeDtos.map((item) => ({
-            value: item.memberType,
-            label: item.memberType,
-          }))}
-          rules={[{ required: true }]}
-        />
-        <ProFormSelect
-          label="计算项目"
-          name="computeProject"
-          options={options?.computeProjectDtos.map((item) => ({
-            value: item.computeProject,
-            label: item.computeProject,
-          }))}
-        />
-        <ProFormSelect
-          label="硂等级"
-          name="concreteLevel"
-          options={options?.concreteLevelDtos.map((item) => ({
-            value: item.concreteLevel,
-            label: item.concreteLevel,
-          }))}
-        />
-        <ProFormSelect
-          label="钢筋型号选择"
-          name="rebarCode"
-          options={options?.rebarCodeDtos.map((item) => ({
-            value: item.rebarCode,
-            label: item.rebarCode,
-          }))}
-        />
-        <ProFormSelect
-          label="钢筋直径选择"
-          name="rebarType"
-          options={options?.rebarTypeDtos.map((item) => ({
-            value: item.rebarType,
-            label: item.rebarType,
-          }))}
-        />
+
+        {type === 1 && (
+          <>
+            <ProFormSelect
+              label={"构件类型"}
+              name="memberType"
+              options={options?.memberTypeDtos.map((item) => ({
+                value: item.memberType,
+                label: item.memberType,
+              }))}
+              rules={[{ required: true }]}
+            />
+            <ProFormSelect
+              label="计算项目"
+              name="computeProject"
+              options={options?.computeProjectDtos.map((item) => ({
+                value: item.computeProject,
+                label: item.computeProject,
+              }))}
+            />
+            <ProFormSelect
+              label="硂等级"
+              name="concreteLevel"
+              options={options?.concreteLevelDtos.map((item) => ({
+                value: item.concreteLevel,
+                label: item.concreteLevel,
+              }))}
+            />
+          </>
+        )}
+        {type === 2 && (
+          <>
+            <ProFormSelect
+              label={"钢筋类型"}
+              name="memberType"
+              options={gJoptions}
+              rules={[{ required: true }]}
+            />
+            <ProFormSelect
+              label="钢筋型号选择"
+              name="rebarCode"
+              options={options?.rebarCodeDtos.map((item) => ({
+                value: item.rebarCode,
+                label: item.rebarCode,
+              }))}
+            />
+            <ProFormSelect
+              label="钢筋直径选择"
+              name="rebarType"
+              options={options?.rebarTypeDtos.map((item) => ({
+                value: item.rebarType,
+                label: item.rebarType,
+              }))}
+            />
+          </>
+        )}
       </ModalForm>
     );
   },

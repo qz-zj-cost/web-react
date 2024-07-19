@@ -56,7 +56,7 @@ export class BuildServer extends BaseApi {
   match(data: { id: string }) {
     return this.axios.post("/member/mate/init", data).then((v) => v.data);
   }
-  getBuildstorey(params: { uuid: string }) {
+  getBuildstorey(params: { uuid: string; type: number }) {
     ///member/storey/name
     return this.axios
       .get<IBaseModel<{ name: string }[]>>("/member/storey/name", { params })
@@ -114,7 +114,7 @@ export class BuildServer extends BaseApi {
       .post("/member/group/bill/member/del", data)
       .then((v) => v.data);
   }
-  getMemberType(params: { id: string; uuid: string }) {
+  getMemberType(params: { id: string; uuid: string; type: number }) {
     return this.axios
       .get<IBaseModel<{ memberType: string; id: number }[]>>(
         "/member/group/member/type",
@@ -136,6 +136,19 @@ export class BuildServer extends BaseApi {
       "/member/hand/movement/mate",
       data,
     );
+  }
+  matchGj(data: any) {
+    return this.axios.post<IBaseModel<IMathchMemberConfig>>(
+      "/member/hand/movement/rebar/mate",
+      data,
+    );
+  }
+  getSectionList(params: { type: number; unitProjectUuid: string }) {
+    return this.axios
+      .get<IBaseModel<{ name: string }[]>>("/member/section/name/list", {
+        params,
+      })
+      .then((v) => v.data);
   }
 }
 const BuildApi = new BuildServer();
