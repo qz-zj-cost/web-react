@@ -16,6 +16,7 @@ export class InstallmentServer extends BaseApi {
     dateQuantitiesId: string;
     priceType: number;
     stageType: string;
+    type: number;
   }) {
     return this.axios
       .get<
@@ -30,6 +31,28 @@ export class InstallmentServer extends BaseApi {
           sumPrice: number;
         }>
       >("/member/mortgage/quantities/member/sum", { params })
+      .then((e) => e.data);
+  }
+  getCostPreviewMemberSum(params: {
+    projectId: string;
+    dateQuantitiesId: string;
+    priceType: number;
+    stageType: string;
+    type: number;
+  }) {
+    return this.axios
+      .get<
+        IBaseModel<{
+          actualIncome: number;
+          incomeSumPrice: number;
+          mortgageIncomeSumPrice: number;
+          mortgageSumPrice: number;
+          overshootRate: number;
+          profitMargin: number;
+          sumActualIncome: number;
+          sumPrice: number;
+        }>
+      >("/member/previous/mortgage/quantities/sum", { params })
       .then((e) => e.data);
   }
   getCostList(params: {
@@ -84,7 +107,7 @@ export class InstallmentServer extends BaseApi {
   }
   export(data: {
     projectId: string;
-    monthDate?: string;
+    dateQuantitiesId?: string;
     pageNum?: number;
     pageSize?: number;
     priceType: number;
@@ -96,7 +119,7 @@ export class InstallmentServer extends BaseApi {
   }
   exportOther(data: {
     projectId: string;
-    monthDate?: string;
+    dateQuantitiesId?: string;
     pageNum?: number;
     pageSize?: number;
     priceType: number;
@@ -120,12 +143,20 @@ export class InstallmentServer extends BaseApi {
   deleteInstallMent(data: { id: number }) {
     return this.axios.post("/member/mortgage/quantities/del", data);
   }
+  syncStaging(data: { id: number; projectId: string }) {
+    return this.axios.post("/member/mortgage/quantities/sync", data);
+  }
   approval(data: { id: number }) {
     return this.axios.post("/member/mortgage/quantities/status", data);
   }
   getPricePage(params: any) {
     return this.axios
       .get("/member/settlement/price/page", { params })
+      .then((e) => e.data);
+  }
+  getBillGroupList(params: any) {
+    return this.axios
+      .get("/unit/project/group/bill/list", { params })
       .then((e) => e.data);
   }
   updatePrice(data: {
@@ -135,6 +166,46 @@ export class InstallmentServer extends BaseApi {
     stockNum?: number;
   }) {
     return this.axios.post("/member/settlement/price/update", data);
+  }
+  updatePriceAndNum(data: {
+    id: number;
+    type: number;
+    actualNum?: number;
+    actualPrice?: number;
+  }) {
+    return this.axios.post("/member/mortgage/quantities/update", data);
+  }
+  getSummaryList(params: { id: string }) {
+    return this.axios
+      .get("/member/mortgage/quantities/summary", { params })
+      .then((e) => e.data);
+  }
+  getVisaList(params: any) {
+    return this.axios.get("/visa/change/list", { params }).then((v) => v.data);
+  }
+  addVisa(data: any) {
+    return this.axios.post("/visa/change/save", data).then((v) => v.data);
+  }
+  updateVisa(data: any) {
+    return this.axios.post("/visa/change/edit", data).then((v) => v.data);
+  }
+  getFqConfigList(params: { id: string }) {
+    return this.axios
+      .post("/member/mortgage/quantities/config/list", { params })
+      .then((v) => v.data);
+  }
+  getCostPreviewList(params: {
+    projectId: string;
+    dateQuantitiesId?: string;
+    pageNum?: number;
+    pageSize?: number;
+    priceType: number;
+    type: number;
+    stageType: string;
+  }) {
+    return this.axios
+      .get<IListBaseModel>("/member/previous/mortgage/quantities", { params })
+      .then((e) => e.data);
   }
 }
 

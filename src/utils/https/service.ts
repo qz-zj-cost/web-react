@@ -86,7 +86,7 @@ export class BaseApi extends BasicService {
           message: "请求失败",
           description: data.data?.message ?? "接口错误",
         });
-        return data;
+        throw data;
       }
     } else {
       notification.error({

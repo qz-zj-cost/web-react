@@ -127,12 +127,20 @@ const AddModal = ({
         </ProFormDependency>
 
         <ProFormText label="单位" name="unit" width={"md"} />
-        <ProFormText
-          label="计算项目"
-          name="computeProject"
-          width={"md"}
-          rules={[{ required: true }]}
-        />
+        <ProFormDependency name={["unitProjectUuid", "type"]}>
+          {({ type }) => {
+            if (type === 1)
+              return (
+                <ProFormText
+                  label="计算项目"
+                  name="computeProject"
+                  width={"md"}
+                  rules={[{ required: true }]}
+                />
+              );
+          }}
+        </ProFormDependency>
+
         <ProFormDigit label="工程量" name="computeValue" width={"md"} />
         <ProCard title="清单" bodyStyle={{ padding: 10 }} bordered>
           <ProForm.Item>
@@ -228,6 +236,7 @@ const GJTable = ({
         const res = await BuildApi.getMemberType({
           id: projectId,
           uuid: unitUUid,
+          type: 1,
         });
         return res.data.map((e) => ({
           label: e.memberType,

@@ -143,7 +143,11 @@ export class BuildServer extends BaseApi {
       data,
     );
   }
-  getSectionList(params: { type: number; unitProjectUuid: string }) {
+  getSectionList(params: {
+    type: number;
+    unitProjectUuid: string;
+    storeyName: string;
+  }) {
     return this.axios
       .get<IBaseModel<{ name: string }[]>>("/member/section/name/list", {
         params,

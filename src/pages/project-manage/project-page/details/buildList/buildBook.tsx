@@ -11,7 +11,6 @@ import { DefaultOptionType } from "antd/es/select";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "../detailContext";
 import BuildChildTable from "./buildChildTable";
-import ImportBuildBtn from "./importBuildBtn";
 import ImportQuanBtn from "./importQuanBtn";
 
 const BuildBook = () => {
@@ -106,11 +105,11 @@ const BuildBook = () => {
         // settings: [],
         title: (
           <Space>
-            <ImportBuildBtn
+            {/* <ImportBuildBtn
               onSuccess={() => {
                 actionRef.current?.reload();
               }}
-            />
+            /> */}
             <ImportQuanBtn
               onSuccess={() => {
                 actionRef.current?.reload();

@@ -24,24 +24,29 @@ const DateTable = ({
       width: 60,
     },
     {
-      title: "分期时间",
+      title: "分期名称",
       width: 200,
-      dataIndex: "monthDate",
+      dataIndex: "name",
     },
     {
       title: "当前合同收入(元)",
-      dataIndex: "sumPrice",
+      dataIndex: "incomeSumPrice",
       width: 200,
     },
     {
       title: "当前目标成本(元)",
-      dataIndex: "incomeSumPrice",
+      dataIndex: "sumPrice",
       width: 200,
     },
     {
       title: "当前实际成本(元)",
       dataIndex: "actualIncome",
       width: 200,
+    },
+    {
+      title: "分期时间",
+      width: 200,
+      dataIndex: "monthDate",
     },
     {
       title: "创建时间",
@@ -56,6 +61,22 @@ const DateTable = ({
       render: (_, val) => {
         return (
           <Space>
+            <Popconfirm
+              title="确认同步操作么？"
+              onConfirm={() => {
+                return InstallmentApi.syncStaging({
+                  id: val.id,
+                  projectId,
+                }).then(() => {
+                  actionRef.current?.reload();
+                  message.success("操作成功");
+                });
+              }}
+            >
+              <Typography.Link disabled={val.status === 1}>
+                同步
+              </Typography.Link>
+            </Popconfirm>
             <Popconfirm
               title="确认提交此审批？"
               onConfirm={() => {

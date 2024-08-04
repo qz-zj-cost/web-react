@@ -10,18 +10,20 @@ const EditModal = ({
   onSuccess,
   title,
   type,
+  disabled = false,
 }: {
   children: ReactElement;
   id: number;
   onSuccess: VoidFunction;
   title: string;
   type: number;
+  disabled?: boolean;
 }) => {
   return (
     <ModalForm
       title={`修改${title}`}
       trigger={
-        <Typography.Link>
+        <Typography.Link disabled={disabled}>
           <EditOutlined />
         </Typography.Link>
       }

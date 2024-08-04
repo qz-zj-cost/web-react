@@ -1,6 +1,6 @@
 import InstallmentApi from "@/apis/installmentApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Drawer, Space, Typography } from "antd";
+import { Drawer, Space, Tag, Typography } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import UpdatePriceModal, { IUpdatePriceModalRef } from "./updatePriceModal";
 
@@ -142,7 +142,7 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
           filterType: "light",
         }}
         request={async ({ current: pageNum, pageSize, ...params }) => {
-          const res = await InstallmentApi.getPricePage({
+          const res = await InstallmentApi.getBillGroupList({
             ...params,
             pageNum,
             pageSize,
@@ -153,6 +153,79 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
             success: true,
             total: res.totalRow,
           };
+        }}
+        expandable={{
+          expandedRowRender: (record) => {
+            return (
+              <ProTable
+                search={false}
+                rowKey={"id"}
+                scroll={{ x: "max-content" }}
+                bordered
+                size="small"
+                cardBordered
+                actionRef={actionRef}
+                columns={[
+                  {
+                    title: "单位工程",
+                    dataIndex: "unitProjectUuid",
+                  },
+                  {
+                    title: "类型",
+                    dataIndex: "type",
+                    render(_, entity: any) {
+                      return entity["type"] === 1 ? "构件" : "钢筋";
+                    },
+                  },
+                  {
+                    title: "楼层",
+                    dataIndex: "storeyRegion",
+                  },
+                  {
+                    title: "施工段",
+                    dataIndex: "constructionSectionName",
+                    render(_, entity: any) {
+                      return (
+                        <Space>
+                          {entity["constructionSectionName"]?.map(
+                            (e: string, i: number) => <Tag key={i}>{e}</Tag>,
+                          )}
+                        </Space>
+                      );
+                    },
+                  },
+                  {
+                    title: "构件类型",
+                    dataIndex: "memberType",
+                    render(_, entity: any) {
+                      return (
+                        <Space>
+                          {entity["memberType"]?.map((e: string, i: number) => (
+                            <Tag key={i}>{e}</Tag>
+                          ))}
+                        </Space>
+                      );
+                    },
+                  },
+                  {
+                    title: "完成度",
+                    dataIndex: "completionDegree",
+                  },
+                ]}
+                pagination={false}
+                request={async () => {
+                  const res = await InstallmentApi.getFqConfigList({
+                    id: record.id,
+                  });
+                  return {
+                    data: res.data || [],
+                    success: true,
+                    total: res.totalRow,
+                  };
+                }}
+              />
+            );
+          },
         }}
       />
       <UpdatePriceModal

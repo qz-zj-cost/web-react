@@ -101,6 +101,7 @@ const MatchMemberModal = forwardRef<IMatchMemberRef, { onSuccess: () => void }>(
               });
             }
             message.success("匹配成功");
+            formRef.current?.resetFields();
             onSuccess();
             return true;
           } catch (error) {

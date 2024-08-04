@@ -2,10 +2,10 @@ import InstallmentApi from "@/apis/installmentApi";
 import { ActionType, ProTable } from "@ant-design/pro-components";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "../detailContext";
-import ChildTable from "./childTable";
 import useColumns from "./columns";
+import CostPreviewModal from "./costPreviewModal";
 import ExportBtn from "./exportBtn";
-
+// 专业分包
 const Table3 = ({ monthDate }: { monthDate?: string }) => {
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
@@ -13,9 +13,11 @@ const Table3 = ({ monthDate }: { monthDate?: string }) => {
   const pageRef = useRef<{ pageSize?: number; pageNum?: number }>();
   const { columns } = useColumns({
     projectId: projectId,
-    priceType: 1,
+    priceType: 3,
     stageType: tabKey,
     monthDate: monthDate!,
+    type: 0,
+    actionRef: actionRef.current,
   });
   useEffect(() => {
     if (monthDate) {
@@ -71,15 +73,21 @@ const Table3 = ({ monthDate }: { monthDate?: string }) => {
             pageNum={pageRef.current?.pageNum}
             pageSize={pageRef.current?.pageSize}
             stageType={Number(tabKey)}
-            monthDate={monthDate}
+            dateQuantitiesId={monthDate}
+          />,
+          <CostPreviewModal
+            priceType={3}
+            dateQuantitiesId={monthDate!}
+            type={0}
+            title="专业分包工程费"
           />,
         ],
       }}
-      expandable={{
-        expandedRowRender: (record) => {
-          return <ChildTable id={record.id} monthDate={monthDate} />;
-        },
-      }}
+      // expandable={{
+      //   expandedRowRender: (record) => {
+      //     return <ChildTable id={record.id} dateQuantitiesId={monthDate} />;
+      //   },
+      // }}
     />
   );
 };

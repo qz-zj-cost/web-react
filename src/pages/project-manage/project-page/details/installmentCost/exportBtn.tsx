@@ -10,7 +10,7 @@ const ExportBtn = ({
   type,
   ...props
 }: {
-  monthDate?: string;
+  dateQuantitiesId?: string;
   pageNum?: number;
   pageSize?: number;
   priceType: number;

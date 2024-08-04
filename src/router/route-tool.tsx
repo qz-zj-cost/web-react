@@ -20,6 +20,7 @@ const modules = import.meta.glob([
   "../pages/**",
   "!../pages/login",
   "!../pages/not-found",
+  "!../pages/error-page",
 ]);
 const layoutModules = import.meta.glob([
   "../layouts/**",

@@ -1,5 +1,6 @@
 import BuildApi from "@/apis/buildApi";
 import InstallmentApi from "@/apis/installmentApi";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   EditableProTable,
   ModalForm,
@@ -18,7 +19,11 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
   const { projectId } = useContext(ProjectContext);
   return (
     <ModalForm
-      trigger={<Button type="primary">新建分期</Button>}
+      trigger={
+        <Button type="primary" icon={<PlusOutlined />}>
+          新建分期
+        </Button>
+      }
       title="新建分期"
       width={900}
       onFinish={async (val) => {
@@ -101,7 +106,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
             },
             {
               title: "楼层",
-              dataIndex: "storeyRegionList",
+              dataIndex: "storeyRegion",
               renderFormItem(_, config) {
                 const { record } = config;
                 return (
@@ -121,6 +126,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
                   <SgSelect
                     uuid={record?.unitProjectUuid}
                     type={record?.type}
+                    lc={record?.storeyRegionList}
                   />
                 );
               },
@@ -198,7 +204,7 @@ const LcSelect = ({ value, onChange, uuid, type }: LcSelectProps) => {
     <Select
       value={value}
       options={options}
-      mode="multiple"
+      popupMatchSelectWidth={false}
       onChange={(v) => {
         onChange?.(v);
       }}
@@ -234,6 +240,7 @@ const GjSelect = ({ value, onChange, uuid, type }: GjSelectProps) => {
     <Select
       value={value}
       mode="multiple"
+      popupMatchSelectWidth={false}
       options={options}
       onChange={(v) => {
         onChange?.(v);
@@ -246,14 +253,16 @@ type SgSelectProps = {
   onChange?: (e: string) => void;
   uuid?: string;
   type?: number;
+  lc?: string;
 };
-const SgSelect = ({ value, onChange, uuid, type }: SgSelectProps) => {
+const SgSelect = ({ value, onChange, uuid, type, lc }: SgSelectProps) => {
   const [options, setOptions] = useState<{ label: string; value: string }[]>();
   useEffect(() => {
-    if (!uuid || !type) return;
+    if (!uuid || !type || !lc) return;
     BuildApi.getSectionList({
       unitProjectUuid: uuid,
       type,
+      storeyName: lc,
     }).then((res) => {
       const arr = res.data.map((e) => ({
         label: e.name,
@@ -261,13 +270,14 @@ const SgSelect = ({ value, onChange, uuid, type }: SgSelectProps) => {
       }));
       setOptions(arr);
     });
-  }, [type, uuid]);
+  }, [lc, type, uuid]);
 
   return (
     <Select
       value={value}
       options={options}
       mode="multiple"
+      popupMatchSelectWidth={false}
       onChange={(v) => {
         onChange?.(v);
       }}

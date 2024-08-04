@@ -21,6 +21,18 @@ const RebarList = () => {
       dataIndex: "storeyName",
     },
     {
+      title: "构件类型",
+      dataIndex: "memberType",
+    },
+    {
+      title: "钢筋类型",
+      dataIndex: "systemName",
+    },
+    {
+      title: "施工段",
+      dataIndex: "constructionSectionName",
+    },
+    {
       title: "钢筋型号",
       dataIndex: "rebarCode",
     },

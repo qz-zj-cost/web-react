@@ -1,9 +1,9 @@
 import InstallmentApi from "@/apis/installmentApi";
-import { ActionType, ProFormDigit, ProTable } from "@ant-design/pro-components";
-import { Space } from "antd";
+import { ActionType, ProTable } from "@ant-design/pro-components";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "../detailContext";
-import EditModal from "./editModal";
+import useColumns from "./columns";
+import CostPreviewModal from "./costPreviewModal";
 import ExportBtn from "./exportBtn";
 //机械使用费
 const Table9 = ({ monthDate }: { monthDate?: string }) => {
@@ -11,6 +11,14 @@ const Table9 = ({ monthDate }: { monthDate?: string }) => {
   const { projectId } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const pageRef = useRef<{ pageSize?: number; pageNum?: number }>();
+  const { columns } = useColumns({
+    projectId: projectId,
+    priceType: 4,
+    stageType: tabKey,
+    monthDate: monthDate!,
+    type: 3,
+    actionRef: actionRef.current,
+  });
   useEffect(() => {
     if (monthDate) {
       actionRef.current?.reload();
@@ -23,72 +31,7 @@ const Table9 = ({ monthDate }: { monthDate?: string }) => {
       scroll={{ x: "max-content" }}
       rowKey={"id"}
       bordered
-      columns={[
-        {
-          title: "序号",
-          dataIndex: "id",
-        },
-        {
-          title: "项目名称",
-          dataIndex: "feeName",
-        },
-        {
-          title: "费用局清单编码",
-          dataIndex: "groupBillCode",
-        },
-        {
-          title: "单位",
-          dataIndex: "unit",
-        },
-        {
-          title: "合同收入",
-          dataIndex: "incomeSumPrice",
-        },
-        {
-          title: "目标成本",
-          dataIndex: "sumPrice",
-        },
-        {
-          title: "往期完成",
-          dataIndex: "previousValue",
-        },
-        {
-          title: "本期使用时间(月)",
-          dataIndex: "duration",
-          render: (dom, record) => {
-            return (
-              <Space>
-                {`${dom}%`}
-                <EditModal
-                  title="本期使用时长"
-                  id={record.id}
-                  type={3}
-                  onSuccess={() => {
-                    actionRef.current?.reload();
-                  }}
-                >
-                  <ProFormDigit
-                    name={"mortgageRatio"}
-                    label={"本期使用时长"}
-                    rules={[{ required: true }]}
-                    fieldProps={{
-                      suffix: "%",
-                    }}
-                  />
-                </EditModal>
-              </Space>
-            );
-          },
-        },
-        {
-          title: "本期完成",
-          dataIndex: "mortgageValue",
-        },
-        {
-          title: "累计完成",
-          dataIndex: "sumMortgage",
-        },
-      ]}
+      columns={columns}
       cardProps={{
         bodyStyle: { padding: 0 },
       }}
@@ -132,7 +75,13 @@ const Table9 = ({ monthDate }: { monthDate?: string }) => {
             pageNum={pageRef.current?.pageNum}
             pageSize={pageRef.current?.pageSize}
             stageType={Number(tabKey)}
-            monthDate={monthDate}
+            dateQuantitiesId={monthDate}
+          />,
+          <CostPreviewModal
+            priceType={4}
+            dateQuantitiesId={monthDate!}
+            type={3}
+            title="机械使用费"
           />,
         ],
       }}

@@ -42,10 +42,10 @@ const ImportQuanBtn = ({ onSuccess }: IImportQuanBtnProps) => {
         }}
         type="primary"
       >
-        导入砼等级
+        导入构件计算书
       </Button>
       <Modal
-        title="导入砼等级"
+        title="导入构件计算书"
         open={visible}
         onCancel={() => {
           setVisible(false);

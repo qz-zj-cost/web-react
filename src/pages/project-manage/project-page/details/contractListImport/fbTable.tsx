@@ -94,7 +94,7 @@ const FbTable = ({ num }: { num: number }) => {
             style={{ maxWidth: 200, margin: 0 }}
             ellipsis={{ rows: 2, expandable: true }}
           >
-            {entity["groupBillCodeList"]?.join("，") ?? "-"}
+            {entity["groupBillCodeList"]?.join(",") ?? "-"}
           </Typography.Paragraph>
         );
       },

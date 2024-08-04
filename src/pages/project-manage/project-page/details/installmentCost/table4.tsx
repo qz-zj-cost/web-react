@@ -30,15 +30,15 @@ const Table4 = ({ monthDate }: { monthDate?: string }) => {
         },
         {
           title: "分包名称",
-          dataIndex: "feeName",
+          dataIndex: "name",
         },
         {
           title: "管理费收入",
-          dataIndex: "incomeSumPrice",
+          dataIndex: "mortgageSumPrice",
         },
         {
           title: "往期完成",
-          dataIndex: "previousValue",
+          dataIndex: "previousRatio",
         },
         {
           title: "本期完成比例",
@@ -70,7 +70,7 @@ const Table4 = ({ monthDate }: { monthDate?: string }) => {
         },
         {
           title: "本期完成",
-          dataIndex: "mortgageValue",
+          dataIndex: "mortgageRatio",
         },
         {
           title: "累计完成",
@@ -120,7 +120,7 @@ const Table4 = ({ monthDate }: { monthDate?: string }) => {
             pageNum={pageRef.current?.pageNum}
             pageSize={pageRef.current?.pageSize}
             stageType={Number(tabKey)}
-            monthDate={monthDate}
+            dateQuantitiesId={monthDate}
           />,
         ],
       }}
