@@ -1,6 +1,7 @@
 import InstallmentApi from "@/apis/installmentApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Button, Drawer } from "antd";
+import fileDownload from "js-file-download";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ProjectContext } from "../detailContext";
 
@@ -19,6 +20,8 @@ const CostPreviewModal = ({
   const actionRef = useRef<ActionType>();
   const { projectId } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
+  const [loading, setLoading] = useState(false);
+  const pageRef = useRef<{ pageSize?: number; pageNum?: number }>();
   const [data, setData] = useState<{
     actualIncome: number;
     incomeSumPrice: number;
@@ -29,6 +32,7 @@ const CostPreviewModal = ({
     sumActualIncome: number;
     sumPrice: number;
   }>();
+
   useEffect(() => {
     if (!dateQuantitiesId) return;
     InstallmentApi.getCostPreviewMemberSum({
@@ -41,7 +45,33 @@ const CostPreviewModal = ({
       setData(res.data);
     });
   }, [dateQuantitiesId, priceType, projectId, tabKey, type]);
+  const handleExport = async () => {
+    setLoading(true);
+    try {
+      const res = await InstallmentApi.exportCostPreview({
+        projectId: projectId,
+        priceType,
+        type,
+        stageType: Number(tabKey),
+        pageNum: pageRef.current?.pageNum,
+        pageSize: pageRef.current?.pageSize,
+        dateQuantitiesId,
+      });
+      fileDownload(res.data, `开票成本预览-${title}.xlsx`);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   const columns: ProColumns[] = [
+    {
+      title: "局清单名称",
+      dataIndex: "name",
+    },
+    {
+      title: "局清单编号",
+      dataIndex: "groupBillCode",
+    },
     {
       title: `(开累)小计：合同收入：${
         data?.incomeSumPrice ?? "-"
@@ -194,7 +224,7 @@ const CostPreviewModal = ({
           actionRef={actionRef}
           search={false}
           scroll={{ x: "max-content" }}
-          rowKey={"id"}
+          rowKey={"groupBillCode"}
           bordered
           columns={columns}
           cardProps={{
@@ -211,6 +241,7 @@ const CostPreviewModal = ({
               pageSize,
               dateQuantitiesId,
             });
+            pageRef.current = { pageSize, pageNum };
             return {
               data: res.data || [],
               success: true,
@@ -231,6 +262,11 @@ const CostPreviewModal = ({
                 actionRef.current?.reset?.();
               },
             },
+            actions: [
+              <Button type="primary" loading={loading} onClick={handleExport}>
+                导出Excel
+              </Button>,
+            ],
           }}
         />
       </Drawer>

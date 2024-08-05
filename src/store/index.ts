@@ -9,6 +9,7 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import ProjectReducer from "./project";
 import UserReducer from "./user";
 
 const persistConfig = {
@@ -21,6 +22,7 @@ const persistedReducer = persistReducer(persistConfig, UserReducer);
 const store = configureStore({
   reducer: {
     user: persistedReducer,
+    project: ProjectReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

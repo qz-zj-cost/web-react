@@ -191,7 +191,7 @@ export class InstallmentServer extends BaseApi {
   }
   getFqConfigList(params: { id: string }) {
     return this.axios
-      .post("/member/mortgage/quantities/config/list", { params })
+      .get("/member/mortgage/quantities/config/list", { params })
       .then((v) => v.data);
   }
   getCostPreviewList(params: {
@@ -206,6 +206,23 @@ export class InstallmentServer extends BaseApi {
     return this.axios
       .get<IListBaseModel>("/member/previous/mortgage/quantities", { params })
       .then((e) => e.data);
+  }
+  exportCostPreview(data: {
+    projectId: string;
+    dateQuantitiesId?: string;
+    pageNum?: number;
+    pageSize?: number;
+    priceType: number;
+    type: number;
+    stageType: number;
+  }) {
+    return this.axios.post(
+      "/member/previous/mortgage/quantities/export",
+      data,
+      {
+        responseType: "arraybuffer",
+      },
+    );
   }
 }
 

@@ -35,7 +35,9 @@ const EditVisaModal = forwardRef<IEditVisaModalRef, IEditVisaModalProps>(
       () => ({
         show: (e) => {
           dataRef.current = e;
-          form.setFieldsValue(e);
+          console.log(form);
+
+          form.setFieldsValue({ ...e });
           setVisible(true);
           setType(1);
         },
@@ -47,8 +49,10 @@ const EditVisaModal = forwardRef<IEditVisaModalRef, IEditVisaModalProps>(
         open={visible}
         form={form}
         onOpenChange={(e) => {
-          form.resetFields();
-          setVisible(e);
+          if (!e) {
+            form.resetFields();
+            setVisible(e);
+          }
         }}
         trigger={
           <Button

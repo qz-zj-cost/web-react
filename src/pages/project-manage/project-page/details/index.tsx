@@ -1,11 +1,11 @@
 import ProjectApi from "@/apis/projectApi";
 import { FPage } from "@/components";
-import { updateOtherTitle } from "@/components/FBreadcrumb/otherTitle";
 import { IProjectModel } from "@/models/projectModel";
 import { RootState } from "@/store";
-import { Spin, Tabs, Typography } from "antd";
+import { resetProject, setProject } from "@/store/project";
+import { Spin, Tabs } from "antd";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import BaseInfo from "./baseInfo";
 import Bim from "./bim";
@@ -25,17 +25,19 @@ const ProjectDetails = () => {
   const projectIdRef = useRef<string>("");
   const [loading, setLoading] = useState(false);
   const { auths } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
   const getProjectInfo = useCallback(() => {
     setLoading(true);
+    dispatch(resetProject());
     ProjectApi.getDetails<IProjectModel>({ id: projectIdRef.current })
       .then((res) => {
         setInfo(res.data);
-        updateOtherTitle(res.data?.projectName);
+        dispatch(setProject({ currentProject: res.data }));
       })
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const id = searchParams.get("id");
@@ -127,9 +129,6 @@ const ProjectDetails = () => {
     >
       <Spin spinning={loading}>
         <FPage style={{ padding: "15px" }}>
-          <Typography.Title level={5} style={{ margin: "0 0 10px" }}>
-            {info?.projectName}
-          </Typography.Title>
           <Tabs type="card" items={tabView}></Tabs>
         </FPage>
       </Spin>

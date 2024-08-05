@@ -1,9 +1,15 @@
-import BureauApi from "@/apis/bureauApi";
 import InstallmentApi from "@/apis/installmentApi";
 import BureauColumns from "@/pages/quota-manage/bureau-list/columns";
-import { ProTable } from "@ant-design/pro-components";
+import { ActionType, ProTable } from "@ant-design/pro-components";
 import { Input, Modal, message } from "antd";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import {
+  forwardRef,
+  useContext,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import { ProjectContext } from "../detailContext";
 
 export type IUpdatePriceModalRef = {
   show: (e: { parentId: number; id: string; num: number }) => void;
@@ -16,7 +22,8 @@ const UpdatePriceModal = forwardRef<
   const data = useRef<{ parentId: number; id: string; num: number }>();
   const [selectKeys, setSelectKeys] = useState<string[]>();
   const [stockNum, setStockNum] = useState<number>();
-
+  const actionRef = useRef<ActionType>();
+  const { projectId } = useContext(ProjectContext);
   useImperativeHandle(
     ref,
     () => ({
@@ -24,6 +31,7 @@ const UpdatePriceModal = forwardRef<
         setVisible(true);
         data.current = e;
         setStockNum(e.num);
+        actionRef.current?.reload();
       },
     }),
     [],
@@ -67,6 +75,7 @@ const UpdatePriceModal = forwardRef<
         cardProps={{
           bodyStyle: { padding: 0 },
         }}
+        actionRef={actionRef}
         rowSelection={{
           selectedRowKeys: selectKeys,
           type: "radio",
@@ -75,9 +84,10 @@ const UpdatePriceModal = forwardRef<
           },
         }}
         request={async ({ current: pageNum, pageSize, ...val }) => {
-          const res = await BureauApi.getList({
+          const res = await InstallmentApi.getBillGroupList({
             pageNum,
             pageSize,
+            projectId,
             ...val,
           });
           return {

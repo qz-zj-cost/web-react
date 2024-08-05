@@ -1,7 +1,6 @@
 import { Tabs } from "antd";
 import { useState } from "react";
 import DateTable from "./dateTable";
-import ImportPriceBtn from "./importPriceBtn";
 import Table1 from "./table1";
 import Table10 from "./table10";
 import Table11 from "./table11";
@@ -57,10 +56,10 @@ const InstallmentCost = () => {
           borderRadius: 4,
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          {/* <Typography.Text strong>日期：{date || "-"}</Typography.Text> */}
+        {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography.Text strong>日期：{date || "-"}</Typography.Text>
           <ImportPriceBtn date={date} />
-        </div>
+        </div> */}
         <Tabs
           type="card"
           style={{ marginTop: 15 }}
@@ -96,7 +95,7 @@ const InstallmentCost = () => {
               children: <Table5 monthDate={date} />,
             },
             {
-              label: "规费及其他应用费",
+              label: "规费及其他应缴费",
               key: "5",
               children: <Table6 monthDate={date} />,
             },

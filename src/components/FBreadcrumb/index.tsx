@@ -5,7 +5,6 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import style from "./index.module.scss";
-import { otherTitle } from "./otherTitle";
 
 type IPathItemProps = {
   path?: string;
@@ -17,8 +16,10 @@ const PREFIX = "f-breadcrumb";
 const FBreadcrumb = () => {
   const location = useLocation();
   const { menus } = useSelector((state: RootState) => state.user);
+  const { currentProject } = useSelector((state: RootState) => state.project);
   const routerArr = useMemo(() => flattenRoutes(menus), [menus]);
   const breadcrumbs = getBreadcrumbs(routerArr, location.pathname);
+
   return (
     <div className={style[PREFIX]}>
       <Breadcrumb
@@ -37,12 +38,13 @@ const FBreadcrumb = () => {
           };
         })}
       ></Breadcrumb>
-      {otherTitle && (
-        <div className={style[PREFIX + "-other"]}>
-          {/* <span className={style[PREFIX + "-other-gt"]}>/</span> */}
-          <span>{`(${otherTitle})`}</span>
-        </div>
-      )}
+      {currentProject &&
+        location.pathname === "/project-manage/project/detail" && (
+          <div className={style[PREFIX + "-other"]}>
+            {/* <span className={style[PREFIX + "-other-gt"]}>/</span> */}
+            <span>{`(${currentProject.projectName})`}</span>
+          </div>
+        )}
     </div>
   );
 };

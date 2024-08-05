@@ -70,7 +70,7 @@ const Table4 = ({ monthDate }: { monthDate?: string }) => {
         },
         {
           title: "本期完成",
-          dataIndex: "mortgageRatio",
+          dataIndex: "mortgageValue",
         },
         {
           title: "累计完成",

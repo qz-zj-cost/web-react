@@ -81,6 +81,8 @@ export class BaseApi extends BasicService {
           },
         });
         throw data;
+      } else if (data.data instanceof ArrayBuffer) {
+        return data;
       } else {
         notification.error({
           message: "请求失败",
