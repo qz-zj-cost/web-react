@@ -14,7 +14,7 @@ import MatchModal, { IMatchModalRef } from "../unitProject/modal/matchModal";
 import ChildTable from "./childTable";
 
 const MTable5 = () => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
   const modalRef = useRef<IMatchModalRef>(null);
@@ -87,6 +87,7 @@ const MTable5 = () => {
       render: (_, record) => {
         return (
           <Typography.Link
+            disabled={projectInfo?.confirmStatus === 1}
             onClick={() => {
               modalRef.current?.show([
                 `${record.uuid},${record.groupBillCode}`,
@@ -158,12 +159,16 @@ const MTable5 = () => {
         cardProps={{
           bodyStyle: { padding: 0 },
         }}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as string[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys(selectedRowKeys as string[]);
+                },
+              }
+        }
         tableAlertOptionRender={({ onCleanSelected }) => {
           return (
             <Space size={16}>

@@ -15,7 +15,7 @@ import MatchModal, { IMatchModalRef } from "./modal/matchModal";
 
 const MaterialFee = () => {
   const actionRef = useRef<ActionType>();
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const [reloadNum, setReloadNum] = useState(0);
   const modalRef = useRef<IMatchModalRef>(null);
@@ -91,6 +91,7 @@ const MaterialFee = () => {
       render: (_, record) => {
         return (
           <Typography.Link
+            disabled={projectInfo?.confirmStatus === 1}
             onClick={() => {
               modalRef.current?.show([
                 `${record.uuid},${record.groupBillCode}`,
@@ -156,12 +157,16 @@ const MaterialFee = () => {
             },
           },
         }}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as string[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys(selectedRowKeys as string[]);
+                },
+              }
+        }
         tableAlertOptionRender={({ onCleanSelected }) => {
           return (
             <Space size={16}>

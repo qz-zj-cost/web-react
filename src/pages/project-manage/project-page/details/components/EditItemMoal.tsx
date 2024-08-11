@@ -1,7 +1,8 @@
 import { EditOutlined } from "@ant-design/icons";
 import { ModalForm } from "@ant-design/pro-components";
 import { Typography, message } from "antd";
-import { ReactElement } from "react";
+import { ReactElement, useContext } from "react";
+import { ProjectContext } from "../detailContext";
 
 const EditItemModal = ({
   children,
@@ -14,11 +15,12 @@ const EditItemModal = ({
   title: string;
   api: (val: any) => Promise<any>;
 }) => {
+  const { projectInfo } = useContext(ProjectContext);
   return (
     <ModalForm
       title={`修改${title}`}
       trigger={
-        <Typography.Link>
+        <Typography.Link disabled={projectInfo?.confirmStatus === 1}>
           <EditOutlined />
         </Typography.Link>
       }

@@ -7,7 +7,7 @@
 import { ContractImportApi } from "@/apis/projectApi";
 import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
-import { Space, Tag, Typography } from "antd";
+import { message, Popconfirm, Space, Tag, Typography } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
 import MatchModal, { IMatchModalRef } from "../components/matchModal";
 import useSelect from "../components/useSelect";
@@ -21,7 +21,7 @@ const GfTable = () => {
     actionRef: actionRef.current,
     type: 1,
   });
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const matchRef = useRef<IMatchModalRef>(null);
   const [selectKeys, setSelectKeys] = useState<string[]>();
 
@@ -84,14 +84,34 @@ const GfTable = () => {
       align: "center",
       render: (_, record) => {
         return (
-          <Typography.Link
-            disabled={record.children?.length > 0}
-            onClick={() => {
-              matchRef.current?.show([record.id]);
-            }}
-          >
-            匹配局清单
-          </Typography.Link>
+          <Space>
+            <Typography.Link
+              disabled={record.children?.length > 0 || !record.id}
+              onClick={() => {
+                matchRef.current?.show([record.id]);
+              }}
+            >
+              匹配局清单
+            </Typography.Link>
+            <Popconfirm
+              title="确认删除此项目？"
+              onConfirm={() => {
+                return ContractImportApi.deleteGf({ id: record.id }).then(
+                  () => {
+                    actionRef.current?.reload();
+                    message.success("操作成功");
+                  },
+                );
+              }}
+            >
+              <Typography.Link
+                type="danger"
+                disabled={!record.id || projectInfo?.confirmStatus === 1}
+              >
+                删除
+              </Typography.Link>
+            </Popconfirm>
+          </Space>
         );
       },
     },

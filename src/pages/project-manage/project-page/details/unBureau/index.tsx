@@ -14,7 +14,7 @@ import { ProjectContext } from "../detailContext";
 import ChildTable from "../unitProject/childTable";
 
 const UnBureau = () => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
   const adRef = useRef<IAdModalRef>(null);
@@ -70,6 +70,7 @@ const UnBureau = () => {
             onClick={() => {
               adRef.current?.show([val.id]);
             }}
+            disabled={projectInfo?.confirmStatus === 1}
           >
             调整分类
           </Typography.Link>
@@ -124,12 +125,16 @@ const UnBureau = () => {
             },
           },
         }}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as number[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys(selectedRowKeys as number[]);
+                },
+              }
+        }
         expandable={{
           expandedRowRender: (record) => {
             return <ChildTable record={record} key={reloadNum} />;

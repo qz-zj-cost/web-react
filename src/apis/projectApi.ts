@@ -104,6 +104,9 @@ class ProjectServer extends ListApi {
       .post("/unit/project/corp/price/extend/batch", data)
       .then((v) => v.data);
   }
+  updateProjectStatus(data: { projectId: string; confirmStatus: number }) {
+    return this.axios.post("/project/confirm/update", data).then((v) => v.data);
+  }
 }
 export class ContractImportServer extends BaseApi {
   getSummaryList(params: { projectId: string; unitProjectUuid?: string }) {
@@ -279,6 +282,11 @@ export class ContractImportServer extends BaseApi {
   modifyGcl(data: any) {
     return this.axios
       .post("/unit/project/corp/num/extend", data)
+      .then((v) => v.data);
+  }
+  deleteGf(data: { id: number }) {
+    return this.axios
+      .post("/unit/project/taxes/del/id", data)
       .then((v) => v.data);
   }
 }

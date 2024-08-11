@@ -20,7 +20,7 @@ import ChildTable from "./childTable";
 import EditModal from "./editModal";
 
 const MTable3 = () => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
   const modalRef = useRef<IMatchModalRef>(null);
@@ -117,6 +117,7 @@ const MTable3 = () => {
       render: (_, record) => {
         return (
           <Typography.Link
+            disabled={projectInfo?.confirmStatus === 1}
             onClick={() => {
               modalRef.current?.show([
                 `${record.uuid},${record.groupBillCode}`,
@@ -195,12 +196,16 @@ const MTable3 = () => {
         cardProps={{
           bodyStyle: { padding: 0 },
         }}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as string[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys(selectedRowKeys as string[]);
+                },
+              }
+        }
         tableAlertOptionRender={({ onCleanSelected }) => {
           return (
             <Space size={16}>

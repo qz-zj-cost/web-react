@@ -212,11 +212,11 @@ const CostPreviewModal = ({
   return (
     <>
       <Button onClick={() => setVisible(true)} type="primary">
-        开票成本预览
+        开累成本预览
       </Button>
       <Drawer
         open={visible}
-        title={`开票成本预览-${title}`}
+        title={`开累成本预览-${title}`}
         width={1200}
         onClose={() => setVisible(false)}
       >

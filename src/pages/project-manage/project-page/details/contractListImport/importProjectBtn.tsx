@@ -10,7 +10,7 @@ type IImportProjectBtnProps = {
 };
 
 const ImportProjectBtn = ({ onSuccess }: IImportProjectBtnProps) => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [channel, setChannel] = useState<number>();
@@ -42,6 +42,7 @@ const ImportProjectBtn = ({ onSuccess }: IImportProjectBtnProps) => {
           setVisible(true);
         }}
         type="primary"
+        disabled={projectInfo?.confirmStatus === 1}
       >
         导入项目标底文件
       </Button>

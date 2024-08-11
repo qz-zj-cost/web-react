@@ -6,12 +6,13 @@
 
 import ProjectApi from "@/apis/projectApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Button, message, Modal } from "antd";
 import { useContext, useRef } from "react";
 import { ProjectContext } from "../detailContext";
 import ExportModal from "./export";
 
 const TargetCost = () => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, getProjectInfo, projectInfo } = useContext(ProjectContext);
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
     {
@@ -58,7 +59,53 @@ const TargetCost = () => {
       }}
       pagination={false}
       toolbar={{
-        actions: [<ExportModal />],
+        actions: [
+          <ExportModal />,
+          projectInfo?.confirmStatus === 0 && (
+            <Button
+              type="primary"
+              onClick={() => {
+                Modal.confirm({
+                  title: "修改项目状态",
+                  content: "确认保存当前项目数据？",
+                  onOk: () => {
+                    return ProjectApi.updateProjectStatus({
+                      projectId,
+                      confirmStatus: 1,
+                    }).then(() => {
+                      message.success("修改成功");
+                      getProjectInfo();
+                    });
+                  },
+                });
+              }}
+            >
+              确认项目配置
+            </Button>
+          ),
+          projectInfo?.confirmStatus === 1 && (
+            <Button
+              type="primary"
+              onClick={() => {
+                Modal.confirm({
+                  title: "修改项目状态",
+                  content: "确认取消项目锁定状态？",
+                  onOk: () => {
+                    return ProjectApi.updateProjectStatus({
+                      projectId,
+                      confirmStatus: 0,
+                    }).then(() => {
+                      message.success("修改成功");
+                      getProjectInfo();
+                    });
+                  },
+                });
+              }}
+            >
+              取消项目锁定
+            </Button>
+          ),
+        ],
       }}
       columns={columns}
       cardProps={{

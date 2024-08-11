@@ -2,6 +2,8 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { EditOutlined } from "@ant-design/icons";
 import { ModalForm, ProFormDigit } from "@ant-design/pro-components";
 import { Typography, message } from "antd";
+import { useContext } from "react";
+import { ProjectContext } from "../detailContext";
 
 const EditNumModal = ({
   id,
@@ -10,11 +12,12 @@ const EditNumModal = ({
   id: number;
   onSuccess: VoidFunction;
 }) => {
+  const { projectInfo } = useContext(ProjectContext);
   return (
     <ModalForm<{ num: number }>
       title={`修改工程量`}
       trigger={
-        <Typography.Link>
+        <Typography.Link disabled={projectInfo?.confirmStatus === 1}>
           <EditOutlined />
         </Typography.Link>
       }

@@ -2,8 +2,9 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { DeleteOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Tag, Typography } from "antd";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import MatchModal, { IMatchModalRef } from "../components/matchModal";
+import { ProjectContext } from "../detailContext";
 
 type IChildTableProp = {
   unitProjectUuid?: string;
@@ -19,6 +20,7 @@ const ChildTable = ({
 }: IChildTableProp) => {
   const matchRef = useRef<IMatchModalRef>(null);
   const actionRef = useRef<ActionType>();
+  const { projectInfo } = useContext(ProjectContext);
   const columns: ProColumns[] = [
     {
       title: "项目编码",
@@ -138,6 +140,7 @@ const ChildTable = ({
                   onClick={() => {
                     matchRef.current?.show([record.id]);
                   }}
+                  disabled={projectInfo?.confirmStatus === 1}
                 >
                   手动匹配
                 </Typography.Link>
@@ -160,12 +163,16 @@ const ChildTable = ({
           settings: [],
         }}
         pagination={false}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys?.(selectedRowKeys as string[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys?.(selectedRowKeys as string[]);
+                },
+              }
+        }
         tableAlertRender={false}
       />
       <MatchModal

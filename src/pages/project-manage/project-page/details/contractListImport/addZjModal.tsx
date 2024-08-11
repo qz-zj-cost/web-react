@@ -22,7 +22,7 @@ type IAddZjModalProps = {
 const AddZjModal = forwardRef<IAddZjModalRef, IAddZjModalProps>(
   ({ onSuccess }, ref) => {
     const [visible, setVisible] = useState(false);
-    const { projectId } = useContext(ProjectContext);
+    const { projectId, projectInfo } = useContext(ProjectContext);
     useImperativeHandle(
       ref,
       () => ({
@@ -42,7 +42,11 @@ const AddZjModal = forwardRef<IAddZjModalRef, IAddZjModalProps>(
         }}
         title="新增总价措施费"
         trigger={
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            disabled={projectInfo?.confirmStatus === 1}
+          >
             新增总价措施费
           </Button>
         }

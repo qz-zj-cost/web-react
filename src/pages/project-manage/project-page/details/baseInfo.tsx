@@ -11,10 +11,7 @@ import { message } from "antd";
 import { useContext, useEffect, useRef } from "react";
 import { ProjectContext } from "./detailContext";
 
-type IBaseInfoProps = {
-  disabled?: boolean;
-};
-const BaseInfo = ({ disabled }: IBaseInfoProps) => {
+const BaseInfo = () => {
   const formRef = useRef<ProFormInstance>();
   const { projectInfo, projectId, getProjectInfo } = useContext(ProjectContext);
   useEffect(() => {
@@ -31,7 +28,7 @@ const BaseInfo = ({ disabled }: IBaseInfoProps) => {
     <div>
       <ProForm
         formRef={formRef}
-        disabled={disabled}
+        disabled={projectInfo?.confirmStatus === 1}
         onFinish={async (val) => {
           try {
             await ProjectApi.update({ ...val, id: projectId });

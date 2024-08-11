@@ -3,6 +3,7 @@ import Funds from "./funds";
 import OnSite from "./onSite";
 import OtherCost from "./otherCost";
 import Taxes from "./taxes";
+import Uncategorized from "./uncategorized";
 
 /**
  * @author Destin
@@ -33,6 +34,11 @@ const Overhead = () => {
           label: "资金占用费",
           key: "3",
           children: <Funds />,
+        },
+        {
+          label: "未归类费用",
+          key: "4",
+          children: <Uncategorized />,
         },
       ]}
     ></Tabs>

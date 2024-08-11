@@ -2,8 +2,9 @@ import { ContractImportApi } from "@/apis/projectApi";
 import { EditOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import AdModal, { IAdModalRef } from "../components/AdModal";
+import { ProjectContext } from "../detailContext";
 import UnitPriceModal, {
   IUnitPriceModalRef,
 } from "../unitProject/modal/unitPriceModal";
@@ -18,6 +19,7 @@ const ChildTable = ({
   type?: number;
   onReload?: VoidFunction;
 }) => {
+  const { projectInfo } = useContext(ProjectContext);
   const actionRef = useRef<ActionType>();
   const [selectKeys, setSelectKeys] = useState<number[]>();
   const priceRef = useRef<IUnitPriceModalRef>(null);
@@ -129,6 +131,7 @@ const ChildTable = ({
               <Space>
                 {dom ?? "-"}
                 <Typography.Link
+                  disabled={projectInfo?.confirmStatus === 1}
                   onClick={() =>
                     priceRef.current?.open({
                       ids: [record.id],
@@ -185,6 +188,7 @@ const ChildTable = ({
             render: (_, val) => {
               return (
                 <Typography.Link
+                  disabled={projectInfo?.confirmStatus === 1}
                   onClick={() => {
                     adRef.current?.show([val.id]);
                   }}
@@ -208,12 +212,16 @@ const ChildTable = ({
         toolbar={{
           settings: [],
         }}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as number[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys(selectedRowKeys as number[]);
+                },
+              }
+        }
         tableAlertOptionRender={({ onCleanSelected }) => {
           return (
             <Space size={16}>

@@ -13,7 +13,7 @@ import AddModal from "./addModal";
 import EditModal from "./editModal";
 
 const OnSite = () => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
   const columns: ProColumns[] = [
@@ -121,7 +121,12 @@ const OnSite = () => {
                 );
               }}
             >
-              <Typography.Link type="danger">删除</Typography.Link>
+              <Typography.Link
+                type="danger"
+                disabled={projectInfo?.confirmStatus === 1}
+              >
+                删除
+              </Typography.Link>
             </Popconfirm>
           </Space>
         );

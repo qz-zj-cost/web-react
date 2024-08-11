@@ -22,7 +22,7 @@ type IAddGfModalProps = {
 const AddGfModal = forwardRef<IAddGfModalRef, IAddGfModalProps>(
   ({ onSuccess }, ref) => {
     const [visible, setVisible] = useState(false);
-    const { projectId } = useContext(ProjectContext);
+    const { projectId, projectInfo } = useContext(ProjectContext);
     useImperativeHandle(
       ref,
       () => ({
@@ -42,7 +42,11 @@ const AddGfModal = forwardRef<IAddGfModalRef, IAddGfModalProps>(
         }}
         title="新增规费、税金"
         trigger={
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            disabled={projectInfo?.confirmStatus === 1}
+          >
             新增规费、税金
           </Button>
         }

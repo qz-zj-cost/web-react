@@ -22,6 +22,7 @@ export interface IProjectModel {
   projectManager: string;
   auditsStatus: string;
   projectRegion: string;
+  confirmStatus: number;
 }
 
 export interface ExpertList {

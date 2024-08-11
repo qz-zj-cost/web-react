@@ -28,7 +28,7 @@ export type IAddCostModalRef = {
 };
 const AddCostModal = forwardRef<IAddCostModalRef, IAddCostModalProps>(
   ({ onSuccess }, ref) => {
-    const { projectId } = useContext(ProjectContext);
+    const { projectId, projectInfo } = useContext(ProjectContext);
     const [form] = ProForm.useForm();
     const [visible, setVisible] = useState(false);
     const typeRef = useRef(0);
@@ -49,7 +49,11 @@ const AddCostModal = forwardRef<IAddCostModalRef, IAddCostModalProps>(
     return (
       <ModalForm<IServiceCostModal>
         trigger={
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            disabled={projectInfo?.confirmStatus === 1}
+          >
             添加服务费
           </Button>
         }

@@ -15,7 +15,7 @@ import MatchModal, { IMatchModalRef } from "./modal/matchModal";
 
 const LaborCost = () => {
   const actionRef = useRef<ActionType>();
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   // const { selectProject, selectProjectType, types } = useSelect({
   //   actionRef: actionRef.current,
   //   type: 2,
@@ -97,6 +97,7 @@ const LaborCost = () => {
         return (
           <Space>
             <Typography.Link
+              disabled={projectInfo?.confirmStatus === 1}
               onClick={() => {
                 modalRef.current?.show([
                   `${record.uuid},${record.groupBillCode}`,
@@ -165,12 +166,16 @@ const LaborCost = () => {
             },
           },
         }}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as string[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys(selectedRowKeys as string[]);
+                },
+              }
+        }
         tableAlertOptionRender={({ onCleanSelected }) => {
           return (
             <Space size={16}>

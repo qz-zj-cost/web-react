@@ -24,13 +24,19 @@ const typeMap = new Map([
   [2, "规费及其他应缴费"],
   [3, "税金及附加"],
   [4, "资金占用费"],
+  [0, "未归类费用"],
 ]);
 const AddModal = ({ onSuccess, feeType }: IAddModalProps) => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const formRef = useRef<ProFormInstance>(null);
   return (
     <ModalForm<IServiceCostModal>
-      trigger={<Button type="primary">{`添加${typeMap.get(feeType)}`}</Button>}
+      trigger={
+        <Button
+          type="primary"
+          disabled={projectInfo?.confirmStatus === 1}
+        >{`添加${typeMap.get(feeType)}`}</Button>
+      }
       title={`新增${typeMap.get(feeType)}`}
       onFinish={async (val) => {
         try {

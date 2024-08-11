@@ -26,7 +26,11 @@ const PriceModal = () => {
       title="选择价格包"
       formRef={formRef}
       width={500}
-      trigger={<Button type="primary">载入企业定额价格</Button>}
+      trigger={
+        <Button type="primary" disabled={projectInfo?.confirmStatus === 1}>
+          载入企业定额价格
+        </Button>
+      }
       onFinish={async (val) => {
         try {
           await ProjectApi.price({ ...val, projectId }).then(() => {

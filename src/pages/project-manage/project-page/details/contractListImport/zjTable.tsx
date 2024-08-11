@@ -21,7 +21,7 @@ const ZjTable = () => {
     actionRef: actionRef.current,
     type: 1,
   });
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const matchRef = useRef<IMatchModalRef>(null);
   const [selectKeys, setSelectKeys] = useState<string[]>();
   const columns: ProColumns[] = [
@@ -84,7 +84,9 @@ const ZjTable = () => {
       render: (_, record) => {
         return (
           <Typography.Link
-            disabled={record.children?.length > 0}
+            disabled={
+              record.children?.length > 0 || projectInfo?.confirmStatus === 1
+            }
             onClick={() => {
               matchRef.current?.show([record.id]);
             }}

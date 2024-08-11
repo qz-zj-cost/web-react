@@ -1,6 +1,6 @@
 /**
  * @author Destin
- * @description 项目间接费测算-资金占用费
+ * @description 项目间接费测算-未归类
  * @date 2023/12/25
  */
 
@@ -12,7 +12,7 @@ import { ProjectContext } from "../detailContext";
 import AddModal from "./addModal";
 import EditModal from "./editModal";
 
-const Funds = () => {
+const Uncategorized = () => {
   const { projectId, projectInfo } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const actionRef = useRef<ActionType>();
@@ -93,6 +93,7 @@ const Funds = () => {
         );
       },
     },
+
     {
       title: "操作",
       width: "auto",
@@ -103,7 +104,7 @@ const Funds = () => {
         return (
           <Space>
             <EditModal
-              feeType={1}
+              feeType={0}
               onSuccess={() => {
                 actionRef.current?.reload();
               }}
@@ -143,7 +144,7 @@ const Funds = () => {
       request={async () => {
         const res = await OverheadApi.getProjectPayList({
           projectId: projectId,
-          feeType: 4,
+          feeType: 0,
           stageType: tabKey,
         });
         return {
@@ -163,12 +164,12 @@ const Funds = () => {
           ],
           onChange: (v) => {
             settabKey(v as string);
-            actionRef.current?.reset?.();
+            actionRef.current?.reload();
           },
         },
         actions: [
           <AddModal
-            feeType={4}
+            feeType={0}
             onSuccess={() => {
               actionRef.current?.reload();
             }}
@@ -183,4 +184,4 @@ const Funds = () => {
   );
 };
 
-export default Funds;
+export default Uncategorized;

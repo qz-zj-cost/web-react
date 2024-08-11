@@ -7,9 +7,10 @@ import {
   ProTable,
 } from "@ant-design/pro-components";
 import { Space, Typography } from "antd";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import AdModal, { IAdModalRef } from "../components/AdModal";
 import EditItemModal from "../components/EditItemMoal";
+import { ProjectContext } from "../detailContext";
 import UnitPriceModal, { IUnitPriceModalRef } from "./modal/unitPriceModal";
 
 const ChildTable = ({ record }: { record: any }) => {
@@ -17,6 +18,7 @@ const ChildTable = ({ record }: { record: any }) => {
   const [selectKeys, setSelectKeys] = useState<number[]>();
   const priceRef = useRef<IUnitPriceModalRef>(null);
   const adRef = useRef<IAdModalRef>(null);
+  const { projectInfo } = useContext(ProjectContext);
   const columns: ProColumns[] = [
     {
       title: "项目名称",
@@ -138,6 +140,7 @@ const ChildTable = ({ record }: { record: any }) => {
               <Space>
                 {dom ?? "-"}
                 <Typography.Link
+                  disabled={projectInfo?.confirmStatus === 1}
                   onClick={() =>
                     priceRef.current?.open({
                       ids: [record.id],
@@ -190,6 +193,7 @@ const ChildTable = ({ record }: { record: any }) => {
             render: (_, val) => {
               return (
                 <Typography.Link
+                  disabled={projectInfo?.confirmStatus === 1}
                   onClick={() => {
                     adRef.current?.show([val.id]);
                   }}
@@ -210,12 +214,16 @@ const ChildTable = ({ record }: { record: any }) => {
             success: true,
           };
         }}
-        rowSelection={{
-          selectedRowKeys: selectKeys,
-          onChange(selectedRowKeys) {
-            setSelectKeys(selectedRowKeys as number[]);
-          },
-        }}
+        rowSelection={
+          projectInfo?.confirmStatus === 1
+            ? false
+            : {
+                selectedRowKeys: selectKeys,
+                onChange(selectedRowKeys) {
+                  setSelectKeys(selectedRowKeys as number[]);
+                },
+              }
+        }
         tableAlertOptionRender={({ onCleanSelected }) => {
           return (
             <Space size={16}>

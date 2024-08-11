@@ -14,7 +14,7 @@ import AddCostModal, { IAddCostModalRef } from "./modal/addCostModal";
 
 const ServiceCost = () => {
   const actionRef = useRef<ActionType>();
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [tabKey, settabKey] = useState("1");
   const addCostRef = useRef<IAddCostModalRef>(null);
   const columns: ProColumns[] = [
@@ -55,6 +55,7 @@ const ServiceCost = () => {
         return (
           <Space>
             <Typography.Link
+              disabled={projectInfo?.confirmStatus === 1}
               onClick={() => {
                 addCostRef.current?.onEdit(val);
               }}
@@ -70,7 +71,12 @@ const ServiceCost = () => {
                 });
               }}
             >
-              <Typography.Link type="danger">删除</Typography.Link>
+              <Typography.Link
+                type="danger"
+                disabled={projectInfo?.confirmStatus === 1}
+              >
+                删除
+              </Typography.Link>
             </Popconfirm>
           </Space>
         );

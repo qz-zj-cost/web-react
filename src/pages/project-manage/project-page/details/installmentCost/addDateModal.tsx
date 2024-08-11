@@ -63,7 +63,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
         <EditableProTable<{
           id: number;
           unitProjectUuid?: string;
-          storeyRegionList?: string;
+          storeyRegion?: string;
           completionDegree?: string;
           type: number;
         }>
@@ -126,7 +126,7 @@ const AddDateModal = ({ onSuccess }: { onSuccess: VoidFunction }) => {
                   <SgSelect
                     uuid={record?.unitProjectUuid}
                     type={record?.type}
-                    lc={record?.storeyRegionList}
+                    lc={record?.storeyRegion}
                   />
                 );
               },

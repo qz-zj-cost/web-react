@@ -9,7 +9,7 @@ type IImportBtnProps = {
   unitProjectUuid?: string;
 };
 const ImportBtn2 = ({ onSuccess, unitProjectUuid }: IImportBtnProps) => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [loading, setLoading] = useState(false);
   const [channel, setChannel] = useState(1);
 
@@ -45,7 +45,12 @@ const ImportBtn2 = ({ onSuccess, unitProjectUuid }: IImportBtnProps) => {
   if (channel === 2) return null;
   return (
     <Upload multiple customRequest={customRequest} showUploadList={false}>
-      <Button type="primary" loading={loading} icon={<UploadOutlined />}>
+      <Button
+        type="primary"
+        loading={loading}
+        icon={<UploadOutlined />}
+        disabled={projectInfo?.confirmStatus === 1}
+      >
         导入文件
       </Button>
     </Upload>

@@ -26,7 +26,7 @@ const typeMap = new Map([
   [4, "资金占用费"],
 ]);
 const EditModal = ({ onSuccess, feeType, record }: IEditModalProps) => {
-  const { projectId } = useContext(ProjectContext);
+  const { projectId, projectInfo } = useContext(ProjectContext);
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
 
@@ -42,6 +42,7 @@ const EditModal = ({ onSuccess, feeType, record }: IEditModalProps) => {
         onClick={() => {
           setVisible(true);
         }}
+        disabled={projectInfo?.confirmStatus === 1}
       >
         编辑
       </Typography.Link>

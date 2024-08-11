@@ -20,7 +20,7 @@ type IAddOtherModalProps = {
 const AddOtherModal = forwardRef<IAddOtherModalRef, IAddOtherModalProps>(
   ({ onSuccess }, ref) => {
     const [visible, setVisible] = useState(false);
-    const { projectId } = useContext(ProjectContext);
+    const { projectId, projectInfo } = useContext(ProjectContext);
     useImperativeHandle(
       ref,
       () => ({
@@ -40,7 +40,11 @@ const AddOtherModal = forwardRef<IAddOtherModalRef, IAddOtherModalProps>(
         }}
         title="新增其它费用"
         trigger={
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            disabled={projectInfo?.confirmStatus === 1}
+          >
             新增其它费用
           </Button>
         }
