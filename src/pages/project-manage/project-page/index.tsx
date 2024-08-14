@@ -21,6 +21,7 @@ const ProjectPage = () => {
     {
       title: "项目编号",
       dataIndex: "projectManager",
+      search: false,
     },
     {
       title: "项目名称",
@@ -30,6 +31,7 @@ const ProjectPage = () => {
       title: "状态",
       dataIndex: "auditsStatus",
       valueType: "select",
+      search: false,
       valueEnum: {
         0: { text: "成本核算", status: "Default" },
         1: { text: "草稿", status: "Default" },
@@ -43,28 +45,34 @@ const ProjectPage = () => {
     {
       title: "主合同名称",
       dataIndex: "contractName",
+      search: false,
     },
     {
       title: "合同收入(万元)",
       dataIndex: "contractIncome",
+      search: false,
     },
     {
       title: "目标成本(万元)",
       dataIndex: "targetCost",
+      search: false,
     },
     {
       title: "实际成本",
       dataIndex: "actualCost",
+      search: false,
     },
     {
       title: "项目经理",
       dataIndex: "projectManage",
+      search: false,
     },
     {
       title: "操作",
       width: "auto",
       fixed: "right",
       align: "center",
+      search: false,
       render: (_, val) => {
         return (
           <Space>
@@ -96,13 +104,13 @@ const ProjectPage = () => {
     <FPage>
       <ProTable
         actionRef={actionRef}
-        search={false}
         scroll={{ x: "max-content" }}
         rowKey={"id"}
-        request={async ({ current: pageNum, pageSize }) => {
+        request={async ({ current: pageNum, pageSize, ...val }) => {
           const res = await ProjectApi.getList({
             pageNum,
             pageSize,
+            ...val,
             // queryStatus: Number(tabRef.current),
           });
           return {
