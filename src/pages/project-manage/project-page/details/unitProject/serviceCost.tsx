@@ -27,19 +27,58 @@ const ServiceCost = () => {
       dataIndex: "subpackageName",
     },
     {
-      title: "分包金额",
-      dataIndex: "subpackageAmount",
+      title: "合同收入",
+      children: [
+        {
+          title: "分包金额",
+          dataIndex: "subpackageAmount",
+          render(_, record) {
+            return record["incomeSumPrice"] ? record["subpackageAmount"] : "-";
+          },
+        },
+        {
+          title: "管理费费率",
+          dataIndex: "managementFeeRatio",
+          render(_, record) {
+            return record["incomeSumPrice"]
+              ? record["managementFeeRatio"]
+                ? `${record["managementFeeRatio"]}%`
+                : "-"
+              : "-";
+          },
+        },
+        {
+          title: "合价",
+          dataIndex: "incomeSumPrice",
+        },
+      ],
     },
     {
-      title: "管理费比例",
-      dataIndex: "managementFeeRatio",
-      render(dom, record) {
-        return record["managementFeeRatio"] ? dom + "%" : "-";
-      },
-    },
-    {
-      title: "管理费收入",
-      dataIndex: "managementFee",
+      title: "目标成本",
+      children: [
+        {
+          title: "分包金额",
+          dataIndex: "subpackageAmount",
+          render(_, record) {
+            return record["managementFee"] ? record["subpackageAmount"] : "-";
+          },
+        },
+        {
+          title: "管理费费率",
+          dataIndex: "managementFeeRatio",
+          render(_, record) {
+            return record["managementFee"]
+              ? record["managementFeeRatio"]
+                ? `${record["managementFeeRatio"]}%`
+                : "-"
+              : "-";
+          },
+        },
+        {
+          title: "合价",
+          dataIndex: "managementFee",
+        },
+      ],
     },
     {
       title: "备注",
