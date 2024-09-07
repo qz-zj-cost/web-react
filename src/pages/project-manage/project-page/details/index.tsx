@@ -12,10 +12,12 @@ import Bim from "./bim";
 import BuildBureauList from "./buildBureauList";
 import BuildList from "./buildList";
 import ContractListImport from "./contractListImport";
+import Dashboard from "./dashboard";
 import { ProjectContext } from "./detailContext";
 import InstallmentCost from "./installmentCost";
 import MeasuresFee from "./measuresFee";
 import Overhead from "./overhead";
+import SuppleyManage from "./supplyManage";
 import TargetCost from "./targetCost";
 import UnitProject from "./unitProject";
 
@@ -48,6 +50,11 @@ const ProjectDetails = () => {
   }, [getProjectInfo, searchParams]);
   const tabView = useMemo(() => {
     const arr = [
+      {
+        label: "简报看板",
+        key: "PROJECT_DETAIL_13",
+        children: <Dashboard />,
+      },
       {
         label: "项目信息",
         key: "PROJECT_DETAIL_0",
@@ -106,6 +113,11 @@ const ProjectDetails = () => {
         label: "分期成本",
         key: "PROJECT_DETAIL_10",
         children: <InstallmentCost />,
+      },
+      {
+        label: "供应链管理",
+        key: "PROJECT_DETAIL_12",
+        children: <SuppleyManage />,
       },
       {
         label: "BIM模型",

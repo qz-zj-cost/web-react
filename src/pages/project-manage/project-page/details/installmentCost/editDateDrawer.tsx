@@ -2,6 +2,7 @@ import InstallmentApi from "@/apis/installmentApi";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import { Drawer, Space, Tag, Typography } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import EditTypeModal, { IEditTypeModalRef } from "./editTypeModal";
 import UpdatePriceModal, { IUpdatePriceModalRef } from "./updatePriceModal";
 
 export type IEditDateDrawerRef = {
@@ -13,6 +14,7 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
   const action2Ref = useRef<ActionType>();
   const dataRef = useRef<any>();
   const matchRef = useRef<IUpdatePriceModalRef>(null);
+  const typeModalRef = useRef<IEditTypeModalRef>(null);
   useImperativeHandle(
     ref,
     () => ({
@@ -105,6 +107,7 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
       width: "auto",
       fixed: "right",
       align: "center",
+      search: false,
       render: (_, val) => {
         return (
           <Space>
@@ -117,7 +120,14 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
                 });
               }}
             >
-              编辑
+              修改局清单
+            </Typography.Link>
+            <Typography.Link
+              onClick={() => {
+                typeModalRef.current?.show({ id: val.id });
+              }}
+            >
+              更改类型
             </Typography.Link>
           </Space>
         );
@@ -129,7 +139,7 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
       open={visible}
       onClose={() => setVisible(false)}
       title="编辑分期成本"
-      width={1000}
+      width={1200}
     >
       <ProTable
         search={false}
@@ -229,6 +239,12 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
       />
       <UpdatePriceModal
         ref={matchRef}
+        onSuccess={() => {
+          actionRef.current?.reload?.();
+        }}
+      />
+      <EditTypeModal
+        ref={typeModalRef}
         onSuccess={() => {
           actionRef.current?.reload?.();
         }}

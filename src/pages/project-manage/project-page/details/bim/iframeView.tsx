@@ -173,7 +173,9 @@ const IframeView = ({
   const init = useCallback(async () => {
     onClickDestroy();
     tokenRef.current = await getToken();
-    const url = `http://192.168.13.153:8182/iworks-motor/#/login?token=${tokenRef.current}&from=newStandard`;
+    const url = `${import.meta.env.VITE_BIM_URL}/iworks-motor/#/login?token=${
+      tokenRef.current
+    }&from=newStandard`;
     urlRef.current = url;
     onCreateConnection();
   }, [getToken, onClickDestroy, onCreateConnection]);

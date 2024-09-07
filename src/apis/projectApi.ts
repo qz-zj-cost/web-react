@@ -3,6 +3,7 @@ import {
   IAreaItem,
   IProjectTypeModel,
   IServiceCostModal,
+  ISummaryModal,
 } from "@/models/projectModel";
 import { BaseApi, ListApi } from "@/utils/https/service";
 import { Key } from "react";
@@ -106,6 +107,11 @@ class ProjectServer extends ListApi {
   }
   updateProjectStatus(data: { projectId: string; confirmStatus: number }) {
     return this.axios.post("/project/confirm/update", data).then((v) => v.data);
+  }
+  getSummary(params: { projectId: string }) {
+    return this.axios
+      .get<IBaseModel<ISummaryModal>>("/project/summary", { params })
+      .then((e) => e.data);
   }
 }
 export class ContractImportServer extends BaseApi {

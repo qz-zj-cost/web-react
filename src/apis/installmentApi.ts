@@ -8,7 +8,9 @@ export class InstallmentServer extends BaseApi {
     projectId: string;
   }) {
     return this.axios
-      .get<IListBaseModel>("/member/mortgage/quantities/page", { params })
+      .get<IListBaseModel<any[]>>("/member/mortgage/quantities/page", {
+        params,
+      })
       .then((e) => e.data);
   }
   getMemberSum(params: {
@@ -223,6 +225,29 @@ export class InstallmentServer extends BaseApi {
         responseType: "arraybuffer",
       },
     );
+  }
+  addSupplyType(data: { settlementPriceInfoDateId: number; type: number }) {
+    return this.axios.post("/member/supply/chain/add", data);
+  }
+  editSupplyGclNum(data: {
+    groupBillEngineeringNum?: number;
+    id: number;
+    mortgageValue?: number;
+    num?: number;
+  }) {
+    return this.axios.post("/member/supply/chain/update", data);
+  }
+  getSupplyList(params: {
+    type: number;
+    pageSize?: number;
+    pageNum?: number;
+    dateQuantitiesId: number;
+  }) {
+    return this.axios
+      .get<IListBaseModel>("/member/supply/chain/list", {
+        params,
+      })
+      .then((e) => e.data);
   }
 }
 

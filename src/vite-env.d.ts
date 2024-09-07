@@ -2,6 +2,7 @@
 interface ImportMetaEnv {
   readonly VITE_HTTP_URL: string;
   readonly VITE_HTTP_UPLOAD: string;
+  readonly VITE_BIM_URL: string;
   // 更多环境变量...
 }
 declare const __VITE_ENV_DATE__: string;

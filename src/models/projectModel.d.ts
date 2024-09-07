@@ -97,3 +97,23 @@ export interface IServiceCostModal {
   subpackageAmount: number;
   subpackageName: string;
 }
+
+export interface ISummaryModal {
+  actualPriceDtos: {
+    actualSumPrice: number;
+    endDate: string;
+    id: number;
+    incomeSumPrice: number;
+    sumPrice: number;
+  }[];
+  overshootRate: number;
+  priceDtos: {
+    actualSumPrice: number;
+    endDate: string;
+    id: number;
+    incomeSumPrice: number;
+    sumPrice: number;
+  }[];
+  profitMargin: number;
+  schedule: number;
+}

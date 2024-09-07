@@ -52,7 +52,9 @@ const Bim = () => {
 
   const onUpload = useCallback(async () => {
     const token = await getToken();
-    const url = `http://192.168.13.153:8182/luban-bim-web/#/login?token=${token}&orgId=cb060f5669a14accbe3c4d74b697c9d5&menuId=192-2008&from=newStandard&epid=90001150`;
+    const url = `${
+      import.meta.env.VITE_BIM_URL
+    }/luban-bim-web/#/login?token=${token}&orgId=cb060f5669a14accbe3c4d74b697c9d5&menuId=192-2008&from=newStandard&epid=90001150`;
     window.open(url, "_blank");
   }, [getToken]);
 

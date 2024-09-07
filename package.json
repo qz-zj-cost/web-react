@@ -15,6 +15,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.2.1",
     "@ant-design/pro-components": "^2.6.28",
     "@reduxjs/toolkit": "^1.9.7",
     "ahooks": "^3.7.8",
