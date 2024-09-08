@@ -103,6 +103,17 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
       search: false,
     },
     {
+      title: "管理类型",
+      dataIndex: "supplyChainType",
+      search: false,
+      valueEnum: new Map([
+        [1, "设备管理"],
+        [2, "物资管理"],
+        [3, "劳务管理"],
+        [4, "财务管理"],
+      ]),
+    },
+    {
       title: "操作",
       width: "auto",
       fixed: "right",
@@ -123,8 +134,12 @@ const EditDateDrawer = forwardRef<IEditDateDrawerRef>((_, ref) => {
               修改局清单
             </Typography.Link>
             <Typography.Link
+              disabled={!val.settlementPriceInfoDateId}
               onClick={() => {
-                typeModalRef.current?.show({ id: val.id });
+                typeModalRef.current?.show({
+                  id: val.settlementPriceInfoDateId,
+                  type: val.supplyChainType,
+                });
               }}
             >
               更改类型

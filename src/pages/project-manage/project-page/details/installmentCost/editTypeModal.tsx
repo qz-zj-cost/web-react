@@ -1,6 +1,7 @@
 import InstallmentApi from "@/apis/installmentApi";
 import {
   ModalForm,
+  ProForm,
   ProFormInstance,
   ProFormRadio,
 } from "@ant-design/pro-components";
@@ -8,28 +9,31 @@ import { message } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 export type IEditTypeModalRef = {
-  show: (e: { id: number }) => void;
+  show: (e: { id: number; type: number }) => void;
 };
 const EditTypeModal = forwardRef<IEditTypeModalRef, { onSuccess: () => void }>(
   ({ onSuccess }, ref) => {
     const [visible, setVisible] = useState(false);
     const formRef = useRef<ProFormInstance>(null);
+    const [form] = ProForm.useForm();
     const idRef = useRef<number>();
     useImperativeHandle(
       ref,
       () => ({
         show: (e) => {
           setVisible(true);
+          form.setFieldValue("type", e.type);
           idRef.current = e.id;
         },
       }),
-      [],
+      [form],
     );
     return (
       <ModalForm
         open={visible}
         formRef={formRef}
         title="选择管理类型-归属"
+        form={form}
         onOpenChange={(e) => {
           if (!e) {
             setVisible(false);
@@ -37,7 +41,6 @@ const EditTypeModal = forwardRef<IEditTypeModalRef, { onSuccess: () => void }>(
           }
         }}
         width={500}
-        initialValues={{ type: 1 }}
         onFinish={async (val) => {
           try {
             await InstallmentApi.addSupplyType({
@@ -56,6 +59,7 @@ const EditTypeModal = forwardRef<IEditTypeModalRef, { onSuccess: () => void }>(
         <ProFormRadio.Group
           label="类型归属"
           name="type"
+          initialValue={1}
           options={[
             { label: "设备管理", value: 1 },
             { label: "物资管理", value: 2 },

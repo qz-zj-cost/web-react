@@ -29,10 +29,9 @@ const Dashboard = () => {
           { time: endDate, value: sumPrice, name: "目标成本" },
         ];
         return pre;
-      }, []),
+      }, []) ?? [],
     [data?.priceDtos],
   );
-  console.log(columnData);
 
   return (
     <FPage>
@@ -43,7 +42,7 @@ const Dashboard = () => {
             <Tiny.Area
               xField={"endDate"}
               yField={"actualSumPrice"}
-              data={data?.actualPriceDtos}
+              data={data?.actualPriceDtos ?? []}
               padding={0}
               height={65}
               shapeField="smooth"
